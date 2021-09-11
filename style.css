@@ -50,3 +50,16 @@ body, h1, h2, h3, h4, h5, h6, p, ol, ul {
     object-fit: contain;
   }
   
+
+  main {
+      padding: 1em 0;
+      min-height: 36em;
+
+  }
+
+  footer {
+      background-color: #DDFFDD;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+  }
