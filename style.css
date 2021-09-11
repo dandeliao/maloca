@@ -38,3 +38,15 @@ body, h1, h2, h3, h4, h5, h6, p, ol, ul {
       width: 100%;
       margin: 0 auto;
   }
+
+  header {
+    position: sticky;
+    top: 0;
+    height: 2em;
+    background-color: #FFDDDD;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    object-fit: contain;
+  }
+  
