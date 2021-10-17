@@ -17,6 +17,7 @@ body, h1, h2, h3, h4, h5, h6, p, ol, ul, a {
     color: inherit;
     font: inherit;
     vertical-align: baseline;
+    cursor: default;
 }
 
 ol, ul {
@@ -26,4 +27,28 @@ ol, ul {
 img {
     max-width: 100%;
     height: auto;
+}
+
+button {
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+    text-align: inherit;
+    background: transparent;
+
+    /* inherit font & color from ancestor */
+    color: inherit;
+    font: inherit;
+
+    /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+    line-height: normal;
+
+    /* Corrects font smoothing for webkit */
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+
+    /* Corrects inability to style clickable `input` types in iOS */
+    -webkit-appearance: none;
 }
