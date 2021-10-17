@@ -1,5 +1,6 @@
 import Inicio from "./views/Inicio.js"
 import Perfil from "./views/Perfil.js"
+import Pessoa from "./views/Pessoa.js"
 import Comunidade from "./views/Comunidade.js"
 import Error404 from "./views/Error404.js";
 
@@ -25,8 +26,9 @@ async function router() {
     
     const routes = [
         { path: "/", view: Inicio},
-        { path: "/perfil", view: Perfil},
-        { path: "/comunidade/:nome", view: Comunidade}
+        { path: "/pessoa/eu", view: Perfil},
+        { path: "/pessoa/:nome", view: Pessoa},
+        { path: "/:nome", view: Comunidade}
     ];
 
     // Testa se as rotas correspondem ao caminho atual
