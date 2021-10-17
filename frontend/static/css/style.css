@@ -2,3 +2,23 @@ h1 {
     font-size: 3rem;
     font-weight: bold;
 }
+
+a, .btn {
+    font-weight: bold;
+    padding: 0.25rem 0.25rem;
+    cursor: pointer;
+}
+
+img {
+    width: auto;
+    height: 1.5rem;
+}
+
+.appBar {
+    background-color:lightpink;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
