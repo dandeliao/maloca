@@ -7,7 +7,7 @@ export default class extends AbstractView {
     }
 
     async getHtml() {
-        const comunidade = await fetch(`http://localhost:4000/api/pessoas/${this.params.nome}`)
+        const comunidade = await fetch(`http://localhost:4000/api/comunidades/${this.params.nome}`)
         .then(res => {
             if (res.ok) {
                 return res.json();
