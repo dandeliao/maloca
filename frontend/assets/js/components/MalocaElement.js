@@ -20,17 +20,5 @@ export default class extends HTMLElement {
         });
     }
 
-    connectedCallback() {
-        let shadowContent = this.shadowRoot.querySelector('.content');
-        let children = this.childNodes;
-        if (children.length > 0 && shadowContent) {
-            while(shadowContent.firstChild) {
-                shadowContent.removeChild(shadowContent.firstChild);
-            }
-            children.forEach(node => {
-                shadowContent.appendChild(node.cloneNode(true));
-            })
-        }
-    }
 
 }
