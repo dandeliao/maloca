@@ -60,7 +60,12 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.addEventListener("click", e => {
         if (e.target.matches("[data-link]")) {
             e.preventDefault();
-            navigateTo(e.target.href);
+            if (e.target.href) {
+                navigateTo(e.target.href);
+            } else {
+                // para o caso de components m-link
+                navigateTo(e.target.attributes.href.value);
+            }
         }
     });
 
