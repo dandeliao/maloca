@@ -14,7 +14,7 @@ class MContainer extends MalocaElement {
                 .page {
                     background: var(--background, white);
                     background-image: var(--background-image, none);
-                    min-height: 54rem;
+                    min-height: 60rem;
                     padding-top: 1rem;
                 }
 
