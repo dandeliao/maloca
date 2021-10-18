@@ -26,14 +26,24 @@ a {
 
 }
 
-.appBar a, .appBar .btn {
+.app a, .app .btn {
     text-decoration: none;
     font-weight: bold;
     padding: 0.25rem 0.25rem;
     cursor: pointer;
 }
 
-.appBar img {
+.app img {
     width: auto;
     height: 1.5rem;
+}
+
+.appFooter {
+    background-color:lightgoldenrodyellow;
+    color: black;
+    height: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
