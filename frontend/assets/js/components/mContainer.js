@@ -24,7 +24,7 @@ class MContainer extends MalocaElement {
                     margin: 0 auto;
                     padding: 1.2rem;
                     border-radius: 0.2rem;
-                    background: var(--background-container, white);
+                    background: var(--container-background, white);
                 }
 
             </style>
