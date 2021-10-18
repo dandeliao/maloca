@@ -3,18 +3,22 @@ import AbstractView from "./AbstractView.js";
 export default class extends AbstractView {
     constructor(params) {
         super(params);
-        this.setTitle(`Maloca - ${this.params.nome}`);
+        this.setTitle(`${this.params.nome}`);
     }
 
     async getHtml() {
-        console.log(this.params.nome);
-        return `
-            <m-container>
-            <h1>Pessoa</h1>
-                <m-card>
-                    <h1>fulane de tal</h1>
-                </m-card>
-            </m-container>
-        `;
+        const pessoa = await fetch(`http://localhost:4000/api/pessoas/${this.params.nome}`)
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            } else if(res.status == 404) {
+                return Promise.reject(new Error('Erro 404: não encontrado'));
+            } else {
+                return Promise.reject(new Error('Erro: ' + res.status));
+            }
+        });
+        
+        return pessoa.html;
+        
     }
 }
