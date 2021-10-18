@@ -14,6 +14,8 @@ class MContainer extends MalocaElement {
                 .page {
                     background: var(--background, white);
                     background-image: var(--background-image, none);
+                    min-height: 54rem;
+                    padding-top: 1rem;
                 }
 
                 .content {
@@ -21,6 +23,7 @@ class MContainer extends MalocaElement {
                     max-width: 960px;
                     margin: 0 auto;
                     padding: 1.2rem;
+                    border-radius: 0.2rem;
                     background: var(--background-container, white);
                 }
 
