@@ -1,24 +1,39 @@
-h1 {
-    font-size: 3rem;
-    font-weight: bold;
+html {
+    color: #1B1B1B;
 }
 
-a, .btn {
-    font-weight: bold;
-    padding: 0.25rem 0.25rem;
+h1              { font-size: 2.3em;   margin: .28em 0 }
+h2              { font-size: 1.6em; margin: .33em 0 }
+h3              { font-size: 1.2em; margin: .4em 0 }
+h4              { font-size: 1em;   margin: .5em 0 }
+h5              { font-size: .85em; margin: .62em 0 }
+h6              { font-size: .75em; margin: .8em 0 }
+h1, h2, h3, h4,
+h5, h6          { font-weight: bolder }
+
+a {
+    text-decoration: underline;
     cursor: pointer;
-}
-
-img {
-    width: auto;
-    height: 1.5rem;
 }
 
 .appBar {
     background-color:lightpink;
+    color: black;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 
+}
+
+.appBar a, .appBar .btn {
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.25rem 0.25rem;
+    cursor: pointer;
+}
+
+.appBar img {
+    width: auto;
+    height: 1.5rem;
 }
