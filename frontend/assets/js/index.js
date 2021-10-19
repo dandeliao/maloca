@@ -57,6 +57,7 @@ window.addEventListener("popstate", router);
 
 document.addEventListener("DOMContentLoaded", () => {
     
+    // links para router
     document.body.addEventListener("click", e => {
         if (e.target.matches("[data-link]")) {
             e.preventDefault();
@@ -68,6 +69,33 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     });
-
     router();
+
+    // botão editar
+    let btnEditar = document.getElementById("btn-editar");
+    btnEditar.addEventListener("click", e => {
+        let popup = document.createElement('div')
+        popup.setAttribute("id", "popup");
+        let popupStyle = document.createElement('style');
+
+        popupStyle.innerHTML = `
+            #popup {
+                position: fixed;
+                background: white;
+                width: 86%;
+                min-height: 300px;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);                
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+                
+                z-index: 1000;
+            }
+        `;
+
+        document.head.appendChild(popupStyle);
+        document.body.appendChild(popup);
+
+    });
+
 });
