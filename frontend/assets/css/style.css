@@ -47,3 +47,7 @@ a {
     justify-content: center;
     align-items: center;
 }
+
+.appFooter span {
+    margin: 0 1rem;
+}
