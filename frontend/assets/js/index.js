@@ -36,7 +36,6 @@ async function router() {
         return {
             route: route,
             result: location.pathname.match(pathToRegex(route.path))
-            //isMatch: location.pathname === route.path
         };
     });
 
@@ -57,7 +56,7 @@ window.addEventListener("popstate", router);
 
 document.addEventListener("DOMContentLoaded", () => {
     
-    // links para router
+    // captura o clique em links para router
     document.body.addEventListener("click", e => {
         if (e.target.matches("[data-link]")) {
             e.preventDefault();
@@ -71,31 +70,66 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     router();
 
-    // botão editar
+
+    // modais
+    // ---
+
+    let modal = document.getElementById("modal");
+    let modalClose = document.getElementsByClassName("close")[0];
+    let modalBody = document.getElementsByClassName("modal-body")[0];
+
+    function closeModal() {
+        while(modalBody.firstChild) {
+            modalBody.removeChild(modalBody.firstChild);
+        }
+        modal.style.display = "none";
+    };
+
+    modalClose.addEventListener("click", () => {
+        closeModal();
+    });
+
+    window.addEventListener("click", e => {
+        if (e.target == modal) {
+            closeModal();
+        }
+    });
+
+    // modal editar
     let btnEditar = document.getElementById("btn-editar");
     btnEditar.addEventListener("click", e => {
-        let popup = document.createElement('div')
-        popup.setAttribute("id", "popup");
-        let popupStyle = document.createElement('style');
-
-        popupStyle.innerHTML = `
-            #popup {
-                position: fixed;
-                background: white;
-                width: 86%;
-                min-height: 300px;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);                
-                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
-                
-                z-index: 1000;
-            }
+        let form = document.createElement("form");
+        form.innerHTML = `
+            <label for="html" hidden>HTML:</label>
+            <textarea name="html" id="html-field" autofocus style="display: block; margin: 0 auto; width: 100%; height: 100%;"></textarea>
+            <input type="submit" value="salvar" style="display: block; margin: 1rem auto">
         `;
+        form.style.height = "100%";
+        form.style.display = "flex";
+        form.style.flexDirection = "column";
+        modalBody.appendChild(form);
 
-        document.head.appendChild(popupStyle);
-        document.body.appendChild(popup);
+        let htmlField = document.getElementById("html-field");
+        let currentView = document.getElementById("view");
+        htmlField.value = currentView.innerHTML;
 
+        form.addEventListener("submit", e => {
+            // atualiza página no servidor
+            /* lógica:
+                1 - verifica location.pathname:
+                    -- se /pessoa/:nome -> atualizará /pessoas/:nome
+                    -- se /:nome -> atualizará /comunidades/:nome
+                    -- se / -> atualizará /instancias/maloca
+                2 - faz fetch do recurso JSON completo
+                3 - modifica propriedade .html do recurso
+                4 - faz fetch PUT do recurso
+            */
+            console.log(location.pathname);
+            e.preventDefault();
+            closeModal();
+        });
+
+        modal.style.display = "block";
     });
 
 });
