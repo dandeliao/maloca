@@ -4,6 +4,8 @@ import Pessoa from "./views/Pessoa.js"
 import Comunidade from "./views/Comunidade.js"
 import Error404 from "./views/Error404.js";
 
+const urlServidor = "http://localhost:4000";
+
 function pathToRegex(path) {
     return new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
 }
@@ -124,7 +126,61 @@ document.addEventListener("DOMContentLoaded", () => {
                 3 - modifica propriedade .html do recurso
                 4 - faz fetch PUT do recurso
             */
-            console.log(location.pathname);
+
+            let pessoaRegex = /^\/pessoa\/(\w{2,}(-?\w+)+)$/i;
+            let comunaRegex = /^\/(\w{2,}(-?\w+)+)$/i;
+
+            let pessoinha = pessoaRegex.exec(location.pathname);
+            let comuninha = comunaRegex.exec(location.pathname);
+
+            if (pessoinha) {
+                fetch(`${urlServidor}/api/pessoas/${pessoinha[1]}`)
+                .then(res => {
+                    return res.json();
+                }).then(pessoaInteira => {
+
+                    pessoaInteira.html = htmlField.value;
+
+                    fetch(`${urlServidor}/api/pessoas/${pessoinha[1]}`, {
+                        method: "PUT",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify(pessoaInteira)
+                    }).then(res1 => {
+                        fetch(`${urlServidor}/api/pessoas/${pessoinha[1]}`)
+                        .then(res2 => {
+                            return res2.json();
+                        }).then(paginaAtualizada => {
+                            currentView.innerHTML = paginaAtualizada.html;
+                        })
+                    }).catch(erro => console.log(erro));
+                });
+            } else if (comuninha) {
+                fetch(`${urlServidor}/api/comunidades/${comuninha[1]}`)
+                .then(res => {
+                    return res.json();
+                }).then(comunaInteira => {
+
+                    comunaInteira.html = htmlField.value;
+
+                    fetch(`${urlServidor}/api/comunidades/${comuninha[1]}`, {
+                        method: "PUT",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify(comunaInteira)
+                    }).then(res1 => {
+                        fetch(`${urlServidor}/api/comunidades/${comuninha[1]}`)
+                        .then(res2 => {
+                            return res2.json();
+                        }).then(paginaAtualizada => {
+                            currentView.innerHTML = paginaAtualizada.html;
+                        })
+                    }).catch(erro => console.log(erro));
+                });
+            } else if (location.pathname === "/") {
+                console.log("inicio", htmlField.value);
+            } else {
+                console.log(e+":", "endereço inválido");
+            }
+            
             e.preventDefault();
             closeModal();
         });
