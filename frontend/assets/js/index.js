@@ -101,9 +101,14 @@ document.addEventListener("DOMContentLoaded", () => {
     let btnEditar = document.getElementById("btn-editar");
     btnEditar.addEventListener("click", e => {
         let form = document.createElement("form");
-        form.innerHTML = `
+        /* form.innerHTML = `
             <label for="html" hidden>HTML:</label>
             <textarea name="html" id="html-field" autofocus style="display: block; margin: 0 auto; width: 100%; height: 100%;"></textarea>
+            <input type="submit" value="salvar" style="display: block; margin: 1rem auto">
+        `; */
+        form.innerHTML = `
+            <label for="html" hidden>HTML:</label>
+            <div name="html" id="html-field" autofocus style="display: block; position: relative; margin: 0 auto; width: 100%; height: 100%;"></div>
             <input type="submit" value="salvar" style="display: block; margin: 1rem auto">
         `;
         form.style.height = "100%";
@@ -111,9 +116,13 @@ document.addEventListener("DOMContentLoaded", () => {
         form.style.flexDirection = "column";
         modalBody.appendChild(form);
 
-        let htmlField = document.getElementById("html-field");
+        //let htmlField = document.getElementById("html-field");
+        let htmlField = ace.edit("html-field");
         let currentView = document.getElementById("view");
-        htmlField.value = currentView.innerHTML;
+        htmlField.session.setMode("ace/mode/html")
+        htmlField.setTheme("ace/theme/ambiance");
+        htmlField.setPrintMarginColumn(160);
+        htmlField.session.setValue(currentView.innerHTML);
 
         form.addEventListener("submit", e => {
             // atualiza página no servidor
@@ -139,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     return res.json();
                 }).then(pessoaInteira => {
 
-                    pessoaInteira.html = htmlField.value;
+                    pessoaInteira.html = htmlField.getValue();
 
                     fetch(`${urlServidor}/api/pessoas/${pessoinha[1]}`, {
                         method: "PUT",
@@ -160,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     return res.json();
                 }).then(comunaInteira => {
 
-                    comunaInteira.html = htmlField.value;
+                    comunaInteira.html = htmlField.getValue();
 
                     fetch(`${urlServidor}/api/comunidades/${comuninha[1]}`, {
                         method: "PUT",
@@ -176,12 +185,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     }).catch(erro => console.log(erro));
                 });
             } else if (location.pathname === "/") {
-                console.log("inicio", htmlField.value);
+                console.log("inicio", htmlField.getValue());
             } else {
                 console.log(e+":", "endereço inválido");
             }
             
             e.preventDefault();
+
+            htmlField.destroy();
+            htmlField.container.remove();
             closeModal();
         });
 
