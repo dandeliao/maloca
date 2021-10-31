@@ -25,9 +25,9 @@ export default class extends AbstractView {
                     </div>
                 </div>
                 <div class="info-perfil">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Daniel_O%27Rourke%27s_wonderful_voyage_to_the_moon_%281840-1850%29_-_Title_Page.png">
+                    <img src="http://localhost:4000/pessoas/rukib/avatar.png">
                     <div>
-                        <h4><a href="/pessoa/dani" data-link>Rukib</a></h4>
+                        <h4><a href="/pessoa/rukib" data-link>Rukib</a></h4>
                         <p>Na Maloca há 2 meses</p>
                         <p>Participa de 5 comunidades</p>
                     </div>
