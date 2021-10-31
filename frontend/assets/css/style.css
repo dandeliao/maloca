@@ -33,6 +33,14 @@ a {
     cursor: pointer;
 }
 
+.app .btn.disabled {
+    color: #808080;
+}
+
+.app .btn.disabled:hover {
+    cursor:default;
+}
+
 .app img {
     width: auto;
     height: 1.5rem;

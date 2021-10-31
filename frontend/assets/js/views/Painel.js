@@ -4,6 +4,7 @@ export default class extends AbstractView {
     constructor(params) {
         super(params);
         this.setTitle("Maloca - Painel");
+        this.toggleAppBarButtons(false, true, false);
     }
 
     async getHtml() {

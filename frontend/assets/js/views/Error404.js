@@ -4,6 +4,8 @@ export default class extends AbstractView {
     constructor(params) {
         super(params);
         this.setTitle("erro 404");
+        this.toggleAppBarButtons(false, false, false);
+
     }
 
     async getHtml() {

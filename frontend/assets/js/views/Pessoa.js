@@ -3,7 +3,8 @@ import AbstractView from "./AbstractView.js";
 export default class extends AbstractView {
     constructor(params) {
         super(params);
-        this.setTitle(`${this.params.nome}`);
+        this.toggleAppBarButtons(true, true, true);
+
     }
 
     async getHtml() {
