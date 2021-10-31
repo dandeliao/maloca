@@ -185,7 +185,26 @@ document.addEventListener("DOMContentLoaded", () => {
                     }).catch(erro => console.log(erro));
                 });
             } else if (location.pathname === "/") {
-                console.log("inicio", htmlField.getValue());
+                fetch(`${urlServidor}/api/instancias/maloca`)
+                .then(res => {
+                    return res.json();
+                }).then(malocaInteira => {
+
+                    malocaInteira.html = htmlField.getValue();
+
+                    fetch(`${urlServidor}/api/instancias/maloca`, {
+                        method: "PUT",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify(malocaInteira)
+                    }).then(res1 => {
+                        fetch(`${urlServidor}/api/instancias/maloca`)
+                        .then(res2 => {
+                            return res2.json();
+                        }).then(paginaAtualizada => {
+                            currentView.innerHTML = paginaAtualizada.html;
+                        })
+                    }).catch(erro => console.log(erro));
+                });
             } else {
                 console.log(e+":", "endereço inválido");
             }
