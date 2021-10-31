@@ -1,5 +1,5 @@
 import Inicio from "./views/Inicio.js"
-import Perfil from "./views/Perfil.js"
+import Painel from "./views/Painel.js"
 import Pessoa from "./views/Pessoa.js"
 import Comunidade from "./views/Comunidade.js"
 import Error404 from "./views/Error404.js";
@@ -28,7 +28,7 @@ async function router() {
     
     const routes = [
         { path: "/", view: Inicio},
-        { path: "/pessoa/eu", view: Perfil},
+        { path: "/painel", view: Painel},
         { path: "/pessoa/:nome", view: Pessoa},
         { path: "/:nome", view: Comunidade}
     ];
