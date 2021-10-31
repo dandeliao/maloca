@@ -219,4 +219,148 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.style.display = "block";
     });
 
+    // modal clonar
+    let btnClonar = document.getElementById("btn-clonar");
+    btnClonar.addEventListener("click", e => {
+        let form = document.createElement("form");
+        form.innerHTML = `
+            <fieldset>
+                <legend>Clonar para onde?</legend>
+                <input type="radio" id="comunaVelha" name="clonar_para" value="Comunidade existente">
+                <label for="comunaVelha">Comunidade existente</label>
+                <input type="radio" id="comunaNova" name="clonar_para" value="Comunidade nova" checked>
+                <label for="comunaNova">Comunidade nova</label>
+                <input type="radio" id="perfilVelho" name="clonar_para" value="Perfil existente">
+                <label for="perfilVelho">Perfil existente</label>
+                <input type="radio" id="perfilNovo" name="clonar_para" value="Perfil novo">
+                <label for="perfilNovo">Perfil novo</label>
+            </fieldset>
+            <input type="text" id="input_nome">
+            <label for="input_nome">Nome da comunidade ou do perfil</label>
+            <input type="submit" value="clonar" style="display: block; margin: 1rem auto">
+        `;
+        form.style.height = "100%";
+        form.style.display = "flex";
+        form.style.flexDirection = "column";
+        modalBody.appendChild(form);
+
+        let currentView = document.getElementById("view");
+        
+        form.addEventListener("submit", e => {
+            let clonarParas = document.querySelectorAll('input[name="clonar_para"]');
+            let clonarPara;
+            console.log("clonarParas:", clonarParas);
+            clonarParas.forEach(radiobutton => {
+                if (radiobutton.checked) {
+                    clonarPara = radiobutton.value;
+                }
+            });
+
+            let nome = document.getElementById("input_nome").value;
+            
+            if (clonarPara === "Perfil existente") {
+                fetch(`${urlServidor}/api/pessoas/${nome}`)
+                .then(res => {
+                    return res.json();
+                }).then(pessoaInteira => {
+
+                    pessoaInteira.html = currentView.innerHTML;
+
+                    fetch(`${urlServidor}/api/pessoas/${nome}`, {
+                        method: "PUT",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify(pessoaInteira)
+                    }).then(res1 => {
+                        fetch(`${urlServidor}/api/pessoas/${nome}`)
+                        .then(res2 => {
+                            return res2.json();
+                        }).then(paginaAtualizada => {
+                            navigateTo(`/pessoa/${nome}`);
+                        })
+                    }).catch(erro => console.log(erro));
+                });
+            } else if (clonarPara === "Perfil novo") {
+                fetch(`${urlServidor}/api/pessoas/`)
+                .then(res => {
+                    return res.json();
+                }).then(pessoasTodas => {
+
+                    let pessoaNova = {
+                        "id": Array.from(pessoasTodas).length,
+                        "nome": nome,
+                        "comunidades": [],
+                        "html": currentView.innerHTML
+                    }
+
+                    fetch(`${urlServidor}/api/pessoas/${nome}`, {
+                        method: "PUT",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify(pessoaNova)
+                    }).then(res1 => {
+                        fetch(`${urlServidor}/api/pessoas/${nome}`)
+                        .then(res2 => {
+                            return res2.json();
+                        }).then(paginaAtualizada => {
+                            navigateTo(`/pessoa/${nome}`);
+                        })
+                    }).catch(erro => console.log(erro));
+                });
+            } else if (clonarPara === "Comunidade existente") {
+                fetch(`${urlServidor}/api/comunidades/${nome}`)
+                .then(res => {
+                    return res.json();
+                }).then(comunaInteira => {
+
+                    comunaInteira.html = currentView.innerHTML;
+
+                    fetch(`${urlServidor}/api/comunidades/${nome}`, {
+                        method: "PUT",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify(comunaInteira)
+                    }).then(res1 => {
+                        fetch(`${urlServidor}/api/comunidades/${nome}`)
+                        .then(res2 => {
+                            return res2.json();
+                        }).then(paginaAtualizada => {
+                            navigateTo(`/${nome}`);
+                        })
+                    }).catch(erro => console.log(erro));
+                });
+            } else if (clonarPara === "Comunidade nova") {
+                fetch(`${urlServidor}/api/comunidades/`)
+                .then(res => {
+                    return res.json();
+                }).then(comunasTodas => {
+
+                    let comunaNova = {
+                        "id": Array.from(comunasTodas).length,
+                        "nome": nome,
+                        "html": currentView.innerHTML
+                    }
+
+                    fetch(`${urlServidor}/api/comunidades/${nome}`, {
+                        method: "PUT",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify(comunaNova)
+                    }).then(res1 => {
+                        fetch(`${urlServidor}/api/comunidades/${nome}`)
+                        .then(res2 => {
+                            return res2.json();
+                        }).then(paginaAtualizada => {
+                            navigateTo(`/${nome}`);
+                        })
+                    }).catch(erro => console.log(erro));
+                });
+            } else if (location.pathname === "/") {
+                console.log("não é possível clonar para a maloca")
+            } else {
+                console.log(e+":", "endereço inválido");
+            }
+
+            e.preventDefault();
+            closeModal();
+        });
+        modal.style.display = "block";
+    });
+
 });
