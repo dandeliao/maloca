@@ -18,7 +18,7 @@ a {
 
 .appBar {
     background-color:lightpink;
-    color: black;
+    color: #1B1B1B;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -48,7 +48,7 @@ a {
 
 .appFooter {
     background-color: #a7f3d0;
-    color: black;
+    color: #1B1B1B;
     height: 2rem;
     display: flex;
     flex-direction: row;
