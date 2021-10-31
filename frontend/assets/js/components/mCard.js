@@ -12,10 +12,11 @@ class MCard extends MalocaElement {
                 .card {
                     box-sizing: border-box;
                     margin: 20px auto;
-                    background: var(--background-card, #FFFFFF);
+                    background: var(--background, #FFFFFF);
                     width: 100%;
-                    border-radius: 0.6rem;
-                    box-shadow: 3px 4px 10px rgba(0, 0, 0, 0.2);
+                    border-radius: var(--border-radius, 0.4rem);
+                    border-style: var(--border-style, none);
+                    box-shadow: var(--box-shadow, 3px 4px 10px rgba(0, 0, 0, 0.2));
                     padding: 0.8rem;
                 }
                 
