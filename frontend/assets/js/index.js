@@ -101,11 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let btnEditar = document.getElementById("btn-editar");
     btnEditar.addEventListener("click", e => {
         let form = document.createElement("form");
-        /* form.innerHTML = `
-            <label for="html" hidden>HTML:</label>
-            <textarea name="html" id="html-field" autofocus style="display: block; margin: 0 auto; width: 100%; height: 100%;"></textarea>
-            <input type="submit" value="salvar" style="display: block; margin: 1rem auto">
-        `; */
         form.innerHTML = `
             <label for="html" hidden>HTML:</label>
             <div name="html" id="html-field" autofocus style="display: block; position: relative; margin: 0 auto; width: 100%; height: 100%;"></div>
@@ -235,7 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <input type="radio" id="perfilNovo" name="clonar_para" value="Perfil novo">
                 <label for="perfilNovo">Perfil novo</label>
             </fieldset>
-            <input type="text" id="input_nome">
+                <input type="text" id="input_nome">
             <label for="input_nome">Nome da comunidade ou do perfil</label>
             <input type="submit" value="clonar" style="display: block; margin: 1rem auto">
         `;
