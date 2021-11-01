@@ -230,13 +230,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 <input type="radio" id="perfilNovo" name="clonar_para" value="Perfil novo">
                 <label for="perfilNovo">Perfil novo</label>
             </fieldset>
+            <div>
+                <label for="input_nome">Nome da comunidade ou do perfil:</label>
                 <input type="text" id="input_nome">
-            <label for="input_nome">Nome da comunidade ou do perfil</label>
+            </div>
             <input type="submit" value="clonar" style="display: block; margin: 1rem auto">
         `;
         form.style.height = "100%";
         form.style.display = "flex";
         form.style.flexDirection = "column";
+        form.style.justifyContent = "space-evenly";
+        form.style.alignItems = "center";
         modalBody.appendChild(form);
 
         let currentView = document.getElementById("view");
