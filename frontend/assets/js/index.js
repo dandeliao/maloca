@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
         htmlField.setTheme("ace/theme/ambiance");
         htmlField.setPrintMarginColumn(160);
         htmlField.session.setValue(currentView.innerHTML);
-
+        
         form.addEventListener("submit", e => {
             // atualiza página no servidor
             /* lógica:
@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(res => {
                     return res.json();
                 }).then(pessoaInteira => {
-
+        
                     pessoaInteira.html = htmlField.getValue();
 
                     fetch(`${urlServidor}/api/pessoas/${pessoinha[1]}`, {
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             currentView.innerHTML = paginaAtualizada.html;
                         })
                     }).catch(erro => console.log(erro));
-                });
+                    });
             } else if (comuninha) {
                 fetch(`${urlServidor}/api/comunidades/${comuninha[1]}`)
                 .then(res => {
@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }).then(comunaInteira => {
 
                     comunaInteira.html = htmlField.getValue();
-
+                
                     fetch(`${urlServidor}/api/comunidades/${comuninha[1]}`, {
                         method: "PUT",
                         headers: {"Content-Type": "application/json"},
@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(res => {
                     return res.json();
                 }).then(malocaInteira => {
-
+                            
                     malocaInteira.html = htmlField.getValue();
 
                     fetch(`${urlServidor}/api/instancias/maloca`, {
@@ -198,19 +198,19 @@ document.addEventListener("DOMContentLoaded", () => {
                         }).then(paginaAtualizada => {
                             currentView.innerHTML = paginaAtualizada.html;
                         })
-                    }).catch(erro => console.log(erro));
+                            }).catch(erro => console.log(erro));
                 });
             } else {
                 console.log(e+":", "endereço inválido");
             }
             
             e.preventDefault();
-
-            htmlField.destroy();
-            htmlField.container.remove();
-            closeModal();
-        });
-
+            
+                            htmlField.destroy();
+                            htmlField.container.remove();
+                            closeModal();
+                        });
+                        
         modal.style.display = "block";
     });
 
@@ -360,6 +360,35 @@ document.addEventListener("DOMContentLoaded", () => {
             closeModal();
         });
         modal.style.display = "block";
+    });
+
+    // modal info
+    let btnInfo = document.getElementById("btn-info");
+    btnInfo.addEventListener("click", e => {
+        /* lógica
+            1. verifica se é usuarie, comunidade ou instância
+            1. faz fetch dos dados
+            2. se *pessoa*, cria elementos com as infos:
+                - nome @ instancia (+ papéis)
+                - avatar + imagem de fundo
+                - comunidades (com papéis) + botão "ver mais"
+                - tempo na instância
+                - itens
+            3. se *comunidade* cria elementos com as infos:
+                - nome @ instancia (+ papéis)
+                - avatar + imagem de fundo
+                - confederações / alianças (como chamar?)
+                - usuáries (com papéis) + botão "ver mais"
+                - tempo na instância
+                - itens que produz
+                - botão "participar da comunidade"
+            4. se *instância* cria elementos com as infos:
+                - nome + avatar/símbolo
+                - instâncias federadas
+                - comunidades (com papéis) + botão "ver mais"
+                - usuáries (com papéis) + botão "ver mais"
+                - tempo de existência
+        */
     });
 
 });
