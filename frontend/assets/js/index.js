@@ -76,21 +76,50 @@ document.addEventListener("DOMContentLoaded", () => {
     // modais
     // ---
 
+    async function fetchACoisaCerta(parametros) {
+        // função auxiliar:
+        // verifica se é pessoa, comunidade ou instância
+        // faz o fetch de acordo com o objeto parametros (que contém method, headers, etc)
+        // retorna um objeto
+
+        let pessoaRegex = /^\/pessoa\/(\w{2,}(-?\w+)+)$/i;
+        let comunaRegex = /^\/(\w{2,}(-?\w+)+)$/i;
+        let pessoinha = pessoaRegex.exec(location.pathname);
+        let comuninha = comunaRegex.exec(location.pathname);
+
+        if (pessoinha) {
+            return fetch(`${urlServidor}/api/pessoas/${pessoinha[1]}`, parametros)
+                    .then(res => {
+                        return res.json();
+                    });
+        } else if (comuninha) {
+            return fetch(`${urlServidor}/api/comunidades/${comuninha[1]}`, parametros)
+                    .then(res => {
+                        return res.json();
+                    });
+        } else if (location.pathname === "/") {
+            return fetch(`${urlServidor}/api/instancias/maloca`, parametros)
+                    .then(res => {
+                        return res.json();
+                    });
+        } else {
+            console.log(e+":", "endereço inválido");
+        }
+    }
+
+    // lógica para fechar o modal
     let modal = document.getElementById("modal");
     let modalClose = document.getElementsByClassName("close")[0];
     let modalBody = document.getElementsByClassName("modal-body")[0];
-
     function closeModal() {
         while(modalBody.firstChild) {
             modalBody.removeChild(modalBody.firstChild);
         }
         modal.style.display = "none";
     };
-
     modalClose.addEventListener("click", () => {
         closeModal();
     });
-
     window.addEventListener("click", e => {
         if (e.target == modal) {
             closeModal();
@@ -100,18 +129,123 @@ document.addEventListener("DOMContentLoaded", () => {
     // modal editar
     let btnEditar = document.getElementById("btn-editar");
     btnEditar.addEventListener("click", e => {
+        
+        let cabecalho = document.createElement("header");
+        cabecalho.classList.add("cabecalho-editar");
+        cabecalho.innerHTML = `
+            <h2><m-nome></m-nome></h2>
+            <style>
+                .cabecalho-editar {
+                    text-align: center;
+                }
+            </style>
+        `
         let form = document.createElement("form");
         form.innerHTML = `
+            <div class="minicard perfil">
+                <div class="secao-texto">
+                    <div class="item-editar">
+                        <label for="editar-descricao">Descrição:</label>
+                        <input id="editar-descricao" maxlength="100"></input>
+                    </div>
+                    <div class="item-editar">
+                        <label for="editar-cdl">Conjunto de linguagem:</label>
+                        <input id="editar-cdl" maxlength="100"></input>
+                    </div>
+                </div>
+                <div class="secao-microcards">
+                    <div class="microcard">
+                        <label for="editar-avatar">avatar:</label>
+                        <img class="img-circular" id="editar-avatar"></img>
+                        <input id="avatar-file" type="file" accept="image/*" />
+                    </div>
+                    <div class="microcard fundo">
+                        <label for="editar-fundo">fundo:</label>
+                        <img class="img-retangular" id="editar-fundo"></img>
+                        <input id="fundo-file" type="file" accept="image/*" />
+                    </div>
+                </div>
+            </div>
             <label for="html" hidden>HTML:</label>
-            <div name="html" id="html-field" autofocus style="display: block; position: relative; margin: 0 auto; width: 100%; height: 100%;"></div>
-            <input type="submit" value="salvar" style="display: block; margin: 1rem auto">
+            <div name="html" id="html-field" autofocus></div>
+            <input type="submit" value="salvar alterações" style="display: block; margin: 1rem auto">
+            <style>
+                #html-field {
+                    display: block;
+                    position: relative;
+                    margin: 0 auto;
+                    width: 100%;
+                    height: 100%;
+                }
+
+                .minicard {
+                    padding: 0.5em;
+                    margin-bottom: 1em;
+                    border-radius: 0.3em;
+                    border: 1px solid black;
+                    text-align: left;
+                }
+
+                .minicard .secao-texto {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: start;
+                    gap: 0.5em;
+                }
+
+                .minicard .secao-microcards {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: start;
+                    margin-top: 1em;
+                }
+
+                .item-editar {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                }
+
+                .item-editar > input {
+                    width: 100%;
+                    margin-left: 1em;
+                    flex: 2 2 10em;
+                }
+
+                .microcard {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin-right: 1.2em;
+                    gap: 0.5em;
+                    height: 100%;
+                    overflow: hidden;
+                }
+
+                .img-circular {
+                    height: 4rem;
+                    overflow: hidden;
+                    width: 4em;
+                    height: 4em;
+                    border-radius: 100%;
+                }
+
+                .img-retangular {
+                    height: 4rem;
+                    width: 10rem;
+                    overflow: hidden;
+                }
+            </style>
         `;
+
         form.style.height = "100%";
         form.style.display = "flex";
         form.style.flexDirection = "column";
-        modalBody.appendChild(form);
 
-        //let htmlField = document.getElementById("html-field");
+        modalBody.appendChild(cabecalho);
+        modalBody.appendChild(form);
+        modal.style.display = "block";
+
         let htmlField = ace.edit("html-field");
         let currentView = document.getElementById("view");
         htmlField.session.setMode("ace/mode/html")
@@ -119,99 +253,62 @@ document.addEventListener("DOMContentLoaded", () => {
         htmlField.setPrintMarginColumn(160);
         htmlField.session.setValue(currentView.innerHTML);
         
-        form.addEventListener("submit", e => {
-            // atualiza página no servidor
-            /* lógica:
-                1 - verifica location.pathname:
-                    -- se /pessoa/:nome -> atualizará /pessoas/:nome
-                    -- se /:nome -> atualizará /comunidades/:nome
-                    -- se / -> atualizará /instancias/maloca
-                2 - faz fetch do recurso JSON completo
-                3 - modifica propriedade .html do recurso
-                4 - faz fetch PUT do recurso
-            */
-
-            let pessoaRegex = /^\/pessoa\/(\w{2,}(-?\w+)+)$/i;
-            let comunaRegex = /^\/(\w{2,}(-?\w+)+)$/i;
-
-            let pessoinha = pessoaRegex.exec(location.pathname);
-            let comuninha = comunaRegex.exec(location.pathname);
-
-            if (pessoinha) {
-                fetch(`${urlServidor}/api/pessoas/${pessoinha[1]}`)
-                .then(res => {
-                    return res.json();
-                }).then(pessoaInteira => {
+        let inputDescricao = document.getElementById("editar-descricao");
+        let inputCdl = document.getElementById("editar-cdl");
+        let arquivoAvatar = document.getElementById("avatar-file");
+        let arquivoFundo = document.getElementById("fundo-file");
+        let imgAvatar = document.getElementById("editar-avatar");
+        let imgFundo = document.getElementById("editar-fundo");
         
-                    pessoaInteira.html = htmlField.getValue();
+        fetchACoisaCerta({method:"GET"})
+                .then(info => {
+                    // alimenta campos do formulário
+                    inputDescricao.value = info.descricao;
+                    inputCdl.value = JSON.stringify(info.conjuntoDeLinguagem);
+                    imgAvatar.src = `${urlServidor}${info.avatar}`;
+                    imgFundo.src = `${urlServidor}${info.fundo}`;
 
-                    fetch(`${urlServidor}/api/pessoas/${pessoinha[1]}`, {
-                        method: "PUT",
-                        headers: {"Content-Type": "application/json"},
-                        body: JSON.stringify(pessoaInteira)
-                    }).then(res1 => {
-                        fetch(`${urlServidor}/api/pessoas/${pessoinha[1]}`)
-                        .then(res2 => {
-                            return res2.json();
-                        }).then(paginaAtualizada => {
-                            currentView.innerHTML = paginaAtualizada.html;
-                        })
-                    }).catch(erro => console.log(erro));
+                    // altera imagens do formulario quando novo arquivo é selecionado
+                    arquivoAvatar.addEventListener("change", e => {
+                        imgAvatar.src = URL.createObjectURL(e.target.files[0]);
                     });
-            } else if (comuninha) {
-                fetch(`${urlServidor}/api/comunidades/${comuninha[1]}`)
-                .then(res => {
-                    return res.json();
-                }).then(comunaInteira => {
+                    arquivoFundo.addEventListener("change", e => {
+                        imgFundo.src = URL.createObjectURL(e.target.files[0]);
+                    });
 
-                    comunaInteira.html = htmlField.getValue();
+                    form.addEventListener("submit", e => {
+                    // ao clicar, envia dados para o servidor
                 
-                    fetch(`${urlServidor}/api/comunidades/${comuninha[1]}`, {
-                        method: "PUT",
-                        headers: {"Content-Type": "application/json"},
-                        body: JSON.stringify(comunaInteira)
-                    }).then(res1 => {
-                        fetch(`${urlServidor}/api/comunidades/${comuninha[1]}`)
-                        .then(res2 => {
-                            return res2.json();
-                        }).then(paginaAtualizada => {
-                            currentView.innerHTML = paginaAtualizada.html;
-                        })
-                    }).catch(erro => console.log(erro));
-                });
-            } else if (location.pathname === "/") {
-                fetch(`${urlServidor}/api/instancias/maloca`)
-                .then(res => {
-                    return res.json();
-                }).then(malocaInteira => {
+                        fetchACoisaCerta({method: "GET"}).then(info => {
                             
-                    malocaInteira.html = htmlField.getValue();
+                            let formulario = new FormData();
+                            formulario.append("nome", info.nome);
+                            formulario.append("tipo", info.tipo);
+                            formulario.append("descricao", inputDescricao.value);
+                            formulario.append("conjuntoDeLinguagem", inputCdl.value);
+                            formulario.append("avatar", arquivoAvatar.files[0]);
+                            formulario.append("fundo", arquivoFundo.files[0]);
+                            formulario.append("html", htmlField.getValue());
 
-                    fetch(`${urlServidor}/api/instancias/maloca`, {
-                        method: "PUT",
-                        headers: {"Content-Type": "application/json"},
-                        body: JSON.stringify(malocaInteira)
-                    }).then(res1 => {
-                        fetch(`${urlServidor}/api/instancias/maloca`)
-                        .then(res2 => {
-                            return res2.json();
-                        }).then(paginaAtualizada => {
-                            currentView.innerHTML = paginaAtualizada.html;
-                        })
+                            fetch(`${urlServidor}/api/bota`, {method: "POST", body: formulario
+                            }).then(res => res.json()
+                            ).then(r => {
+                                currentView.innerHTML = r.html;
                             }).catch(erro => console.log(erro));
-                });
-            } else {
-                console.log(e+":", "endereço inválido");
-            }
             
-            e.preventDefault();
-            
+                            // fecha o modal
                             htmlField.destroy();
                             htmlField.container.remove();
                             closeModal();
                         });
                         
-        modal.style.display = "block";
+                        e.preventDefault();
+                    });
+        });
+
+       
+
+        
     });
 
     // modal clonar
