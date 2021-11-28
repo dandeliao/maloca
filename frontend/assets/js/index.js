@@ -228,12 +228,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     width: 4em;
                     height: 4em;
                     border-radius: 100%;
+                    object-fit:cover;
                 }
 
                 .img-retangular {
                     height: 4rem;
                     width: 10rem;
                     overflow: hidden;
+                    object-fit:cover;
                 }
             </style>
         `;

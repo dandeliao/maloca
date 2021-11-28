@@ -69,6 +69,7 @@ class MAvatar extends HTMLElement {
                         width: 8rem;
                         height: 8rem;
                         border-radius: 100%;
+                        object-fit:cover;
                     }
     
                     .mavatar img.pp {
