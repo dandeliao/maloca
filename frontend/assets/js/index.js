@@ -261,54 +261,50 @@ document.addEventListener("DOMContentLoaded", () => {
         let imgFundo = document.getElementById("editar-fundo");
         
         fetchACoisaCerta({method:"GET"})
-                .then(info => {
-                    // alimenta campos do formulário
-                    inputDescricao.value = info.descricao;
-                    inputCdl.value = JSON.stringify(info.conjuntoDeLinguagem);
-                    imgAvatar.src = `${urlServidor}${info.avatar}`;
-                    imgFundo.src = `${urlServidor}${info.fundo}`;
+            .then(info => {
+                // alimenta campos do formulário
+                inputDescricao.value = info.descricao;
+                inputCdl.value = JSON.stringify(info.conjuntoDeLinguagem);
+                imgAvatar.src = `${urlServidor}${info.avatar}`;
+                imgFundo.src = `${urlServidor}${info.fundo}`;
 
-                    // altera imagens do formulario quando novo arquivo é selecionado
-                    arquivoAvatar.addEventListener("change", e => {
-                        imgAvatar.src = URL.createObjectURL(e.target.files[0]);
-                    });
-                    arquivoFundo.addEventListener("change", e => {
-                        imgFundo.src = URL.createObjectURL(e.target.files[0]);
-                    });
+                // altera imagens do formulario quando novo arquivo é selecionado
+                arquivoAvatar.addEventListener("change", e => {
+                    imgAvatar.src = URL.createObjectURL(e.target.files[0]);
+                });
+                arquivoFundo.addEventListener("change", e => {
+                    imgFundo.src = URL.createObjectURL(e.target.files[0]);
+                });
 
-                    form.addEventListener("submit", e => {
-                    // ao clicar, envia dados para o servidor
-                
-                        fetchACoisaCerta({method: "GET"}).then(info => {
-                            
-                            let formulario = new FormData();
-                            formulario.append("nome", info.nome);
-                            formulario.append("tipo", info.tipo);
-                            formulario.append("descricao", inputDescricao.value);
-                            formulario.append("conjuntoDeLinguagem", inputCdl.value);
-                            formulario.append("avatar", arquivoAvatar.files[0]);
-                            formulario.append("fundo", arquivoFundo.files[0]);
-                            formulario.append("html", htmlField.getValue());
-
-                            fetch(`${urlServidor}/api/bota`, {method: "POST", body: formulario
-                            }).then(res => res.json()
-                            ).then(r => {
-                                currentView.innerHTML = r.html;
-                            }).catch(erro => console.log(erro));
+                form.addEventListener("submit", e => {
+                // ao clicar, envia dados para o servidor
             
-                            // fecha o modal
-                            htmlField.destroy();
-                            htmlField.container.remove();
-                            closeModal();
-                        });
+                    fetchACoisaCerta({method: "GET"}).then(info => {
                         
-                        e.preventDefault();
-                    });
-        });
+                        let formulario = new FormData();
+                        formulario.append("nome", info.nome);
+                        formulario.append("tipo", info.tipo);
+                        formulario.append("descricao", inputDescricao.value);
+                        formulario.append("conjuntoDeLinguagem", inputCdl.value);
+                        formulario.append("avatar", arquivoAvatar.files[0]);
+                        formulario.append("fundo", arquivoFundo.files[0]);
+                        formulario.append("html", htmlField.getValue());
 
-       
-
+                        fetch(`${urlServidor}/api/bota`, {method: "POST", body: formulario
+                        }).then(res => res.json()
+                        ).then(r => {
+                            currentView.innerHTML = r.html;
+                        }).catch(erro => console.log(erro));
         
+                        // fecha o modal
+                        htmlField.destroy();
+                        htmlField.container.remove();
+                        closeModal();
+                    });
+                    
+                    e.preventDefault();
+                });
+        });
     });
 
     // modal clonar
@@ -383,13 +379,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     let pessoaNova = {
                         "id": Array.from(pessoasTodas).length,
+                        "tipo": "pessoa",
                         "nome": nome,
+                        "descricao": "descrição",
+                        "conjuntoDeLinguagem": {artigo: ["e"], pronome: ["elu"], flexao: ["-e"]},
                         "comunidades": [],
                         "html": currentView.innerHTML
                     }
 
-                    fetch(`${urlServidor}/api/pessoas/${nome}`, {
-                        method: "PUT",
+                    fetch(`${urlServidor}/api/pessoas`, {
+                        method: "POST",
                         headers: {"Content-Type": "application/json"},
                         body: JSON.stringify(pessoaNova)
                     }).then(res1 => {
@@ -423,6 +422,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }).catch(erro => console.log(erro));
                 });
             } else if (clonarPara === "Comunidade nova") {
+                console.log("clonando para comunidade nova");
                 fetch(`${urlServidor}/api/comunidades/`)
                 .then(res => {
                     return res.json();
@@ -430,12 +430,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     let comunaNova = {
                         "id": Array.from(comunasTodas).length,
+                        "tipo": "comunidade",
                         "nome": nome,
+                        "descricao": "descrição",
+                        "conjuntoDeLinguagem": {artigo: ["e"], pronome: ["elu"], flexao: ["-e"]},
                         "html": currentView.innerHTML
                     }
 
-                    fetch(`${urlServidor}/api/comunidades/${nome}`, {
-                        method: "PUT",
+                    fetch(`${urlServidor}/api/comunidades/`, {
+                        method: "POST",
                         headers: {"Content-Type": "application/json"},
                         body: JSON.stringify(comunaNova)
                     }).then(res1 => {
