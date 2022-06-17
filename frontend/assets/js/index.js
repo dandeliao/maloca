@@ -73,8 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
     router();
 
 
-    // modais
     // ---
+    // modais
 
     async function fetchACoisaCerta(parametros) {
         // função auxiliar:
@@ -248,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
         modalBody.appendChild(form);
         modal.style.display = "block";
 
-        let htmlField = ace.edit("html-field");
+        let htmlField = ace.edit("html-field"); // depende do editor *ace*, incorporado em index.html. Ver https://github.com/ajaxorg/ace
         let currentView = document.getElementById("view");
         htmlField.session.setMode("ace/mode/html")
         htmlField.setTheme("ace/theme/ambiance");
