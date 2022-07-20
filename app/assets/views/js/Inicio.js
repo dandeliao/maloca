@@ -6,6 +6,6 @@ export default class extends AbstractView {
 			urlCliente:	urlCliente,
 			view: 			'inicio'
 		});
-		this.setTitle('Maloca');
+		this.setTitle('maloca');
 	}
 }

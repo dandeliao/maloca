@@ -6,6 +6,6 @@ export default class extends AbstractView {
 			urlCliente:	urlCliente,
 			view: 			'registro'
 		});
-		this.setTitle('Inscrever-se');
+		this.setTitle('inscrever-se');
 	}
 }

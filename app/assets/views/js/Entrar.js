@@ -6,6 +6,6 @@ export default class extends AbstractView {
 			urlCliente:	urlCliente,
 			view: 			'entrar'
 		});
-		this.setTitle('Entrar');
+		this.setTitle('entrar');
 	}
 }

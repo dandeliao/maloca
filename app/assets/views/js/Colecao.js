@@ -6,6 +6,6 @@ export default class extends AbstractView {
 			urlCliente:	urlCliente,
 			view: 			'colecao'
 		});
-		this.setTitle('Minhas Comunidades');
+		this.setTitle('minhas comunidades');
 	}
 }
