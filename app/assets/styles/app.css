@@ -16,7 +16,7 @@ a {
     cursor: pointer;
 }
 
-.appBar {
+.nav {
     background-color:lightpink;
     color: #1B1B1B;
     display: grid;
@@ -24,12 +24,12 @@ a {
 
 }
 
-.appBar .actions {
+.nav .actions {
     text-align: right;
 }
 
-.app a,
-.app .btn {
+.bar a,
+.bar .action {
     display: inline-block;
     text-decoration: none;
     font-weight: bold;
@@ -37,22 +37,22 @@ a {
     cursor: pointer;
 }
 
-.app .btn.disabled {
+.bar .action.disabled {
     color: #808080;
 }
 
-.app .btn.disabled:hover {
+.bar .action.disabled:hover {
     cursor:default;
 }
 
-.app img {
+.bar img {
     display: inline-block;
     width: auto;
     height: 1.7rem;
     justify-self: center;
 }
 
-.appFooter {
+footer {
     background-color: #a7f3d0;
     color: #1B1B1B;
     height: 2rem;
@@ -60,10 +60,14 @@ a {
     grid-template-columns: 7fr 1fr 7fr;
 }
 
-.appFooter .esquerda {
+footer .esquerda {
     text-align: right;
 }
 
-.appFooter span {
+footer .direita {
+    text-align: left;
+}
+
+footer span {
     text-align: center;
 }
