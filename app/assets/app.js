@@ -10,7 +10,7 @@ window.addEventListener('popstate', () => {
 
 // carregamento inicial
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // captura o clique em links para router
     document.body.addEventListener('click', e => {
         if (e.target.matches('[data-link]')) {
@@ -24,6 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    let view = router(rotas);
-
+    //let view = router(rotas);
+    router(rotas);
 });

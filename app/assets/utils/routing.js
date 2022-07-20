@@ -55,6 +55,6 @@ export async function router(routes) {
         };
     }
 
-    const view = new match.route.view(urlCliente);
-    document.querySelector("#viewer").innerHTML = await view.getHtml();
+    const view = new match.route.view(urlCliente); // cria instância da view atual
+    document.querySelector("#viewer").innerHTML = await view.getHtml(); // renderiza view
 }
