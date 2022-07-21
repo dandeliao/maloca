@@ -26,8 +26,8 @@ body, h1, h2, h3, h4, h5, h6, p, ol, ul, a {
 }
 
 img {
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    height: 0 auto;
 }
 
 button {
@@ -54,16 +54,20 @@ h1, h2, h3, h4,
 h5, h6          { font-weight: bolder }
 
 a {
-    text-decoration: underline;
+    text-decoration: none;
     cursor: pointer;
+}
+
+a:hover {
+    font-weight: bold;
 }
 
 nav {
     background-color:lightpink;
     color: #1B1B1B;
 	width: 100%;
-	height: 2.5em;
-	padding: 0.1em 0.2em;
+	height: 2em;
+	padding: 0.2em 0.4em;
     display: flex;
 	flex-direction: row;
 	justify-content: space-between;
