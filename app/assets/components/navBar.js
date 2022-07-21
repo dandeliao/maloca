@@ -84,14 +84,14 @@ nav {
 
 <nav>
 	<div class="actions left">
-		<img-button id="menu" class="pressStyle" imagem="/assets/images/menu.png" descricao="menu"></img-button>
+		<img-button id="menu" imagem="/assets/images/menu.png" descricao="menu"></img-button>
 		<img-button id="inicio" imagem="/assets/images/maloca.png" descricao="página inicial"></img-button>
 	</div>
 	<header><h3><slot /></h3></header>
 	<div class="actions right">
-		<img-button id="editar" class="pressStyle disabled" imagem="/assets/images/editar.png" descricao="editar"></img-button>
-		<img-button id="clonar" class="pressStyle disabled" imagem="/assets/images/clonar.png" descricao="clonar"></img-button>
-		<img-button id="info" class="pressStyle disabled" imagem="/assets/images/info.png" descricao="informação"></img-button>
+		<img-button id="editar" class="disabled" imagem="/assets/images/editar.png" descricao="editar"></img-button>
+		<img-button id="clonar" class="disabled" imagem="/assets/images/clonar.png" descricao="clonar"></img-button>
+		<img-button id="info" class="disabled" imagem="/assets/images/info.png" descricao="informação"></img-button>
 	</div>
 </nav>
 `;
@@ -104,10 +104,26 @@ class navBar extends HTMLElement {
 
 	}
 
+    connectedCallback() {
+        let imgButtons = this.shadowRoot.querySelectorAll('img-button');
+
+        for (let i = 0; i < imgButtons.length; i++) {
+            imgButtons[i].addEventListener('clique', e => {
+                console.log(e.target);
+            });
+        }
+
+    }
+
+    disconnectedCallback() {
+
+    }
+
     shadowTarget(evento) {
     // retorna string com o nome da ação clicada ('menu' || 'inicio' || 'editar' || 'clonar' || 'info')
-
+        console.log('shadowTarget em execução');
         if (evento.target.matches('nav-bar')) {
+            console.log('target matches nav-bar');
             let imgButton = evento.composedPath().filter(tag => tag.tagName === 'IMG-BUTTON');
             if (imgButton.length > 0) {
                 return imgButton[0].id;
@@ -124,34 +140,23 @@ class navBar extends HTMLElement {
         header.innerText = estado.titulo;
 
         // renderiza botões
-        let imgButtons = this.shadowRoot.querySelector('img-button');
+        let imgButtons = this.shadowRoot.querySelectorAll('img-button');
         for (let i = 0; i < imgButtons.length; i++) {
-            
-            let habilitado = false;
+            let habilitar = false;
             for (let m = 0; m < estado.modosHabilitados.length; m++) {
                 if (imgButtons[i].id === estado.modosHabilitados[m]) {
-                    habilitado = true;
+                    habilitar = true;
                     break;
                 }
             }
-            if (habilitado) {
-                imgButtons[i].classList.remove('disabled');
-            } else {
-                imgButtons[i].classList.add('disabled');
-            }
 
-            let ativo = false;
+            imgButtons[i].disabled = !habilitar;
+
             if (imgButtons[i].id === estado.modoAtivo) {
-                ativo = true;
-            }
-            if (ativo) {
-                imgButtons[i].classList.add('pressed');
+                imgButtons[i].pressed = true;
             } else {
-                imgButtons[i].classList.remove('pressed');
+                imgButtons[i].pressed = false;
             }
-
-            imgButtons[i].render();
-
         }
     }
 }

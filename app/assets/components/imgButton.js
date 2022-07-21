@@ -120,79 +120,46 @@ class ImgButton extends HTMLElement {
 		img.src = this.getAttribute('imagem');
 		img.alt = this.getAttribute('descricao');
 		img.title = this.getAttribute('descricao');
-		
-		if (this.classList.contains('disabled')) {
-			this.disabled = true;
-		} else {
-			this.disabled = false;
-		}
 
-		if (this.classList.contains('pressStyle')) {
-			this.pressStyle = true;
-		} else {
-			this.pressStyle = false;
-		}
-
-		if (this.classList.contains('pressed')) {
-			this.pressed = true;
-		} else {
-			this.pressed = false;
-		}
-
-		this.render();
 	}
 
-	/* connectedCallback() {
-		let button = this.shadowRoot.querySelector('button');
-		button.addEventListener('click', () => {
-			if (this.pressStyle) {
-				this.togglePressed();
-			}
+	get disabled() {
+		let classDisabled = this.shadowRoot.querySelector(['disabled']);
+		if (classDisabled.length > 0) {
+			return true;
+		} else {
+			return false
+		}
+	}
 
-		});
-	} */
+	get pressed() {
+		let classPressed = this.shadowRoot.querySelector(['pressed']);
+		if (classPressed.length > 0) {
+			return true;
+		} else {
+			return false
+		}
+	}
 
-	render() {
+	set disabled(desabilita) {
 		let btn = this.shadowRoot.querySelector('button');
-
-		if (this.disabled === true) {
+		if (desabilita) {
 			btn.classList.add('disabled');
+			btn.setAttribute('disabled', true);
 		} else {
 			btn.classList.remove('disabled');
+			btn.setAttribute('disabled', false);
 		}
+	}
 
-		if (this.pressed === true) {
+	set pressed(pressiona) {
+		let btn = this.shadowRoot.querySelector('button');
+		if (pressiona) {
 			btn.classList.add('pressed');
 		} else {
 			btn.classList.remove('pressed');
 		}
 	}
-
-	/* toggleDisabled() {
-
-		let btn = this.shadowRoot.querySelector('button');
-
-		if (this.disabled === true) {
-			this.disabled = false;
-			btn.classList.remove('disabled');
-		} else {
-			this.disabled = true;
-			btn.classList.add('disabled');
-		}
-	}
-
-	togglePressed() {
-
-		let btn = this.shadowRoot.querySelector('button');
-
-		if (this.pressed === true) {
-			this.pressed = false;
-			btn.classList.remove('pressed');
-		} else {
-			this.pressed = true;
-			btn.classList.add('pressed');
-		}
-	} */
 
 }
 
