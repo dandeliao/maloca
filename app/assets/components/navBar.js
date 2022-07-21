@@ -84,14 +84,14 @@ nav {
 
 <nav>
 	<div class="actions left">
-		<img-button class= "press" imagem="/assets/images/menu.png" descricao="menu"></img-button>
-		<img-button imagem="/assets/images/maloca.png" descricao="página inicial"></img-button>
+		<img-button id="menu" class="pressStyle" imagem="/assets/images/menu.png" descricao="menu"></img-button>
+		<img-button id="inicio" imagem="/assets/images/maloca.png" descricao="página inicial"></img-button>
 	</div>
 	<header><h3><slot /></h3></header>
 	<div class="actions right">
-		<img-button id="btn-editar" class="press disabled" imagem="/assets/images/editar.png" descricao="editar"></img-button>
-		<img-button id="btn-clonar" class="press disabled" imagem="/assets/images/clonar.png" descricao="clonar"></img-button>
-		<img-button id="btn-info" class="press" imagem="/assets/images/info.png" descricao="informação"></img-button>
+		<img-button id="editar" class="pressStyle disabled" imagem="/assets/images/editar.png" descricao="editar"></img-button>
+		<img-button id="clonar" class="pressStyle disabled" imagem="/assets/images/clonar.png" descricao="clonar"></img-button>
+		<img-button id="info" class="pressStyle disabled" imagem="/assets/images/info.png" descricao="informação"></img-button>
 	</div>
 </nav>
 `;
@@ -103,6 +103,57 @@ class navBar extends HTMLElement {
 		this.shadowRoot.appendChild(templateNavBar.content.cloneNode(true));
 
 	}
+
+    shadowTarget(evento) {
+    // retorna string com o nome da ação clicada ('menu' || 'inicio' || 'editar' || 'clonar' || 'info')
+
+        if (evento.target.matches('nav-bar')) {
+            let imgButton = evento.composedPath().filter(tag => tag.tagName === 'IMG-BUTTON');
+            if (imgButton.length > 0) {
+                return imgButton[0].id;
+            }
+        }
+        return null;
+    }
+
+    render(estado) {
+    // renderiza navBar com base no estado do app
+
+        // renderiza header
+        let header = this.shadowRoot.querySelector('header');
+        header.innerText = estado.titulo;
+
+        // renderiza botões
+        let imgButtons = this.shadowRoot.querySelector('img-button');
+        for (let i = 0; i < imgButtons.length; i++) {
+            
+            let habilitado = false;
+            for (let m = 0; m < estado.modosHabilitados.length; m++) {
+                if (imgButtons[i].id === estado.modosHabilitados[m]) {
+                    habilitado = true;
+                    break;
+                }
+            }
+            if (habilitado) {
+                imgButtons[i].classList.remove('disabled');
+            } else {
+                imgButtons[i].classList.add('disabled');
+            }
+
+            let ativo = false;
+            if (imgButtons[i].id === estado.modoAtivo) {
+                ativo = true;
+            }
+            if (ativo) {
+                imgButtons[i].classList.add('pressed');
+            } else {
+                imgButtons[i].classList.remove('pressed');
+            }
+
+            imgButtons[i].render();
+
+        }
+    }
 }
 
 window.customElements.define('nav-bar', navBar);

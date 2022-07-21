@@ -121,32 +121,54 @@ class ImgButton extends HTMLElement {
 		img.alt = this.getAttribute('descricao');
 		img.title = this.getAttribute('descricao');
 		
-		this.disabled = false;
 		if (this.classList.contains('disabled')) {
-			this.toggleDisabled();
+			this.disabled = true;
+		} else {
+			this.disabled = false;
 		}
 
-		this.pressStyle = false;
-		if (this.classList.contains('press')) {
+		if (this.classList.contains('pressStyle')) {
 			this.pressStyle = true;
+		} else {
+			this.pressStyle = false;
+		}
+
+		if (this.classList.contains('pressed')) {
+			this.pressed = true;
+		} else {
 			this.pressed = false;
 		}
 
+		this.render();
 	}
 
-	connectedCallback() {
+	/* connectedCallback() {
 		let button = this.shadowRoot.querySelector('button');
 		button.addEventListener('click', () => {
-			console.log('clicado!');
-			
 			if (this.pressStyle) {
 				this.togglePressed();
 			}
 
 		});
+	} */
+
+	render() {
+		let btn = this.shadowRoot.querySelector('button');
+
+		if (this.disabled === true) {
+			btn.classList.add('disabled');
+		} else {
+			btn.classList.remove('disabled');
+		}
+
+		if (this.pressed === true) {
+			btn.classList.add('pressed');
+		} else {
+			btn.classList.remove('pressed');
+		}
 	}
 
-	toggleDisabled() {
+	/* toggleDisabled() {
 
 		let btn = this.shadowRoot.querySelector('button');
 
@@ -170,7 +192,7 @@ class ImgButton extends HTMLElement {
 			this.pressed = true;
 			btn.classList.add('pressed');
 		}
-	}
+	} */
 
 }
 
