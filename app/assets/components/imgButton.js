@@ -59,8 +59,12 @@ h1, h2, h3, h4,
 h5, h6          { font-weight: bolder }
 
 a {
-    text-decoration: underline;
+    text-decoration:underline;
     cursor: pointer;
+}
+
+a:hover {
+    text-decoration:overline;
 }
 
 button {
