@@ -79,15 +79,15 @@ img {
 }
 
 button:hover {
-	filter: brightness(.9) invert(.3) sepia(.5) hue-rotate(100deg) saturate(800%);
+	filter: brightness(.9) invert(.12) sepia(.9) hue-rotate(240deg) saturate(800%);
 }
 
 button:active {
-	filter: brightness(.9) invert(.4) sepia(.5) hue-rotate(100deg) saturate(800%);
+	filter: brightness(.9) invert(.32) sepia(.9) hue-rotate(235deg) saturate(220%);
 }
 
 button.pressed {
-	filter: brightness(.9) invert(.4) sepia(.5) hue-rotate(100deg) saturate(800%);
+	filter: brightness(.9) invert(.32) sepia(.9) hue-rotate(235deg) saturate(220%);
 }
 
 button.disabled {
