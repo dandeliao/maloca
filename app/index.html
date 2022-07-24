@@ -11,15 +11,36 @@
 </head>
 <body>
 
-	<nav-bar>maloca</nav-bar>
+	<nav id="nav-bar">
+		<div class="nav-group">
+			<img-button id="menu" imagem="/assets/images/menu.png" descricao="menu"></img-button>
+			<img-button id="inicio" imagem="/assets/images/maloca.png" descricao="página inicial"></img-button>
+		</div>
+		<div class="nav-group">
+			<span id="view-title" style="vertical-align: middle;">maloca - início</span>
+		</div>
+		<div class="nav-group">
+			<img-button id="editar" class="disabled" imagem="/assets/images/editar.png" descricao="editar"></img-button>
+			<img-button id="clonar" class="disabled" imagem="/assets/images/clonar.png" descricao="clonar"></img-button>
+			<img-button id="info" class="disabled" imagem="/assets/images/info.png" descricao="informação"></img-button>
+		</div>
+	</nav>
     
 	<main id="viewer"></main>
 
-	<footer-bar></footer-bar>
+	<footer id="footer">
+		<div class="footer-group">
+            <a href="https://github.com/dandeliao/maloca" style="vertical-align: middle;">contribua</a>
+        </div>
+        <div class="footer-group">
+			<span style="vertical-align: middle;">.</span>
+		</div>
+        <div class="footer-group">
+            <a href="https://www.youtube.com/watch?v=OrQIMUe2uBQ" style="vertical-align: middle;">quem somos nós</a>
+        </div>
+	</footer>
 
 	<script src="/assets/components/imgButton.js"></script>
-	<script src="/assets/components/navBar.js"></script>
-	<script src="/assets/components/footerBar.js"></script>
 	<script type="module" src="/assets/app.js"></script>
 
 </body>

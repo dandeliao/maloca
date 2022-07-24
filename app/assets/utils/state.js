@@ -4,7 +4,8 @@ export const estadoInicial = {
 	pagina:				0,
 	titulo: 			'maloca (início)',
 	modosHabilitados:	['menu', 'inicio', 'clonar', 'info'],
-	modoAtivo:			'ver'
+	modoAtivo:			'ver',
+	esquemaDeCores:		'rosa-claro'
 }
 
 export function getState() {
