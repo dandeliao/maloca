@@ -18,6 +18,8 @@ button {
 
 	display: inline-block;
 	height: 100%;
+	border-radius: 100%;
+	padding: 0.12rem;
 	cursor: pointer;
 	transition: 0.07s;
 }
@@ -27,20 +29,17 @@ img {
 	width: auto;
 }
 
-button:hover {
-	filter: brightness(.9) invert(.12) sepia(.9) hue-rotate(240deg) saturate(800%);
-}
-
 button:active {
-	filter: brightness(.9) invert(.32) sepia(.9) hue-rotate(235deg) saturate(220%);
+	background-color: #886098;
 }
 
 button.pressed {
-	filter: brightness(.9) invert(.32) sepia(.9) hue-rotate(235deg) saturate(220%);
+	background-color: #886098;
 }
 
 button:disabled {
 	cursor:default;
+	background-color: transparent;
 	filter: brightness(.9) invert(.5) sepia(.5) hue-rotate(100deg) saturate(0%);
 }
 
@@ -65,12 +64,12 @@ class ImgButton extends HTMLElement {
 
 	}
 
-	get disabled() {
+	get enabled() {
 		let btn = this.shadowRoot.querySelector('button');
 		if (btn.disabled) {
-			return true;
+			return false;
 		} else {
-			return false
+			return true;
 		}
 	}
 
@@ -83,13 +82,9 @@ class ImgButton extends HTMLElement {
 		}
 	}
 
-	set disabled(desabilita) {
+	set enabled(habilitado) {
 		let btn = this.shadowRoot.querySelector('button');
-		if (desabilita) {
-			btn.setAttribute('disabled', true);
-		} else {
-			btn.setAttribute('disabled', false);
-		}
+		btn.disabled = !habilitado;
 	}
 
 	set pressed(pressiona) {

@@ -3,7 +3,7 @@
 import { navigateTo } from './utils/navigation.js';
 import { rotas, router } from './utils/routing.js';
 import { estadoInicial, getState, setState} from './utils/state.js';
-import { togglePressed } from './utils/rendering.js';
+import { renderNavBar } from './utils/rendering.js';
 
 // history api listener
 window.addEventListener('popstate', () => {
@@ -14,13 +14,13 @@ window.addEventListener('popstate', () => {
 document.addEventListener('DOMContentLoaded', () => {
 
     setState(estadoInicial);
+    renderNavBar(getState());
 
     // captura o clique em links internos
     document.body.addEventListener('click', e => {
 
         let estado = getState();
 
-        // captura clique em data-links
         if (e.target.matches('[data-link]')) {
             e.preventDefault();
             if (e.target.href) {
@@ -36,12 +36,17 @@ document.addEventListener('DOMContentLoaded', () => {
         let estado = getState();
         e.preventDefault();
 
+        // se o modo clicado já estiver ativo, desativa. Senão, ativa.
+        if (estado.modoAtivo === e.target.id) {
+            estado.modoAtivo = 'ver';
+        } else {
+            estado.modoAtivo = e.target.id;
+        }
+
         switch (e.target.id) {
             case 'menu':
                 // toggle barra lateral
                 console.log('abrir menu');
-                estado.modoAtivo = 'menu';
-                togglePressed(e.target);
                 break;
             case 'inicio':
                 // abre view da página inicial da maloca
@@ -51,27 +56,28 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'editar':
                 // toggle modo editar (view incluindo editor html)
                 console.log('abrir editar');
-                estado.modoAtivo = 'editar';
-                togglePressed(e.target);
                 break;
             case 'clonar':
                 // abre clonar (modal?)
                 console.log('abrir clonar');
-                estado.modoAtivo = 'clonar';
-                togglePressed(e.target);
+                // se o modo já estiver ativo, desativa
                 break;
             case 'info':
                 // abre info (modal?)
                 console.log('abrir info');
-                estado.modoAtivo = 'info';
-                togglePressed(e.target);
                 break;
             default:
                 estado.modoAtivo = 'ver';
                 console.log('mudar esquema de cores?')
+                if (estado.esquemaDeCores === 'rosa-claro') {
+                    estado.esquemaDeCores = 'marrom-escuro';
+                } else {
+                    estado.esquemaDeCores = 'rosa-claro';
+                }
         }
 
         setState(estado);
+        renderNavBar(estado);
 
     });
 
