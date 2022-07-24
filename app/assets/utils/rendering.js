@@ -13,7 +13,7 @@ export function renderNavBar(estado) {
 	let navBar = document.getElementById('nav-bar');
 
 	let titulo = navBar.querySelector('#view-title');
-	titulo.innerText = 'maloca - ' + estado.modoAtivo;
+	titulo.innerText = 'modo ativo: ' + estado.modoAtivo;
 
 	switch (estado.esquemaDeCores) {
 		case 'rosa-claro':
