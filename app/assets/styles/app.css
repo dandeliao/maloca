@@ -23,8 +23,52 @@ a:hover {
     text-decoration:overline;
 }
 
-#viewer {
+#nav-bar {
+    height: 2em;
+	width: 100%;
+    background-color:#ffb6c1;
+    color: #1B1B1B;
+    display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#nav-bar .nav-group {
+    display: inline-block;
+    height: 100%;
+    width: auto;
+    padding: 0.2em 0.4em;
+}
+
+
+img-button {
+    display: inline-block;
+    height: 100%;
+    width: auto;
+}
+
+main {
     width: 100%;
     min-height: 58em;
     padding: 1em;
+}
+
+footer {
+    height: 2em;
+	width: 100%;
+    padding: 0.2em 0.4em;
+    background-color: #a7f3d0;
+    color: #1B1B1B;
+    display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+    gap: 2em;
+}
+
+.footer-group {
+    display: inline-block;
+    height: 100%;
+    width: auto;
 }
