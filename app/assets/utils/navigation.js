@@ -16,7 +16,8 @@ export function getParams(match) {
 
 // usa history api para salvar navegação,
 // permitindo que o navegador volte e avance páginas
-export function navigateTo(url, router, routes) {
+export async function navigateTo(url, router, routes) {
     history.pushState(null, url, url);
-    router(routes);  
+    let view = await router(routes);
+    return view;
 }
