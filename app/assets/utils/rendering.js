@@ -7,8 +7,6 @@ export function togglePressed (imgButton) {
 }
 
 export function renderNavBar(estado) {
-	console.log(estado.modosHabilitados);
-	console.log(estado.modoAtivo);
 
 	let navBar = document.getElementById('nav-bar');
 
