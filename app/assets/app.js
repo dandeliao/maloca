@@ -19,9 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // captura o clique em links internos
     document.body.addEventListener('click', e => {
-
-        let estado = getState();
-
         if (e.target.matches('[data-link]')) {
             e.preventDefault();
             if (e.target.href) {
@@ -44,7 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
             estado.modoAtivo = e.target.id;
         }
 
-        switch (e.target.id) {
+        switch (estado.modoAtivo) {
+            case 'ver':
+                break;
             case 'menu':
                 // toggle barra lateral
                 console.log('abrir menu');
