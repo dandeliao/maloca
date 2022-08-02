@@ -1,12 +1,28 @@
 import AbstractView from './AbstractView.js';
 
 export default class extends AbstractView {
-	constructor(urlCliente) {
-		super({
-			urlCliente:	urlCliente,
-			view: 			'boasVindas'
-		});
-		this.setTitle('maloca - boas-vindas');
+	constructor(params) {
+		super(params);
+		this.setTitle('boas-vindas');
+	}
+
+	async getHtml () {
+		const arquivo = await fetch(`http://localhost:4200/assets/views/html/boasVindas.html`);
+		return arquivo.text();
+	}
+
+	estado() {
+		const novoEstado = {
+			tipo: 				'boasVindas',
+			id:	  				0,
+			pagina:				0,
+			titulo: 			'boas-vindas',
+			modosHabilitados:	[],
+			modoAtivo:			'boas-vindas',
+			esquemaDeCores:		'rosa-claro'
+		}
+
+		return novoEstado;
 	}
 
 	async cadastrar(form) {
@@ -49,7 +65,7 @@ export default class extends AbstractView {
 			senha: form.elements['senha'].value
 		}
 
-		fetch(`${urlApi}/autenticacao/login`, {
+		let res = await fetch(`${urlApi}/autenticacao/login`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -57,15 +73,12 @@ export default class extends AbstractView {
 			withCredentials: true,
 			credentials: 'include',
 			body: JSON.stringify(dados)
-		})
-		.then(res => res.json())
-		.then(r => {
-			if (r.autenticade) {
-				console.log('autenticade! redirecionar para página inicial');
-			} else {
-				console.log('não autenticade >:(');
-			}
-			form.reset()
 		});
+
+		if (res.ok) { // pessoa foi autenticada com sucesso
+			return true;
+		} else { // erro no login
+			return false;
+		}
 	}
 }

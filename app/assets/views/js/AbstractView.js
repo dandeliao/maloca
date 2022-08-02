@@ -1,6 +1,7 @@
 export default class {
 	constructor (params) {
 		this.enderecoHtml = `${params.urlCliente}/assets/views/html/${params.view}.html`;
+		this.params = params;
 	}
 
 	setTitle(title) {
@@ -8,8 +9,23 @@ export default class {
 	}
 
 	async getHtml() {
-		const arquivo = await fetch(this.enderecoHtml);
-		return arquivo.text();
+		/* const arquivo = await fetch(this.enderecoHtml);
+		return arquivo.text(); */
+		return '';
+	}
+
+	estado() {
+		const estadoInicial = {
+			tipo: 				'comunidade',
+			id:	  				0,
+			pagina:				0,
+			titulo: 			'maloca (início)',
+			modosHabilitados:	['menu', 'inicio'],
+			modoAtivo:			'ver',
+			esquemaDeCores:		'rosa-claro'
+		}
+
+		return estadoInicial;
 	}
 
 }

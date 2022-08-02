@@ -44,3 +44,19 @@ export function renderNavBar(estado) {
 
 	return 'rendered';
 }
+
+export async function renderView (view) {
+
+	try {
+
+		document.querySelector("#viewer").innerHTML = await view.getHtml(); // renderiza view
+		return 'rendered';
+
+	} catch (erro) {
+		if (erro.message === '401') { // não está logade
+			return '401'
+		} else {
+			return 'failed'
+		}
+	}
+}
