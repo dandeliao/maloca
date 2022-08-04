@@ -57,6 +57,11 @@ export async function router(routes) {
                 route: { path: "/404", view: Error404},
                 result: [location.pathname]
             };
+        } else if (renderResult === 'autenticade') {
+            match = {
+                route: { path: '/', view: Inicio},
+                result: [location.pathname]
+            };
         }
     }
 

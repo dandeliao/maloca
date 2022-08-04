@@ -7,8 +7,28 @@ export default class extends AbstractView {
 	}
 
 	async getHtml () {
+
+		// provisório. Deve fazer fetch de caminho de teste de autenticação, não de pessoas
+		const authResult = await fetch(`http://localhost:4000/pessoas`, {
+			method: 'GET',
+			withCredentials: true,
+			credentials: 'include'
+		})
+		.then(res => {
+			if (res.ok) {
+				return Promise.reject(new Error('autenticade'));
+			} else if(res.status === 404) {
+				return Promise.reject(new Error('404'));
+			} else if (res.status === 401) {
+				return 'nao-autenticade';
+			} else {
+				return Promise.reject(new Error('Erro: ' + res.status));
+			}
+		});
+			
 		const arquivo = await fetch(`http://localhost:4200/assets/views/html/boasVindas.html`);
 		return arquivo.text();
+
 	}
 
 	estado() {

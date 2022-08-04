@@ -54,9 +54,11 @@ export async function renderView (view) {
 
 	} catch (erro) {
 		if (erro.message === '401') { // não está logade
-			return '401'
+			return '401';
+		} else if (erro.message === 'autenticade') {
+			return 'autenticade';
 		} else {
-			return 'failed'
+			return 'failed';
 		}
 	}
 }
