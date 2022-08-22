@@ -31,7 +31,7 @@ export default class extends AbstractView {
 
 	}
 
-	estado() {
+	estado(velhoEstado) {
 		const novoEstado = {
 			tipo: 				'boasVindas',
 			id:	  				0,
@@ -39,7 +39,7 @@ export default class extends AbstractView {
 			titulo: 			'boas-vindas',
 			modosHabilitados:	[],
 			modoAtivo:			'boas-vindas',
-			esquemaDeCores:		'rosa-claro'
+			esquemaDeCores:		velhoEstado.esquemaDeCores
 		}
 
 		return novoEstado;

@@ -30,7 +30,7 @@ export default class extends AbstractView {
 		return arquivoLocal.text();
 	}
 
-	estado () {
+	estado (velhoEstado) {
 		const novoEstado = {
 			tipo: 				'comunidade',
 			id:	  				0,
@@ -38,7 +38,7 @@ export default class extends AbstractView {
 			titulo: 			'maloca (início)',
 			modosHabilitados:	['menu', 'inicio', 'clonar', 'info'],
 			modoAtivo:			'ver',
-			esquemaDeCores:		'rosa-claro'
+			esquemaDeCores:		velhoEstado.esquemaDeCores
 		}
 
 		return novoEstado;

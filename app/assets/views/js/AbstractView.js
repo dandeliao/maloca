@@ -14,7 +14,7 @@ export default class {
 		return '';
 	}
 
-	estado() {
+	estado(velhoEstado) {
 		const estadoInicial = {
 			tipo: 				'comunidade',
 			id:	  				0,
@@ -22,7 +22,7 @@ export default class {
 			titulo: 			'maloca (início)',
 			modosHabilitados:	['menu', 'inicio'],
 			modoAtivo:			'ver',
-			esquemaDeCores:		'rosa-claro'
+			esquemaDeCores:		velhoEstado.esquemaDeCores
 		}
 
 		return estadoInicial;
