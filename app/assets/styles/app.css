@@ -24,6 +24,7 @@ a:hover {
 }
 
 #nav-bar {
+    overflow: hidden;
     height: 2em;
 	width: 100%;
     background-color:#ffb6c1;
@@ -48,9 +49,28 @@ img-button {
     width: auto;
 }
 
+#tab-bar {
+    padding: 0;
+    display: none;
+    height: 2em;
+    font-size: 0.75em;
+    width: 100%;
+    background-color: #ffb6c1;
+    color: #1B1B1B;
+}
+
+#tab-bar.active {
+    display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: stretch;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
 main {
     width: 100%;
-    min-height: 58em;
+    min-height: 57em;
     padding: 1em;
 }
 

@@ -1,8 +1,10 @@
 export const estadoInicial = {
+	meuId:				'',
 	tipo: 				'comunidade',
-	id:	  				0,
-	pagina:				0,
 	titulo: 			'maloca (início)',
+	id:	  				1,
+	paginas:			[{id: 1, titulo: 'inicio', publica: 'true'}],
+	paginaAtiva:		null,
 	modosHabilitados:	['menu', 'inicio', 'clonar', 'info'],
 	modoAtivo:			'ver',
 	esquemaDeCores:		'rosa-claro'

@@ -32,10 +32,12 @@ export default class extends AbstractView {
 
 	estado (velhoEstado) {
 		const novoEstado = {
+			meuId:				velhoEstado.meuId,
 			tipo: 				'comunidade',
-			id:	  				0,
-			pagina:				0,
 			titulo: 			'maloca (início)',
+			id:	  				0,
+			paginas:			[{id: 1, titulo: 'inicio'}],
+			paginaAtiva:		1,
 			modosHabilitados:	['menu', 'inicio', 'clonar', 'info'],
 			modoAtivo:			'ver',
 			esquemaDeCores:		velhoEstado.esquemaDeCores

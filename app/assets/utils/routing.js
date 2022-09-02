@@ -1,5 +1,5 @@
 import { pathToRegex, getParams, navigateTo } from "./navigation.js";
-import { renderNavBar, renderView } from "./rendering.js";
+import { renderNavBar, renderTabBar, renderView } from "./rendering.js";
 import { getState, setState } from "./state.js";
 
 // importa views
@@ -46,6 +46,16 @@ export async function router(routes) {
     let renderResult = '';
     while(renderResult !== 'rendered') {
         view = new match.route.view(getParams(match));
+        if (getState().paginaAtiva !== null) {
+            view.pagina = getState().paginaAtiva;
+        } else {
+            let paginasDaView = await view.getPaginas();
+            console.log('paginasDaView', paginasDaView);
+            if (paginasDaView.length > 0) {
+                view.pagina = paginasDaView[0].pagina_pessoal_id;
+                console.log('view.pagina', view.pagina);
+            }
+        }
         renderResult = await renderView(view);
         if (renderResult === '401') {
             match = {
@@ -65,7 +75,7 @@ export async function router(routes) {
         }
     }
 
-    let novoEstado = view.estado(getState());
+    let novoEstado = await view.estado(getState());
 
     // caso seja a tela de boas-vindas, ativa formulários
     if (novoEstado.tipo === 'boasVindas') {
@@ -81,8 +91,10 @@ export async function router(routes) {
             e.preventDefault();
             view.entrar(formLogin)
                 .then(entrou => {
-                    if (entrou) { // se o login teve sucesso, redireciona para view inicial
-                        navigateTo('/', router, rotas);
+                    if (entrou) { // se o login teve sucesso
+                        novoEstado.meuId = formLogin.elements['nome'].value;
+                        setState(novoEstado);
+                        navigateTo('/', router, rotas);  // redireciona para view inicial
                     } else {
                         alert('Erro ao entrar :( tente novamente');
                     }
@@ -95,6 +107,9 @@ export async function router(routes) {
 
     // renderiza barra
     renderNavBar(getState());
+
+    // renderiza abas
+    renderTabBar(getState());
 
     return view;
 }

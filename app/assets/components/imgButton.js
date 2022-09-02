@@ -1,5 +1,5 @@
 const templateImgButton = document.createElement('template');
-// copiar css e html dos arquivos correspondentes em /assets/components/html e /assets/components/css
+
 templateImgButton.innerHTML = `
 <style>
 
