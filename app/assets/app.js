@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // viewer permite renderizar modo editar, se for o caso.
         // levar estas duas linhas para dentro de rendering.js (?)
         let viewer = document.querySelector('#viewer');
-        viewer.contentEditable = false;
+        viewer.editable = false;
         // se o modo clicado já estiver ativo, desativa (muda para 'ver'). Senão, ativa.
         if (estado.modoAtivo === e.target.id) {
             estado.modoAtivo = 'ver';
@@ -88,9 +88,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     console.log('modo editar');
                     
                     // levar este trecho inteiro para dentro de rendering.js (?)
-                    viewer.innerText = viewer.innerHTML; // mostra tags html para edição
-                    viewer.contentEditable = true; // habilita edição
-                    viewer.focus()
+                    viewer.text = viewer.html; // mostra tags html para edição
+                    viewer.editable = true; // habilita edição
+                    viewer.focusOnIt();
                    /*  viewer.addEventListener('blur', ev => { // evento 'blur' dispara quando elemento perde o foco
 
                         let paginaAtual = estado.view.paginas.find(pag => pag.id === estado.view.paginaAtiva);

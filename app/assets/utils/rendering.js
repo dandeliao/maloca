@@ -240,7 +240,8 @@ export async function renderView (estado) {
 
 		}
 
-		document.querySelector("#viewer").innerHTML = await html.text(); // renderiza view
+		console.log('viewer html:', document.querySelector("#viewer").html);
+		document.querySelector("#viewer").html = await html.text(); // renderiza view
 		return {
 			resultado: 'rendered',
 			estado: estado

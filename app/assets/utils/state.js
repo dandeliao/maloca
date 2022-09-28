@@ -58,7 +58,7 @@ export async function setState(estado, noPush) {
 				let dadosAtualizadosPagina = {
 					titulo:             paginaAtual.titulo,
 					publica:            paginaAtual.publica,
-					html:               viewer.innerText
+					html:               viewer.text
 				}
 
 				serverFetch(`/pessoas/${estado.auth.id}/${paginaAtual.id}`, 'PUT', dadosAtualizadosPagina)
