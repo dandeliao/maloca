@@ -1,6 +1,36 @@
 const templateMalocaViewer = document.createElement('template');
 
 templateMalocaViewer.innerHTML = `
+<style>
+a {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration:overline;
+}
+
+button {
+    border-top: 0.12rem solid #a3a3a3;
+    border-left: 0.12rem solid #a3a3a3;
+    border-bottom: 0.12rem solid #1B1B1B;
+    border-right: 0.12rem solid #1B1B1B;
+    padding: 0.5rem;
+    border-radius: 5%;
+    cursor: pointer;
+    transition: 0.05s;
+}
+
+button:active {
+    border-top: 0.12rem solid #1B1B1B;
+    border-left: 0.12rem solid #1B1B1B;
+    border-bottom: 0.12rem solid #a3a3a3;
+    border-right: 0.12rem solid #a3a3a3;
+}
+
+</style>
+
 <main>
 </main>
 `
