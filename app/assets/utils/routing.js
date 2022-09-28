@@ -1,115 +1,44 @@
-import { pathToRegex, getParams, navigateTo } from "./navigation.js";
-import { renderNavBar, renderTabBar, renderView } from "./rendering.js";
-import { getState, setState } from "./state.js";
+import { pathToRegex, getParams, getHref } from "./navigation.js";
 
-// importa views
-import Inicio from '../views/js/Inicio.js';
-import BoasVindas from "../views/js/BoasVindas.js";
-import Colecao from "../views/js/Colecao.js";
-import Configuracao from "../views/js/Configuracao.js";
-import Pessoa from "../views/js/Pessoa.js";
-import Comunidade from "../views/js/Comunidade.js";
-import Error404 from "../views/js/404.js";
-
-// array de rotas, com suas respectivas views
-export const rotas = [
-	{ path: '/', view: Inicio},
-	{ path: '/boasvindas', view: BoasVindas},
-	{ path: '/colecao', view: Colecao},
-	{ path: '/configuracao', view: Configuracao},
-	{ path: '/pessoa/:nome', view: Pessoa},
-	{ path: '/:nome', view: Comunidade}
+// array de rotas, com os respectivos tipos de suas views
+export const rotas = [ // obs: a ordem faz diferença para fazer o match depois
+	{ caminho: '/boas-vindas',   tipo: 'boasVindas'},
+	{ caminho: '/colecao',      tipo: 'colecao'},
+	{ caminho: '/configuracao', tipo: 'configuracao'},
+    { caminho: '/404',          tipo: 'erro'},
+    { caminho: '/pessoa/:nome', tipo: 'pessoa'},
+    { caminho: '/',             tipo: 'comunidade'},
+    { caminho: '/:nome',        tipo: 'comunidade'}
 ];
 
-// direciona as rotas do app
-export async function router(routes) {
+// analisa endereco e retorna objeto com os dados da view correta
+export async function router(endereco) {
 
-    // Testa se as rotas correspondem ao caminho atual da barra de endereços
-    const potentialMatches = routes.map(route => {
+    // Testa se as rotas existentes correspondem ao caminho atual da barra de endereços
+    const potentialMatches = rotas.map(rota => {
         return {
-            route: route,
-            result: location.pathname.match(pathToRegex(route.path)) // retorna objeto com caminho e parâmetros capturados via regex
+            rota: rota,
+            resultado: endereco.match(pathToRegex(rota.caminho)) // retorna array de trechos capturados via regex. Será utilizado por 'getParams'
         };
     });
 
-    let match = potentialMatches.find(potMatch => potMatch.result !== null);
+    // se a análise por regex encontrar matches, seleciona o primeiro
+    let match = potentialMatches.find(potMatch => potMatch.resultado !== null);
 
+    // se a análise por regex não encontrar matches, seleciona o erro 404
     if (!match) {
         match = {
-            route: { path: "/404", view: Error404},
-            result: [location.pathname]
+            rota: { caminho: "/404", tipo: 'erro'},
+            resultado: [endereco]
         };
     }
 
-    // cria e renderiza view
-    let view;
-    let renderResult = '';
-    while(renderResult !== 'rendered') {
-        view = new match.route.view(getParams(match));
-        if (getState().paginaAtiva !== null) {
-            view.pagina = getState().paginaAtiva;
-        } else {
-            let paginasDaView = await view.getPaginas();
-            console.log('paginasDaView', paginasDaView);
-            if (paginasDaView.length > 0) {
-                view.pagina = paginasDaView[0].pagina_pessoal_id;
-                console.log('view.pagina', view.pagina);
-            }
-        }
-        renderResult = await renderView(view);
-        if (renderResult === '401') {
-            match = {
-                route: { path: "/boasVindas", view: BoasVindas},
-                result: [location.pathname]
-            };
-        } else if (renderResult === 'failed') {
-            match = {
-                route: { path: "/404", view: Error404},
-                result: [location.pathname]
-            };
-        } else if (renderResult === 'autenticade') {
-            match = {
-                route: { path: '/', view: Inicio},
-                result: [location.pathname]
-            };
-        }
+    // dados para retornar (úteis para atualizar o estado e fazer a renderização da view)
+    let dadosDoRouter = {
+        tipo:   match.rota.tipo,
+        params: getParams(match) // objeto contendo os parâmetros passados no caminho (ex: nome da pessoa ou nome da comunidade)
     }
+    dadosDoRouter.href = getHref(dadosDoRouter); // adiciona href aos dados
 
-    let novoEstado = await view.estado(getState());
-
-    // caso seja a tela de boas-vindas, ativa formulários
-    if (novoEstado.tipo === 'boasVindas') {
-        
-        let formCadastro = document.getElementById('form-cadastro');
-        formCadastro.addEventListener('submit', e => {
-            e.preventDefault();
-            view.cadastrar(formCadastro);
-        });
-
-        let formLogin = document.getElementById('form-login');
-        formLogin.addEventListener('submit', e => {
-            e.preventDefault();
-            view.entrar(formLogin)
-                .then(entrou => {
-                    if (entrou) { // se o login teve sucesso
-                        novoEstado.meuId = formLogin.elements['nome'].value;
-                        setState(novoEstado);
-                        navigateTo('/', router, rotas);  // redireciona para view inicial
-                    } else {
-                        alert('Erro ao entrar :( tente novamente');
-                    }
-                })
-        });
-    }
-
-    // atualiza estado
-    setState(novoEstado);
-
-    // renderiza barra
-    renderNavBar(getState());
-
-    // renderiza abas
-    renderTabBar(getState());
-
-    return view;
+    return dadosDoRouter;
 }
