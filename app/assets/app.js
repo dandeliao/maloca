@@ -91,31 +91,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     viewer.text = viewer.html; // mostra tags html para edição
                     viewer.editable = true; // habilita edição
                     viewer.focusOnIt();
-                   /*  viewer.addEventListener('blur', ev => { // evento 'blur' dispara quando elemento perde o foco
-
-                        let paginaAtual = estado.view.paginas.find(pag => pag.id === estado.view.paginaAtiva);
-                        let dadosAtualizadosPagina = {
-                            titulo:             paginaAtual.titulo,
-                            publica:            paginaAtual.publica,
-                            html:               viewer.innerText
-                        }
-
-                        serverFetch(`/pessoas/${estado.auth.id}/${paginaAtual.id}`, 'PUT', dadosAtualizadosPagina)
-                            .then(res => {
-                                if (res.status === 200) { // status 200 = ok
-                                    
-                                    // desliga a edição da view
-                                    // viewer.contentEditable = false;
-
-                                    // navega para a página, para renderizar view
-                                    // navigateTo(location.pathname, router);
-
-                                } else {
-                                    alert('Aconteceu um erro ao criar a página. Por favor, tente novamente');
-                                    return null;
-                                }
-                            });
-                    }); */
 
                     break;
 
