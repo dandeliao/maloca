@@ -1,7 +1,7 @@
 /* nota: colocar sempre a extensão (.js) no final do nome dos arquivos,
        para que o servidor redirecione corretamente os imports. */
 import { router } from './utils/routing.js';
-import { estadoPadrao, getState, setState} from './utils/state.js';
+import { estadoPadrao, getState, setState } from './utils/state.js';
 import { serverFetch } from './utils/fetching.js';
 
 const urlApi = 'http://localhost:4000';
@@ -35,11 +35,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.body.addEventListener('click', async e => {
         
         let estado = getState();
+        let insideTarget = e.composedPath()[0]; // esse é o target verdadeiro dentro da shadow root
         
-        if (e.target.matches('[data-link]')) {
+        if (insideTarget.matches('[data-link]')) {
             e.preventDefault();
-            if (e.target.href) {
-                estado.href = (e.target.href).replace(urlCliente, '');
+            if (insideTarget.href) {
+                estado.href = (insideTarget.href).replace(urlCliente, '');
                 await setState(estado);
             }
         }
