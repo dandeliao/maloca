@@ -27,6 +27,22 @@ export async function serverFetch (caminho, metodo, dados) {
 					}); */
 }
 
+export async function putPagina(estado, texto) {
+	let paginaAtual = estado.view.paginas.find(pag => pag.id === estado.view.paginaAtiva);
+	let dadosAtualizadosPagina = {
+		titulo:             paginaAtual.titulo,
+		publica:            paginaAtual.publica,
+		html:               texto
+	}
+	return await serverFetch(`/pessoas/${estado.auth.id}/${paginaAtual.id}`, 'PUT', dadosAtualizadosPagina)
+		/* .then(res => {
+			if (res.status !== 200) { // status diferente de 200 != ok
+				alert('Aconteceu um erro ao criar a página. Por favor, tente novamente');
+				return null;
+			}
+		}); */
+}
+
 export async function cadastrar(form) {
 
 	if (form.elements['senha'].value === form.elements['senha2'].value) {

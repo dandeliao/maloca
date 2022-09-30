@@ -1,6 +1,6 @@
 import { renderNavBar, renderTabBar, renderView } from "./rendering.js";
 import { router } from "./routing.js";
-import { serverFetch, cadastrar, entrar } from "./fetching.js"
+import { serverFetch, putPagina, cadastrar, entrar } from "./fetching.js"
 
 const urlCliente = 'http://localhost:4200';
 
@@ -29,12 +29,16 @@ export function getState() {
 export async function setState(estado, noPush) {
 
 	const estadoVelho = getState();
+	const textoDaViewVelha = document.querySelector('#viewer').text;
 	let renderData = null;
+
+	console.log('estadoVelho:', estadoVelho);
+	console.log('estado (pré-render):', estado);
 
 	// renderiza view. Só é chamado nos seguintes casos: 1) ainda não há estado armazenado, ou 2) o caminho foi alterado, ou 3) uma aba distinta foi clicada, ou 4) acabou de sair do modo editar
 	if ((!estadoVelho) || (estadoVelho.href !== estado.href) || (estadoVelho.view.paginaAtiva !== estado.view.paginaAtiva) || ((estadoVelho.modoAtivo === 'editar') && (estadoVelho.modoAtivo !== estado.modoAtivo))) {
-		
 		// tenta renderizar a view. Dependendo da resposta, altera estado e tenta novamente.
+		let viewer = document.querySelector('#viewer');
 		let renderResult = '';
 		while(renderResult !== 'rendered') {
 			
@@ -50,28 +54,12 @@ export async function setState(estado, noPush) {
 			if ((!estadoVelho) || (estadoVelho.href !== estado.href)) {
 				estado.view.paginas = null;
 				estado.view.paginaAtiva = null;
-			} else if ((estadoVelho.modoAtivo === 'editar') && (estadoVelho.modoAtivo !== estado.modoAtivo)) {
+				viewer.editable = false;
+			} else if ((estadoVelho.modoAtivo === 'editar') && (estado.modoAtivo !== 'editar')) {
 				// se foi saída do modo editar, envia os dados da página modificada para servidor (PUT)
-			
-				let viewer = document.querySelector('#viewer');
-				let paginaAtual = estado.view.paginas.find(pag => pag.id === estado.view.paginaAtiva);
-				let dadosAtualizadosPagina = {
-					titulo:             paginaAtual.titulo,
-					publica:            paginaAtual.publica,
-					html:               viewer.text
-				}
-
-				serverFetch(`/pessoas/${estado.auth.id}/${paginaAtual.id}`, 'PUT', dadosAtualizadosPagina)
-					.then(res => {
-
-						viewer.contentEditable = false;
-						estado.modoAtivo = 'ver';
-						
-						if (res.status !== 200) { // status diferente de 200 != ok
-							alert('Aconteceu um erro ao criar a página. Por favor, tente novamente');
-							return null;
-						}
-					});
+				putPagina(estado, viewer.text);
+				viewer.editable = false;
+				//estado.modoAtivo = 'ver';
 			}
 			
 			// renderiza view
@@ -99,14 +87,30 @@ export async function setState(estado, noPush) {
 		}
 	}
 
-	// renderiza barras
+	// renderiza navBar
 	renderData = await renderNavBar(estado);
 	if (renderData.resultado === 'rendered') {
 		estado = renderData.estado;
 	}
+
+	// renderiza barra de abas
 	renderData = await renderTabBar(estado);
 	if (renderData.resultado === 'rendered') {
 		estado = renderData.estado;
+		if (estado.modoAtivo === 'editar') { // no modo editar
+			if ((estadoVelho.view.paginaAtiva !== estado.view.paginaAtiva) && (estadoVelho.href === estado.href)) { // se foi mudança de aba
+				if (estadoVelho.view.paginas.length <= estado.view.paginas.length)	 { // e se não foi remoção de página
+					await putPagina(estadoVelho, textoDaViewVelha); // atualiza página anterior no servidor
+				}
+			}
+			if (((estadoVelho.view.paginaAtiva !== estado.view.paginaAtiva) && (estadoVelho.href === estado.href)) || (estadoVelho.modoAtivo !== 'editar')) {
+				// se foi mudança de aba ou ativação do modo editar, ativa edição html do viewer
+				let viewer = document.querySelector('#viewer');
+				viewer.text = viewer.html; // mostra tags html para edição
+				viewer.editable = true; // habilita edição
+				viewer.focusOnIt();
+			}
+		}
 	}
 
 	// caso seja a tela de boas-vindas, ativa formulários
@@ -139,4 +143,5 @@ export async function setState(estado, noPush) {
 	// grava o novo estado no armazenamento local
 	localStorage.setItem('estado', JSON.stringify(estado));
 
+	console.log('estado novo:', estado);
 }

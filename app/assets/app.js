@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             e.preventDefault();
             if (insideTarget.href) {
                 estado.href = (insideTarget.href).replace(urlCliente, '');
+                estado.modoAtivo = 'ver';
                 await setState(estado);
             }
         }
@@ -53,27 +54,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         let estado = getState();
         e.preventDefault();
 
-        // viewer permite renderizar modo editar, se for o caso.
-        // levar estas duas linhas para dentro de rendering.js (?)
-        let viewer = document.querySelector('#viewer');
-        viewer.editable = false;
         // se o modo clicado já estiver ativo, desativa (muda para 'ver'). Senão, ativa.
         if (estado.modoAtivo === e.target.id) {
             estado.modoAtivo = 'ver';
         } else {
             switch (e.target.id) {
                 case 'menu':
+
+                    estado.modoAtivo = 'menu';
+
                     // toggle barra lateral
                     console.log('abrir menu');
 
                     // provisoriamente logout com clique no menu. Quando implementar barra ou modal com opções do menu, uma delas será o logout.
-                    await serverFetch('/autenticacao/logout', 'GET');
+                    /* await serverFetch('/autenticacao/logout', 'GET');
                     
                     estado.auth.logade = false;
                     estado.auth.id = null;
                     estado.modoAtivo = 'ver'; // deverá ser 'menu'
                     estado.href = '/boas-vindas';
-                    estado.view.tipo = 'boasVindas';
+                    estado.view.tipo = 'boasVindas'; */
                     break;
                 
                 case 'inicio':
@@ -83,25 +83,26 @@ document.addEventListener('DOMContentLoaded', async () => {
                     break;
                 
                 case 'editar':
-                    // toggle modo editar (view incluindo editor html)
+                    
                     estado.modoAtivo = 'editar';
                     
                     console.log('modo editar');
-                    
-                    // levar este trecho inteiro para dentro de rendering.js (?)
-                    viewer.text = viewer.html; // mostra tags html para edição
-                    viewer.editable = true; // habilita edição
-                    viewer.focusOnIt();
 
                     break;
 
                 case 'clonar':
+
+                    estado.modoAtivo = 'clonar';
+
                     // abre clonar (modal?)
                     console.log('abrir clonar');
                     // se o modo já estiver ativo, desativa
                     break;
 
                 case 'info':
+
+                    estado.modoAtivo = 'info';
+
                     // abre info (modal?)
                     console.log('abrir info');
                     break;
@@ -143,11 +144,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             let res = await serverFetch(`/pessoas/${estado.auth.id}/paginas`, 'POST', dadosNovaPagina);
             
             if (res.status === 201) { // status 201 = página criada com sucesso
-                let r = res.json();
-                if (r) {
-                    abaClicada = r.pagina_pessoal_id;
-                }
-                estado.view.paginaAtiva = abaClicada;
+                let r = await res.json();
+                //abaClicada = parseInt(r.pagina_pessoal_id);
+                abaClicada = r.pagina_pessoal_id;
+                estado.view.paginas.push({
+                    id: r.pagina_pessoal_id,
+                    titulo: r.titulo,
+                    publica: r.publica,
+                    criacao: r.criacao
+                });
             } else {
                 alert('Aconteceu um erro ao criar a página. Por favor, tente novamente');
             }
@@ -158,27 +163,28 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         } else { 
             
-            if (e.target.pageId) { // clique em uma aba de página já existente
+            if (e.target.pageId) { // clique em uma aba (exceto aba "+")
                 if (insideTarget.getAttribute('id') === 'delete') { // clique no botão "deletar página"
                     // aviso perguntando se a pessoa tem certeza
                     // caso confirme
                     //  -> caso sucesso
-                    //      -> fazer fetch delete e renderizar novamente, mudando abaClicada para a primeira da lista
+                    //      -> fazer fetch delete e atualizar estado, mudando abaClicada para a primeira da lista
                     let res = await serverFetch(`/pessoas/${estado.auth.id}/${e.target.pageId}`, 'DELETE');
                     if (res.status === 204) { // status 204 = recurso não encontrado (deletou com sucesso)
                         // deleta página da lista de páginas no estado
                         let indicePagDeletada;
+                        let paginaDeletada;
                         for (let i = 0; i < estado.view.paginas.length; i++) {
-                            if (estado.view.paginas[i].id == e.target.pageId) {
+                            if (estado.view.paginas[i].id === e.target.pageId) {
                                 indicePagDeletada = i;
                             }
                         }
-                        if (indicePagDeletada) {
-                            estado.view.paginas.splice(indicePagDeletada, 1);
+                        if (indicePagDeletada !== undefined) {
+                            paginaDeletada = estado.view.paginas.splice(indicePagDeletada, 1)[0];
                         }
 
                         // muda aba ativa ('clicada') para primeira página disponível, se a atual tiver sido deletada
-                        if (indicePagDeletada === estado.view.paginaAtiva) {
+                        if (paginaDeletada.id === estado.view.paginaAtiva) {
                             abaClicada = estado.view.paginas[0].id;
                         }
                     } else {
@@ -190,18 +196,53 @@ document.addEventListener('DOMContentLoaded', async () => {
                 
                 } else if (insideTarget.getAttribute('id') === 'editTitle') { // clique no botão "editar título da página"
                     console.log('editar título');
+                    
+                    // cria elemento editável sobreposto ao título da aba
+                    let tituloEditavel = document.createElement('div');
+                    tituloEditavel.innerText = e.target.texto;
+                    tituloEditavel.contentEditable = true;
+                    tituloEditavel.style.position = 'absolute';
+                    tituloEditavel.style.zIndex = 500;
+                    tituloEditavel.style.backgroundColor = "#FEFEFE";
+                    tituloEditavel.style.overflow = 'auto';
+                    tituloEditavel.style.fontSize = '0.75rem';
+                    let posicao = e.target.posicaoTitulo;
+                    let tamanho = e.target.tamanhoTitulo;
+                    tituloEditavel.style.left = `${posicao[0]}px`;
+                    tituloEditavel.style.top = `${posicao[1]}px`;
+                    tituloEditavel.style.width = `${tamanho[0]}px`;
+                    tituloEditavel.style.height = `${tamanho[1]}px`;
+                    tituloEditavel.setAttribute('numeroDaPagina', e.target.pageId);
+                    document.body.appendChild(tituloEditavel);
 
-                    // revisar a lista abaixo.
-                    // novo plano: editar o texto do elemento html aqui e mudar estado.view.paginas[n].titulo. Depois, em setState(), o PUT incluirá o título.
+                    // cria overlay
+                    let overlayTituloEditavel = document.createElement('div');
+                    overlayTituloEditavel.style.position = 'fixed';
+                    overlayTituloEditavel.style.display = 'block';
+                    overlayTituloEditavel.style.width = '100%';
+                    overlayTituloEditavel.style.height = '100%';
+                    overlayTituloEditavel.style.top = '0px';
+                    overlayTituloEditavel.style.left = '0px';
+                    overlayTituloEditavel.style.backgroundColor = 'rgba(0,0,0,0.5)';
+                    overlayTituloEditavel.style.zIndex = 400;
+                    document.body.appendChild(overlayTituloEditavel);
 
-                    // criar elemento de edição de texto com conteúdo igual ao título atual
-                    // sobrepor elemento ao botão que contém o título (append na página e position absolute no mesmo lugar onde está o título-botão "main"?)
-                    // adicionar event listener (um para enter e um para clique em qualquer lugar da página?)
-                    //  -> faz fetch put editando o título
-                    //      -> caso sucesso
-                    //          -> renderiza novamente, mudando abaClicada para a que foi editada
-                    //      -> caso fracasso
-                    //          -> exibe aviso com mensagem de erro recebida
+                    tituloEditavel.focus();
+
+                    tituloEditavel.addEventListener('blur', evento => { // evento 'blur' acontece quando o elemento perde o foco
+                        e.target.texto = tituloEditavel.innerText;
+                        let estadinho = getState();
+                        estadinho.view.paginaAtiva = e.target.pageId;
+                        estadinho.view.paginas.forEach(pagina => {
+                            if (pagina.id === e.target.pageId) {
+                                pagina.titulo = tituloEditavel.innerText;
+                            }
+                        });
+                        overlayTituloEditavel.remove();
+                        tituloEditavel.remove();
+                        setState(estadinho);
+                    });
+
                 } else { // caso o clique tenha sido na aba em si
                     let paginasMatch = estado.view.paginas.find(pag => pag.id == e.target.pageId); // encontra aba clicada entre as páginas possíveis no estado atual
                     abaClicada = paginasMatch.id;

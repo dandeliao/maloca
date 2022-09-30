@@ -137,10 +137,8 @@ export async function renderView (estado) {
 		let res = await serverFetch('/', 'GET');
 		let dadosPessoa = await res.json();
 		if (dadosPessoa.logade) { // está logada
-			console.log('está logada');
 			logade = true;
 		} else { // não está logada
-			console.log('não está logada');
 			logade = false;
 		}
 
@@ -240,8 +238,8 @@ export async function renderView (estado) {
 
 		}
 
-		console.log('viewer html:', document.querySelector("#viewer").html);
-		document.querySelector("#viewer").html = await html.text(); // renderiza view
+		// renderiza view
+		document.querySelector("#viewer").html = await html.text();
 		return {
 			resultado: 'rendered',
 			estado: estado

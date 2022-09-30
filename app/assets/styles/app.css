@@ -5,12 +5,12 @@ html {
     font-family: 'Convergence', sans-serif;
 }
 
-h1              { font-size: 2.3em;   margin: .28em 0 }
-h2              { font-size: 1.6em; margin: .33em 0 }
-h3              { font-size: 1.2em; margin: .4em 0 }
-h4              { font-size: 1em;   margin: .5em 0 }
-h5              { font-size: .85em; margin: .62em 0 }
-h6              { font-size: .75em; margin: .8em 0 }
+h1              { font-size: 2.3rem;   margin: .28rem 0 }
+h2              { font-size: 1.6rem; margin: .33rem 0 }
+h3              { font-size: 1.2rem; margin: .4rem 0 }
+h4              { font-size: 1rem;   margin: .5rem 0 }
+h5              { font-size: .85rem; margin: .62rem 0 }
+h6              { font-size: .75rem; margin: .8rem 0 }
 h1, h2, h3, h4,
 h5, h6          { font-weight: bolder }
 
@@ -25,7 +25,8 @@ a:hover {
 
 #nav-bar {
     overflow: hidden;
-    height: 2em;
+    position: fixed;
+    height: 2rem;
 	width: 100%;
     background-color:#ffb6c1;
     color: #1B1B1B;
@@ -33,13 +34,14 @@ a:hover {
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
+    z-index: 100;
 }
 
 #nav-bar .nav-group {
     display: inline-block;
     height: 100%;
     width: auto;
-    padding: 0.2em 0.4em;
+    padding: 0.2rem 0.4rem;
 }
 
 
@@ -50,13 +52,16 @@ img-button {
 }
 
 #tab-bar {
+    position: fixed;
+    top: 2rem;
     padding: 0;
     display: none;
-    height: 2em;
-    font-size: 0.75em;
+    height: 2rem;
+    font-size: 0.75rem;
     width: 100%;
     background-color: #ffb6c1;
     color: #1B1B1B;
+    z-index: 100;
 }
 
 #tab-bar.active {
@@ -69,14 +74,16 @@ img-button {
 }
 
 maloca-viewer {
+    position: relative;
+    top: 4rem;
     display: inline-block;
     width: 100%;
-    min-height: 57em;
-    padding: 1em;
+    min-height: 57rem;
+    padding: 1rem;
 }
 
 #footer {
-    height: 2em;
+    height: 2rem;
 	width: 100%;
     background-color: #a7f3d0;
     color: #1B1B1B;
@@ -84,12 +91,12 @@ maloca-viewer {
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-    gap: 2em;
+    gap: 2rem;
 }
 
 #footer .footer-group {
     display: inline-block;
     height: 100%;
     width: auto;
-    padding: 0.2em 0.4em;
+    padding: 0.2rem 0.4rem;
 }

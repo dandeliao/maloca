@@ -68,7 +68,7 @@ button#editTitle.modoEditar {
 
 <div id="aba">
 	<button id="delete">❌</button>
-	<button id="editTitle">✀</button>
+	<button id="editTitle">✏️</button>
 	<button id="main"></button>
 </div>
 `
@@ -82,6 +82,7 @@ class Tab extends HTMLElement {
 
 		let button = this.shadowRoot.querySelector('#main');
 		button.innerText = this.getAttribute('texto');
+		this.editarTitulo = false;
 
 	}
 
@@ -140,6 +141,16 @@ class Tab extends HTMLElement {
 		} else {
 			btn.classList.remove('selected');
 		}
+	}
+
+	get posicaoTitulo() {
+		let btn = this.shadowRoot.querySelector('#main');
+		return [btn.offsetLeft, btn.offsetTop + 32]; // 32 corresponde a 2rem (tamanho da navBar)
+	}
+
+	get tamanhoTitulo() {
+		let btn = this.shadowRoot.querySelector('#main');
+		return [btn.offsetWidth, btn.offsetHeight];
 	}
 
 }

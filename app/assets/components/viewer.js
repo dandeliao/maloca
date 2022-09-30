@@ -2,6 +2,12 @@ const templateMalocaViewer = document.createElement('template');
 
 templateMalocaViewer.innerHTML = `
 <style>
+
+* {
+	color: #1B1B1B;
+	box-sizing: border-box;
+}
+
 a {
     text-decoration: underline;
     cursor: pointer;
@@ -43,13 +49,11 @@ class MalocaViewer extends HTMLElement {
 	}
 
 	get html() {
-		console.log('shadowRoot main.innerHTML:', this.shadowRoot.querySelector('main').innerHTML);
 		return this.shadowRoot.querySelector('main').innerHTML;
 	}
 
 	set html(html) {
 		this.shadowRoot.querySelector('main').innerHTML = html;
-		console.log(html);
 	}
 
 	get text() {
