@@ -8,6 +8,32 @@ export function togglePressed (imgButton) {
 	}
 }
 
+export async function renderMenu(estado) {
+	console.log('entrou em renderMenu');
+	let menu = document.createElement('maloca-menu');
+	
+	let res = await serverFetch(`/pessoas/${estado.auth.id}`);
+	let perfil = await res.json();
+
+	menu.addProfile(`https://upload.wikimedia.org/wikipedia/commons/f/f4/Profile_avatar_dog_mac.png`, perfil.nome); // temporario. trocar o link por um fetch ao servidor buscando a imagem de avatar da pessoa logada
+	menu.addItem('Meu perfil', `/pessoa/${estado.auth.id}`);
+	menu.addItem('Início', '/');
+	menu.addItem('Minhas comunidades', '/colecao');
+	menu.addItem('Configurações', '/configuracao');
+	menu.addItem('Sair', '/logout');
+
+	menu.style.position = 'fixed';
+	menu.style.zIndex = 500;
+	menu.style.top = '2rem';
+	menu.style.left = '0px';
+	menu.style.width = '22rem';
+	menu.style.maxWidth = '300px';
+	menu.style.minWidth = '100px';
+
+	document.body.appendChild(menu);
+
+}
+
 export async function renderNavBar(estado) {
 
 	let navBar = document.getElementById('nav-bar');

@@ -1,4 +1,4 @@
-import { renderNavBar, renderTabBar, renderView } from "./rendering.js";
+import { renderMenu, renderNavBar, renderTabBar, renderView } from "./rendering.js";
 import { router } from "./routing.js";
 import { serverFetch, putPagina, cadastrar, entrar } from "./fetching.js"
 
@@ -50,6 +50,18 @@ export async function setState(estado, noPush) {
 			estado.view.tipo = dadosDoRouter.tipo;
 			estado.view.id = dadosDoRouter.params.nome ? dadosDoRouter.params.nome : null;
 			
+			// se foi logout
+			if (estado.tipo === 'logout') {
+				let res = await serverFetch('/autenticacao/logout', 'GET');    
+				if (res.status === 200) { // sucesso no logout
+					estado.auth.logade = false;
+					estado.auth.id = null;
+					estado.modoAtivo = 'ver';
+					estado.modos = ['ver'];
+					estado.href = '/boas-vindas';
+					estado.view.tipo = 'boasVindas';
+				}
+			}
 			// se foi mudança de view (e não apenas troca de aba ou mudança de modo), limpa as paginas do estado (para que as novas sejam obtidas do servidor na renderização)
 			if ((!estadoVelho) || (estadoVelho.href !== estado.href)) {
 				estado.view.paginas = null;
@@ -111,6 +123,15 @@ export async function setState(estado, noPush) {
 				viewer.focusOnIt();
 			}
 		}
+	}
+
+	// caso seja clique no menu, o renderiza
+	if (estado.modoAtivo === 'menu') {
+		await renderMenu(estado);
+	} else if ((estadoVelho !== null) && (estadoVelho.modoAtivo === 'menu')) {
+		// caso tenha saído do modo menu, remove o menu da DOM
+		console.log('saiu do modo Menu');
+		document.querySelector('maloca-menu').remove();
 	}
 
 	// caso seja a tela de boas-vindas, ativa formulários

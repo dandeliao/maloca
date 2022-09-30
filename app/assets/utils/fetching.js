@@ -1,4 +1,4 @@
-const urlApi = 'http://localhost:4000';
+export const urlApi = 'http://localhost:4000';
 
 export async function serverFetch (caminho, metodo, dados) {
 	

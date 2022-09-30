@@ -63,17 +63,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     estado.modoAtivo = 'menu';
 
-                    // toggle barra lateral
                     console.log('abrir menu');
 
-                    // provisoriamente logout com clique no menu. Quando implementar barra ou modal com opções do menu, uma delas será o logout.
-                    /* await serverFetch('/autenticacao/logout', 'GET');
-                    
-                    estado.auth.logade = false;
-                    estado.auth.id = null;
-                    estado.modoAtivo = 'ver'; // deverá ser 'menu'
-                    estado.href = '/boas-vindas';
-                    estado.view.tipo = 'boasVindas'; */
                     break;
                 
                 case 'inicio':
