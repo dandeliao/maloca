@@ -78,11 +78,13 @@ maloca-viewer {
     top: 4rem;
     display: inline-block;
     width: 100%;
-    min-height: 57rem;
+    min-height: 90.5vh;
     padding: 1rem;
 }
 
 #footer {
+    position: relative;
+    top: 4rem;
     height: 2rem;
 	width: 100%;
     background-color: #a7f3d0;
@@ -94,7 +96,7 @@ maloca-viewer {
     gap: 2rem;
 }
 
-#footer .footer-group {
+#footer.footer-group {
     display: inline-block;
     height: 100%;
     width: auto;

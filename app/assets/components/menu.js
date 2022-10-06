@@ -9,23 +9,13 @@ templateMalocaMenu.innerHTML = `
 	box-sizing: border-box;
 }
 
-a {
-    text-decoration: none;
-	font-size: 1.6rem;
-    cursor: pointer;
-}
-
-a:hover {
-	background-color: #886098;
-	color: #EFEFEF;
-}
-
 main {
 	width: 100%;
 	overflow: hidden;
 	padding: 1rem;
-	border: 2px solid black;
+	border: 1px solid black;
 	border-left: none;
+	line-height: 1.75;
 }
 
 img {
@@ -40,6 +30,34 @@ ul {
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
+}
+
+li {
+	position: relative;
+}
+
+li:hover {
+	background-color: #886098;
+	color: #EFEFEF;
+}
+
+a {
+    text-decoration: none;
+	font-size: 1.25rem;
+    cursor: pointer;
+	background-color: inherit;
+	color: inherit;
+	width: 100%;
+}
+
+a::after { /* expande o link para ocupar todo o espaço do item, permitindo clique fora do texto do link */
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 1;
 }
 
 div {
