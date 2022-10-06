@@ -6,10 +6,10 @@ export const rotas = [ // obs: a ordem faz diferença para fazer o match depois
 	{ caminho: '/colecao',      tipo: 'colecao'},
 	{ caminho: '/configuracao', tipo: 'configuracao'},
     { caminho: '/404',          tipo: 'erro'},
+    { caminho: '/logout',       tipo: 'logout'},
     { caminho: '/pessoa/:nome', tipo: 'pessoa'},
     { caminho: '/',             tipo: 'comunidade'},
-    { caminho: '/:nome',        tipo: 'comunidade'},
-    { caminho: '/logout',       tipo: 'logout'}
+    { caminho: '/:nome',        tipo: 'comunidade'}
 ];
 
 // analisa endereco e retorna objeto com os dados da view correta
