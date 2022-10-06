@@ -71,7 +71,7 @@ export async function setState(estado, noPush) {
 				// se foi saída do modo editar, envia os dados da página modificada para servidor (PUT)
 				putPagina(estado, viewer.text);
 				viewer.editable = false;
-				//estado.modoAtivo = 'ver';
+				estado.modoAtivo = 'ver';
 			}
 			
 			// renderiza view
