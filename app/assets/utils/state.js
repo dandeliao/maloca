@@ -137,13 +137,15 @@ export async function setState(estado, noPush) {
 	// caso seja a tela de boas-vindas, ativa formulários
 	if (estado.view.tipo === 'boasVindas') {
 			
-		let formCadastro = document.getElementById('form-cadastro');
+		let viewer = document.querySelector('#viewer');
+		let formCadastro = viewer.shadowRoot.getElementById('form-cadastro');
+		let formLogin = viewer.shadowRoot.getElementById('form-login');
+
 		formCadastro.addEventListener('submit', async e => {
 			e.preventDefault();
 			cadastrar(formCadastro);
 		});
 
-		let formLogin = document.getElementById('form-login');
 		formLogin.addEventListener('submit', async e => {
 			e.preventDefault();
 			entrar(formLogin)
