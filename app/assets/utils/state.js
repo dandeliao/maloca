@@ -51,7 +51,7 @@ export async function setState(estado, noPush) {
 			estado.view.id = dadosDoRouter.params.nome ? dadosDoRouter.params.nome : null;
 			
 			// se foi logout
-			if (estado.tipo === 'logout') {
+			if (estado.view.tipo === 'logout') {
 				let res = await serverFetch('/autenticacao/logout', 'GET');    
 				if (res.status === 200) { // sucesso no logout
 					estado.auth.logade = false;
