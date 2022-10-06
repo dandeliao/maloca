@@ -215,6 +215,27 @@ export async function renderView (estado) {
 								criacao: p.criacao
 							});
 						});
+					} else { // se não há páginas no servidor
+						if (estado.auth.id === estado.view.id) { // e se a pessoa logada é a dona do perfil acessado
+							// insere uma página padrão no servidor e a carrega no estado
+							let paginaNova = {
+								titulo: 'nova página',
+								publica: true,
+								html: '<h2>Minha primeira página</h2><br><p>site em construção...</p>'
+							};
+							res = await serverFetch(`/pessoas/${estado.view.id}/paginas`, 'POST', paginaNova);
+							if (res.status === 201) { // 201 = página criada com sucesso
+								let paginaCriada = await res.json();
+								console.log('paginaCriada:', paginaCriada);
+								estado.view.paginas = [];
+								estado.view.paginas.push({
+									id: paginaCriada.pagina_pessoal_id,
+									titulo: paginaCriada.titulo,
+									publica: paginaCriada.publica,
+									criacao: paginaCriada.criacao
+								});
+							}	
+						}
 					}
 					estado.view.paginaAtiva = estado.view.paginas[0].id;
 				}
