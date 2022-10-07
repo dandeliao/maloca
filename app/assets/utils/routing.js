@@ -3,7 +3,7 @@ import { pathToRegex, getParams, getHref } from "./navigation.js";
 // array de rotas, com os respectivos tipos de suas views
 export const rotas = [ // obs: a ordem faz diferença para fazer o match depois
 	{ caminho: '/boas-vindas',  tipo: 'boasVindas'},
-	{ caminho: '/colecao',      tipo: 'colecao'},
+	{ caminho: '/colecoes',      tipo: 'colecoes'},
 	{ caminho: '/configuracao', tipo: 'configuracao'},
     { caminho: '/404',          tipo: 'erro'},
     { caminho: '/logout',       tipo: 'logout'},

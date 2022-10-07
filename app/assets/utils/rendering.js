@@ -9,17 +9,23 @@ export function togglePressed (imgButton) {
 }
 
 export async function renderMenu(estado) {
-	console.log('entrou em renderMenu');
+
 	let menu = document.createElement('maloca-menu');
 	
-	let res = await serverFetch(`/pessoas/${estado.auth.id}`);
-	let perfil = await res.json();
-
-	menu.addProfile(`https://upload.wikimedia.org/wikipedia/commons/f/f4/Profile_avatar_dog_mac.png`, perfil.nome); // temporario. trocar o link por um fetch ao servidor buscando a imagem de avatar da pessoa logada
-	menu.addItem('Meu perfil', `/pessoa/${estado.auth.id}`);
+	if (estado.auth.id) {
+		let res = await serverFetch(`/pessoas/${estado.auth.id}`);
+		let perfil = await res.json();
+	
+		menu.addProfile(`https://upload.wikimedia.org/wikipedia/commons/f/f4/Profile_avatar_dog_mac.png`, perfil.nome); // temporario. trocar o link por um fetch ao servidor buscando a imagem de avatar da pessoa logada
+		menu.addItem('Meu perfil', `/pessoa/${estado.auth.id}`);
+	} else {
+		menu.addProfile(`/assets/images/avatar.jpg`, 'pessoa não logada');
+	}
+	
+	
 	menu.addItem('Início', '/');
-	menu.addItem('Minhas comunidades', '/colecao');
-	menu.addItem('Configurações', '/configuracao');
+	menu.addItem('Coleções', '/colecoes');
+	menu.addItem('Configuração', '/configuracao');
 	menu.addItem('Sair', '/logout');
 
 	menu.style.position = 'fixed';
@@ -52,7 +58,7 @@ export async function renderNavBar(estado) {
 			}
 			titulo = estado.view.id;
 			break;
-		case 'colecao':
+		case 'colecoes':
 		case 'configuracao':
 		case 'erro':
 			estado.modos = ['ver', 'menu', 'inicio'];
@@ -173,7 +179,6 @@ export async function renderView (estado) {
 			
 			case 'comunidade':
 
-				// temporário até implementar comunidades no servidor. Deverá ser mais parecido com o case 'pessoa'
 				if (logade) {
 					estado.auth.logade = true;
 					estado.auth.id = (dadosPessoa.pessoa_id);
@@ -181,6 +186,7 @@ export async function renderView (estado) {
 					throw new Error('401');
 				}
 				
+				// temporário até implementar comunidades no servidor. Deverá ser mais parecido com o case 'pessoa'
 				if (estado.href === '/') {
 					html = await fetch('http://localhost:4200/assets/views/inicio.html');
 				} else {
@@ -226,7 +232,6 @@ export async function renderView (estado) {
 							res = await serverFetch(`/pessoas/${estado.view.id}/paginas`, 'POST', paginaNova);
 							if (res.status === 201) { // 201 = página criada com sucesso
 								let paginaCriada = await res.json();
-								console.log('paginaCriada:', paginaCriada);
 								estado.view.paginas = [];
 								estado.view.paginas.push({
 									id: paginaCriada.pagina_pessoal_id,
@@ -256,11 +261,10 @@ export async function renderView (estado) {
 				
 				break;
 
-			case 'colecao':
+			case 'colecoes':
+
 				
-			
-				
-				html = await fetch('http://localhost:4200/assets/views/colecao.html');
+				html = await fetch('http://localhost:4200/assets/views/colecoes.html');
 				
 				break;
 
