@@ -263,6 +263,12 @@ export async function renderView (estado) {
 
 			case 'colecoes':
 
+				if (logade) {
+					estado.auth.logade = true;
+					estado.auth.id = (dadosPessoa.pessoa_id);
+				} else {
+					throw new Error('401');
+				}
 				
 				html = await fetch('http://localhost:4200/assets/views/colecoes.html');
 				
