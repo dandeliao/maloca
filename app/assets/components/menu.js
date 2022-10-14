@@ -62,6 +62,11 @@ a::after { /* expande o link para ocupar todo o espaço do item, permitindo cliq
 
 div {
 	margin-bottom: 0.75rem;
+	display: flex;
+	flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 </style>
