@@ -1,5 +1,17 @@
 import { serverFetch } from "./fetching.js";
 
+// Converte um blob (ex: imagem) em uma string base64
+function convertBlobToBase64(blob) {
+	return new Promise((resolve, reject) => {
+	  const reader = new FileReader();
+	  reader.onerror = reject;
+	  reader.onload = () => {
+		resolve(reader.result);
+	  };
+	  reader.readAsDataURL(blob);
+	});
+}
+
 export function togglePressed (imgButton) {
 	if (imgButton.pressed) {
 		imgButton.pressed = false;
@@ -16,7 +28,9 @@ export async function renderMenu(estado) {
 		let res = await serverFetch(`/pessoas/${estado.auth.id}`);
 		let perfil = await res.json();
 	
-		menu.addProfile(`https://upload.wikimedia.org/wikipedia/commons/f/f4/Profile_avatar_dog_mac.png`, perfil.nome); // temporario. trocar o link por um fetch ao servidor buscando a imagem de avatar da pessoa logada
+		let fetchedImage = await serverFetch(`/pessoas/objetos/${estado.auth.id}/avatar`, 'GET');
+		let imageBase64 = await convertBlobToBase64(await fetchedImage.blob());
+		menu.addProfile(imageBase64, perfil.nome);
 		menu.addItem('Meu perfil', `/pessoa/${estado.auth.id}`);
 	} else {
 		menu.addProfile(`/assets/images/avatar.jpg`, 'pessoa não logada');
