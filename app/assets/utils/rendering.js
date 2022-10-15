@@ -28,7 +28,7 @@ export async function renderMenu(estado) {
 		let res = await serverFetch(`/pessoas/${estado.auth.id}`);
 		let perfil = await res.json();
 	
-		let fetchedImage = await serverFetch(`/pessoas/objetos/${estado.auth.id}/avatar`, 'GET');
+		let fetchedImage = await serverFetch(`/pessoas/${estado.auth.id}/objetos/avatar`, 'GET');
 		let imageBase64 = await convertBlobToBase64(await fetchedImage.blob());
 		menu.addProfile(imageBase64, perfil.nome);
 		menu.addItem('Meu perfil', `/pessoa/${estado.auth.id}`);
@@ -200,12 +200,59 @@ export async function renderView (estado) {
 					throw new Error('401');
 				}
 				
-				// temporário até implementar comunidades no servidor. Deverá ser mais parecido com o case 'pessoa'
+				/* // temporário até implementar comunidades no servidor. Deverá ser mais parecido com o case 'pessoa'
 				if (estado.href === '/') {
 					html = await fetch('http://localhost:4200/assets/views/inicio.html');
 				} else {
 					html = await fetch('http://localhost:4200/assets/views/comunidade.html');
+				} */
+
+				// se não encontrar no estado, solicita ao servidor a lista de páginas, armazena na variável de estado e seleciona a primeira como página ativa
+				if ((!estado.view.paginas) || (!estado.view.paginaAtiva)) {
+					res = await serverFetch(`/comunidades/${estado.view.id}/paginas`, 'GET');
+					switch (res.status) {
+						case 404:	throw new Error('404');	break;
+						case 401:	throw new Error('401'); break;
+					}
+					let pages = await res.json();
+					if (pages.length > 0) {
+						estado.view.paginas = [];
+						pages.forEach(p => {
+							estado.view.paginas.push({
+								id: p.pagina_comunitaria_id,
+								titulo: p.titulo,
+								publica: p.publica,
+								criacao: p.criacao
+							});
+						});
+					} else { // se não há páginas no servidor
+						if (estado.auth.id === estado.view.id) { // e se a pessoa logada é a dona do perfil acessado
+							// insere uma página padrão no servidor e a carrega no estado
+							let paginaNova = {
+								titulo: 'nova página',
+								publica: true,
+								html: '<h2>Minha primeira página</h2><br><p>site em construção...</p>'
+							};
+							res = await serverFetch(`/comunidades/${estado.view.id}/paginas`, 'POST', paginaNova);
+							if (res.status === 201) { // 201 = página criada com sucesso
+								let paginaCriada = await res.json();
+								estado.view.paginas = [];
+								estado.view.paginas.push({
+									id: paginaCriada.pagina_comunitaria_id,
+									titulo: paginaCriada.titulo,
+									publica: paginaCriada.publica,
+									criacao: paginaCriada.criacao
+								});
+							}	
+						}
+					}
+					estado.view.paginaAtiva = estado.view.paginas[0].id;
 				}
+				
+				// faz pedido da página ativa
+				html = await serverFetch(`/comunidades/${estado.view.id}/${estado.view.paginaAtiva}`, 'GET');
+				break;
+
 				break;
 
 			case 'pessoa':
