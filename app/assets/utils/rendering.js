@@ -62,7 +62,12 @@ export async function renderNavBar(estado) {
 	let titulo = 'maloca';
 	switch (estado.view.tipo) {
 		case 'comunidade':
+			let res = await serverFetch(`/pessoas/${estado.auth.id}/objetos/comunidades?id=maloca`);
+			let habilidades = (await res.json())[0];
 			estado.modos = ['ver', 'menu', 'inicio', 'clonar', 'info'];
+			if (habilidades.editar) {
+				estado.modos.push('editar');
+			}
 			titulo = estado.view.id ? estado.view.id : 'maloca';
 			break;
 		case 'pessoa':

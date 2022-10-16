@@ -41,7 +41,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             e.preventDefault();
             if (insideTarget.href) {
                 estado.href = (insideTarget.href).replace(urlCliente, '');
+                let dadosDoRouter = await router(estado.href);
+                estado.view.tipo = dadosDoRouter.tipo;
+                estado.view.id = dadosDoRouter.params.nome ? dadosDoRouter.params.nome : null;
                 estado.modoAtivo = 'ver';
+                
                 await setState(estado);
             }
         }

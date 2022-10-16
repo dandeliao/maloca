@@ -34,13 +34,16 @@ export async function putPagina(estado, texto) {
 		publica:            paginaAtual.publica,
 		html:               texto
 	}
-	return await serverFetch(`/pessoas/${estado.auth.id}/${paginaAtual.id}`, 'PUT', dadosAtualizadosPagina)
-		/* .then(res => {
-			if (res.status !== 200) { // status diferente de 200 != ok
-				alert('Aconteceu um erro ao criar a página. Por favor, tente novamente');
-				return null;
-			}
-		}); */
+	console.log('estado.view.id:', estado.view.id);
+	if (estado.view.tipo === 'pessoa') {
+		return await serverFetch(`/pessoas/${estado.auth.id}/${paginaAtual.id}`, 'PUT', dadosAtualizadosPagina);
+	} else if (estado.view.tipo === 'comunidade') {
+		return await serverFetch(`/comunidades/${estado.view.id}/${paginaAtual.id}`, 'PUT', dadosAtualizadosPagina);
+	} else {
+		console.log('erro ao atualizar página');
+		return;
+	}
+	
 }
 
 export async function cadastrar(form) {
