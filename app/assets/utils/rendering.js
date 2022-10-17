@@ -1,4 +1,4 @@
-import { serverFetch } from "./fetching.js";
+import { serverFetch, urlApi } from "./fetching.js";
 
 // Converte um blob (ex: imagem) em uma string base64
 function convertBlobToBase64(blob) {
@@ -177,6 +177,15 @@ export async function renderTabBar (estado) {
 		resultado: 'rendered',
 		estado: estado
 	};
+}
+
+export async function renderBlocos (estado) {
+	let viewer = document.querySelector('#viewer');
+	let listaBlocos = viewer.shadowRoot.querySelectorAll('m-comunidades');
+	console.log('listaBlocos:', listaBlocos);
+	listaBlocos.forEach(bloco => {
+		bloco.renderizar(estado, urlApi);
+	});
 }
 
 export async function renderView (estado) {
@@ -363,10 +372,14 @@ export async function renderView (estado) {
 
 		// renderiza view
 		document.querySelector("#viewer").html = await html.text();
+		
+		renderBlocos(estado);
+
 		return {
 			resultado: 'rendered',
 			estado: estado
 		};
+
 
 	} catch (erro) {
 		if (erro.message === '401') { // não está logade
