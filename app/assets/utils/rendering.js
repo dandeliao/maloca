@@ -182,8 +182,13 @@ export async function renderTabBar (estado) {
 export async function renderBlocos (estado) {
 	let viewer = document.querySelector('#viewer');
 	let listaBlocos = viewer.shadowRoot.querySelectorAll('m-comunidades');
+	let listaBlocos2 = viewer.shadowRoot.querySelectorAll('m-pessoas');
 	console.log('listaBlocos:', listaBlocos);
+	console.log('listaBlocos2:', listaBlocos2);
 	listaBlocos.forEach(bloco => {
+		bloco.renderizar(estado, urlApi);
+	});
+	listaBlocos2.forEach(bloco => {
 		bloco.renderizar(estado, urlApi);
 	});
 }
