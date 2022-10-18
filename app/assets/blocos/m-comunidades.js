@@ -1,12 +1,11 @@
 import MalocaElement from "./MalocaElement.js";
-import { getState } from "../utils/state.js";
 import { serverFetch } from "../utils/fetching.js";
 
 class MComunidades extends MalocaElement {
     constructor() {
 
         let html = `
-        <div class="mcomunidades">
+        <div class="comunidades">
 
             <slot></slot>
 
@@ -18,12 +17,16 @@ class MComunidades extends MalocaElement {
 
     renderizar(estado) {
 
+        while (this.lastChild) {
+			this.removeChild(this.lastChild);
+		}
+
         let endereco = '';
         let tipo = estado.view.tipo;
-        let nome = estado.view.nome;
+        let id = estado.view.id;
 
         if (tipo === 'pessoa') {
-            endereco = `/pessoas/${nome}/objetos/comunidades`
+            endereco = `/pessoas/${id}/objetos/comunidades`
         } else if (tipo === 'comunidade') {
             endereco = `/comunidades`
         }
@@ -42,27 +45,34 @@ class MComunidades extends MalocaElement {
                 let avatar;
                 data.forEach(comuna => {
                     card = document.createElement('div');
+                    card.style.display = "flex";
+                    card.style.flexDirection = "column";
+                    card.style.justifyContent = "start";
+                    card.style.alignItems = "center";
+                    card.style.gap = "0.25rem";
+                    card.style.maxWidth = "5rem";
 
                     avatar = document.createElement('img');
                     avatar.setAttribute('src', `http://localhost:4000/comunidades/${comuna.comunidade_id}/objetos/avatar`);
                     avatar.setAttribute('alt', `avatar de ${comuna.nome}`);
+                    avatar.style.width = "100%";
 
                     linkzinho = document.createElement('a');
                     linkzinho.textContent = comuna.nome;
                     linkzinho.setAttribute('data-link', 'true');
                     linkzinho.setAttribute('href', `/${comuna.comunidade_id}`);
+                    linkzinho.style.display = "block";
+                    linkzinho.width = "100%";
                     
                     card.appendChild(avatar);
                     card.appendChild(linkzinho);
                     divLista.appendChild(card);
                 });
 
-                card.style.display = "flex";
-                card.style.flexDirection = "column";
-                card.style.justifyContent = "center";
-                card.style.alignItems = "center";
                 divLista.style.display = "flex";
-                divLista.style.flexDirection = "column";
+                divLista.style.flexDirection = "row";
+                divLista.style.gap = "1.75rem";
+                divLista.style.flexWrap = "wrap";
                 this.appendChild(divLista);
             
             } else {
