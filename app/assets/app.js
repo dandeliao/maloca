@@ -130,27 +130,46 @@ document.addEventListener('DOMContentLoaded', async () => {
         let abaClicada = estado.view.paginaAtiva; // a variável abaClicada começa com o valor da aba que já está ativa. Importante caso o target não seja uma aba ou caso a criação de nova aba falhe
         if (e.target.id === 'nova-pagina') { // no modo edição um clique na aba "+" cria nova página
             const dadosNovaPagina = {
-                pessoa_id: estado.auth.id,
 				titulo: 'nova-pagina',
 				publica: true,
 				html: ''
 			}
 
-            let res = await serverFetch(`/pessoas/${estado.auth.id}/paginas`, 'POST', dadosNovaPagina);
-            
-            if (res.status === 201) { // status 201 = página criada com sucesso
-                let r = await res.json();
-                //abaClicada = parseInt(r.pagina_pessoal_id);
-                abaClicada = r.pagina_pessoal_id;
-                estado.view.paginas.push({
-                    id: r.pagina_pessoal_id,
-                    titulo: r.titulo,
-                    publica: r.publica,
-                    criacao: r.criacao
-                });
-            } else {
-                alert('Aconteceu um erro ao criar a página. Por favor, tente novamente');
+            if (estado.view.tipo === "pessoa") {
+                dadosNovaPagina.pessoa_id = estado.auth.id;
+                let res = await serverFetch(`/pessoas/${estado.auth.id}/paginas`, 'POST', dadosNovaPagina);
+                if (res.status === 201) { // status 201 = página criada com sucesso
+                    let r = await res.json();
+                    //abaClicada = parseInt(r.pagina_pessoal_id);
+                    abaClicada = r.pagina_pessoal_id;
+                    estado.view.paginas.push({
+                        id: r.pagina_pessoal_id,
+                        titulo: r.titulo,
+                        publica: r.publica,
+                        criacao: r.criacao
+                    });
+                } else {
+                    alert('Aconteceu um erro ao criar a página. Por favor, tente novamente');
+                }
+            } else if (estado.view.tipo === "comunidade") {
+                dadosNovaPagina.comunidade_id = estado.view.id;
+                let res = await serverFetch(`/comunidades/${estado.view.id}/paginas`, 'POST', dadosNovaPagina);
+                if (res.status === 201) { // status 201 = página criada com sucesso
+                    let r = await res.json();
+                    //abaClicada = parseInt(r.pagina_pessoal_id);
+                    abaClicada = r.pagina_comunitaria_id;
+                    estado.view.paginas.push({
+                        id: r.pagina_comunitaria_id,
+                        titulo: r.titulo,
+                        publica: r.publica,
+                        criacao: r.criacao
+                    });
+                } else {
+                    alert('Aconteceu um erro ao criar a página. Por favor, tente novamente');
+                }
             }
+            
+           
 
             /* if (dadosResposta) { // caso tenha tido sucesso ao criar nova página
                 abaClicada = dadosResposta.pagina_pessoal_id;
