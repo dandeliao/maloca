@@ -17,7 +17,7 @@ a:hover {
     text-decoration:overline;
 }
 
-button {
+btn {
     border-top: 0.12rem solid #a3a3a3;
     border-left: 0.12rem solid #a3a3a3;
     border-bottom: 0.12rem solid #1B1B1B;
@@ -28,7 +28,7 @@ button {
     transition: 0.05s;
 }
 
-button:active {
+btn:active {
     border-top: 0.12rem solid #1B1B1B;
     border-left: 0.12rem solid #1B1B1B;
     border-bottom: 0.12rem solid #a3a3a3;
