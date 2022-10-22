@@ -183,13 +183,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                     // caso confirme
                     //  -> caso sucesso
                     //      -> fazer fetch delete e atualizar estado, mudando abaClicada para a primeira da lista
-                    let res = await serverFetch(`/pessoas/${estado.auth.id}/${e.target.pageId}`, 'DELETE');
+                    let res = await serverFetch(`/${estado.view.tipo}s/${estado.view.id}/${e.target.pageId}`, 'DELETE');
                     if (res.status === 204) { // status 204 = recurso não encontrado (deletou com sucesso)
                         // deleta página da lista de páginas no estado
                         let indicePagDeletada;
                         let paginaDeletada;
                         for (let i = 0; i < estado.view.paginas.length; i++) {
-                            if (estado.view.paginas[i].id === e.target.pageId) {
+                            if (estado.view.paginas[i].id == e.target.pageId) { // tipos diferentes, comparador === não funciona
                                 indicePagDeletada = i;
                             }
                         }
