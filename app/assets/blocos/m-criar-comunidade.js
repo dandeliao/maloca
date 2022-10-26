@@ -76,6 +76,10 @@ class MCriarComunidade extends MalocaElement {
 			<input type="text" id="nome-comunidade-nova" placeholder="Nome da Comunidade" name="nome" required>
 			<br>
 			<br>
+			<label for="descricao" hidden>descricao</label>
+			<input type="text" id="descricao-comunidade-nova" placeholder="Descricao da Comunidade" name="descricao" required>
+			<br>
+			<br>
 			<br>
 			<button type="submit">criar</button>
 			`
