@@ -11,7 +11,7 @@ class MBloco extends MalocaElement {
             <style>
             .bloco {
                 box-sizing: border-box;
-                margin: 20px auto;
+                margin: 0 auto;
                 background: var(--background, #FEFEFE);
                 width: var(--width, 100%);
                 border-radius: var(--border-radius, 0.4rem);
@@ -25,6 +25,10 @@ class MBloco extends MalocaElement {
         `;
 
         super(html);
+    }
+
+    renderizar(estado) {
+
     }
 }
 
