@@ -1,4 +1,5 @@
-import { serverFetch, urlApi } from "./fetching.js";
+import { serverFetch } from "./fetching.js";
+import { estadoPadrao } from "./state.js";
 
 // Converte um blob (ex: imagem) em uma string base64
 function convertBlobToBase64(blob) {
@@ -181,8 +182,40 @@ export async function renderTabBar (estado) {
 }
 
 export async function renderBlocos (estado) {
+
+	const urlApi = estadoPadrao.urlServidor;
+
 	let viewer = document.querySelector('#viewer');
-	let listaBlocos = viewer.shadowRoot.querySelectorAll('m-comunidades');
+
+	let objetoBlocos = await serverFetch(`/${estado.view.tipo}s/${estado.view.id}/${estado.view.paginaAtiva}/blocos`, 'GET');
+	let blocos = (await objetoBlocos.json()).rows;
+	console.log('blocos (em renderBlocos):', blocos);
+
+	let arrayBlocos = [];
+	blocos.forEach(bloco => {
+		console.log('bloco:', bloco);
+		if (!arrayBlocos.includes(bloco.bloco_id)) {
+			arrayBlocos.push(bloco.bloco_id);
+		}
+	});
+
+	let arrayElementosBlocos = [];
+	arrayBlocos.forEach(blocoId => {
+		console.log('blocoId:', blocoId)
+		let listaBlocosSemRepeticao = viewer.shadowRoot.querySelectorAll(blocoId);
+		listaBlocosSemRepeticao.forEach(bloquinho => {
+			arrayElementosBlocos.push(bloquinho);
+		});
+	});
+
+	if (arrayElementosBlocos.length > 0) {
+		arrayElementosBlocos.forEach(elementoBloco => {
+			console.log('elementoBloco:', elementoBloco);
+			elementoBloco.renderizar(estado);
+		});
+	}
+
+	/* let listaBlocos = viewer.shadowRoot.querySelectorAll('m-comunidades');
 	let listaBlocos2 = viewer.shadowRoot.querySelectorAll('m-pessoas');
 	let listaBlocos3 = viewer.shadowRoot.querySelectorAll('m-criar-comunidade');
 	console.log('listaBlocos:', listaBlocos);
@@ -196,7 +229,7 @@ export async function renderBlocos (estado) {
 	});
 	listaBlocos3.forEach(bloco => {
 		bloco.renderizar(estado, urlApi);
-	});
+	}); */
 }
 
 export async function renderView (estado) {
@@ -224,13 +257,6 @@ export async function renderView (estado) {
 				} else {
 					throw new Error('401');
 				}
-				
-				/* // temporário até implementar comunidades no servidor. Deverá ser mais parecido com o case 'pessoa'
-				if (estado.href === '/') {
-					html = await fetch('http://localhost:4200/assets/views/inicio.html');
-				} else {
-					html = await fetch('http://localhost:4200/assets/views/comunidade.html');
-				} */
 
 				// se não encontrar no estado, solicita ao servidor a lista de páginas, armazena na variável de estado e seleciona a primeira como página ativa
 				if ((!estado.view.paginas) || (!estado.view.paginaAtiva)) {
@@ -384,7 +410,9 @@ export async function renderView (estado) {
 		// renderiza view
 		document.querySelector("#viewer").html = await html.text();
 		
-		renderBlocos(estado);
+		if ((estado.view.tipo === 'comunidade') || (estado.view.tipo === 'pessoa')) {
+			renderBlocos(estado);
+		}
 
 		return {
 			resultado: 'rendered',

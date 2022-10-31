@@ -1,7 +1,9 @@
-export const urlApi = 'http://localhost:4000';
+import { estadoPadrao } from "./state.js";
 
 export async function serverFetch (caminho, metodo, dados) {
 	
+	const urlApi = estadoPadrao.urlServidor;
+
 	let requestObject = {
 		method: metodo,
 		withCredentials: true,
@@ -79,6 +81,8 @@ export async function cadastrar(form) {
 }
 
 export async function entrar(form) {
+
+	const urlApi = estadoPadrao.urlServidor;
 
 	const dados = {
 		pessoa_id: form.elements['nome'].value,

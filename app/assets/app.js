@@ -4,7 +4,7 @@ import { router } from './utils/routing.js';
 import { estadoPadrao, getState, setState } from './utils/state.js';
 import { serverFetch } from './utils/fetching.js';
 
-const urlApi = 'http://localhost:4000';
+const urlApi = estadoPadrao.urlServidor;
 const urlCliente = 'http://localhost:4200';
 
 // history api listener

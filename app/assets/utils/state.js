@@ -5,19 +5,20 @@ import { serverFetch, putPagina, cadastrar, entrar } from "./fetching.js"
 const urlCliente = 'http://localhost:4200';
 
 export const estadoPadrao = {
-	href:		'/boas-vindas',
-	modos:		['ver'],
-	modoAtivo:	'ver',
-	estilo:		'padrao',
+	urlServidor:	'http://localhost:4000',
+	href:			'/boas-vindas',
+	modos:			['ver'],
+	modoAtivo:		'ver',
+	estilo:			'padrao',
 	auth:	{
-		logade:		false,
-		id:			null,
+		logade:			false,
+		id:				null,
 	},
 	view:	{
-		tipo:		'boasVindas',
-		id:			null,
-		paginas: 	null,
-		paginaAtiva: null,
+		tipo:			'boasVindas',
+		id:				null,
+		paginas: 		null,
+		paginaAtiva: 	null,
 	}
 }
 
