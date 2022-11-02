@@ -50,6 +50,8 @@ export async function putPagina(estado, texto) {
 
 export async function cadastrar(form) {
 
+	const urlApi = estadoPadrao.urlServidor;
+
 	if (form.elements['senha'].value === form.elements['senha2'].value) {
 		const dados = {
 			pessoa_id: form.elements['nome'].value,
