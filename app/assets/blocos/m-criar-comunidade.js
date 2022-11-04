@@ -101,7 +101,8 @@ class MCriarComunidade extends MalocaElement {
 				e.preventDefault();
 				let dadosNovaComuna = {
 					comunidade_id: formCriar.elements['arroba'].value,
-					nome: formCriar.elements['nome'].value
+					nome: formCriar.elements['nome'].value,
+					descricao: formCriar.elements['descricao'].value
 				};
 				serverFetch('/comunidades', 'POST', dadosNovaComuna)
         			.then(res => res.json())
