@@ -16,7 +16,7 @@ class MBloco extends MalocaElement {
                 width: var(--width, 100%);
                 border-radius: var(--border-radius, 0.4rem);
                 border-style: var(--border-style, none);
-                box-shadow: var(--box-shadow, 3px 4px 10px rgba(0, 0, 0, 0.2));
+                box-shadow: var(--box-shadow, 2px 3px 4px rgba(0, 0, 0, 0.2));
                 padding: 0.8rem;
             }
             </style>
