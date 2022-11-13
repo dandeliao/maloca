@@ -1,7 +1,8 @@
 import { estadoPadrao } from "./state.js";
 
-export async function serverFetch (caminho, metodo, dados) {
-	
+export async function serverFetch (caminho, metodo, dados, contentType) {
+	console.log('dados:', dados);
+
 	const urlApi = estadoPadrao.urlServidor;
 
 	let requestObject = {
@@ -11,9 +12,19 @@ export async function serverFetch (caminho, metodo, dados) {
 	}
 
 	if (dados) {
-		requestObject.headers = { 'Content-Type': 'application/json' };
-		requestObject.body = JSON.stringify(dados)
+		if (dados instanceof FormData) {
+			//requestObject.headers = { 'Content-Type': 'multipart/form-data' };
+			requestObject.body = dados;
+		} else {
+			requestObject.headers = { 'Content-Type': 'application/json' };
+			requestObject.body = JSON.stringify(dados)
+		}
 	}
+
+	if (contentType) {
+		requestObject.headers = { 'Content-Type': contentType };
+	}
+	console.log('requestObject:', requestObject);
 
 	return await fetch(`${urlApi}${caminho}`, requestObject);
 					/* .then(res => {
