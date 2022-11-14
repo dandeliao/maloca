@@ -33,6 +33,7 @@ class MAlbuns extends MalocaElement {
 			if (iguais.length === 0) { // se álbum ainda não está na lista
 				let nome = imagens[i].album;
 				let capa;
+                let descricaoCapa = imagens[i].descricao;
 				if (estado.view.tipo === 'pessoa') {
 					capa = imagens[i].imagem_pessoal_id;
 				} else if (estado.view.tipo === 'comunidade') {
@@ -40,7 +41,8 @@ class MAlbuns extends MalocaElement {
 				}
 				arrayAlbuns.push({
 					'nome': nome,
-					'capa_id': capa
+					'capa_id': capa,
+                    'descricao_capa': descricaoCapa
 				})
 			}
 		}
@@ -58,13 +60,13 @@ class MAlbuns extends MalocaElement {
 
                 capa = document.createElement('img');
                 capa.setAttribute('src', `http://localhost:4000/${estado.view.tipo}s/${estado.view.id}/objetos/imagem?id=${album.capa_id}`);
-                capa.setAttribute('alt', `capa do álbum ${album.nome}`);
-                capa.setAttribute('title', `capa do álbum ${album.nome}`);
+                capa.setAttribute('alt', `capa do álbum ${album.nome}, ${album.descricao_capa}`);
+                capa.setAttribute('title', `capa do álbum ${album.nome}, ${album.descricao_capa}`);
                 capa.style.width = "100%";
 
                 nome = document.createElement('p');
                 nome.textContent = album.nome;
-                nome.width = "100%";
+                nome.style.width = "100%";
                 
 				botao.appendChild(capa);
                 botao.appendChild(nome);
@@ -104,6 +106,7 @@ class MAlbuns extends MalocaElement {
                     let modalImagens = document.createElement('m-bloco');
                     modalImagens.style.display = "block";
                     modalImagens.style.position = "absolute";
+                    modalImagens.style.textAlign = "center";
                     modalImagens.style.left = "50%";
                     modalImagens.style.top = "50%";
                     modalImagens.style.transform = "translate(-50%, -50%)";
