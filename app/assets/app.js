@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         let estadinho = getState();
                         estadinho.view.paginaAtiva = e.target.pageId;
                         estadinho.view.paginas.forEach(pagina => {
-                            if (pagina.id === e.target.pageId) {
+                            if (pagina.id == e.target.pageId) {
                                 pagina.titulo = tituloEditavel.innerText;
                             }
                         });

@@ -41,7 +41,8 @@ export async function serverFetch (caminho, metodo, dados, contentType) {
 }
 
 export async function putPagina(estado, texto) {
-	let paginaAtual = estado.view.paginas.find(pag => pag.id === estado.view.paginaAtiva);
+	console.log('PAGINA ATIVA:', estado.view.paginaAtiva);
+	let paginaAtual = estado.view.paginas.find(pag => pag.id == estado.view.paginaAtiva);
 	let dadosAtualizadosPagina = {
 		titulo:             paginaAtual.titulo,
 		publica:            paginaAtual.publica,
