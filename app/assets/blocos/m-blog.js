@@ -39,8 +39,7 @@ class MBlog extends MalocaElement {
 			textos.forEach(async txt => {
 				console.log('texto:', txt);
 				let elBloco = document.createElement('m-bloco');
-				let elTitulo = document.createElement('h3');
-				let elTexto = document.createElement('div');
+				let elTexto = document.createElement('m-texto');
 				
 				let textoId;
 				if (tipo === 'pessoa') {
@@ -49,17 +48,14 @@ class MBlog extends MalocaElement {
 					textoId = txt.texto_comunitario_id;
 				}
 
-				elTitulo.textContent = txt.titulo;
-				
-				let textinho = await serverFetch(`/${tipo}s/${id}/objetos/texto?id=${textoId}`, 'GET');
-				elTexto.innerHTML = await textinho.text();
-				elTexto.style.textAlign = "left";
-				console.log('elTexto', elTexto);
+				elTexto.setAttribute('numero', textoId);
+				elTexto.setAttribute(`${tipo}`, id);
 
-				elBloco.appendChild(elTitulo);
 				elBloco.appendChild(elTexto);
 				this.appendChild(elBloco);
 				this.appendChild(document.createElement('br'));
+
+				elTexto.renderizar(estado);
 			});
 		} else {
 			console.log('Não há textos para mostrar');

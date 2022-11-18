@@ -39,7 +39,7 @@ class MAlbum extends MalocaElement {
 			imagens.forEach(async img => {
 				console.log('imagem:', img);
 				let elBloco = document.createElement('m-bloco');
-				let elImg = document.createElement('img');
+				let elImg = document.createElement('m-imagem');
 				
 				let imagemId;
 				if (tipo === 'pessoa') {
@@ -48,18 +48,17 @@ class MAlbum extends MalocaElement {
 					imagemId = img.imagem_comunitaria_id;
 				}				
 
-				elImg.src = `http://localhost:4000/${tipo}s/${id}/objetos/imagem?id=${imagemId}`;
-				elImg.style.maxWidth = '95%';
-				elImg.style.margin = "0.5rem";
-				elImg.setAttribute('alt', img.descricao);
-				elImg.setAttribute('title', img.descricao);
-				console.log('elImg', elImg);
+				elImg.setAttribute('numero', imagemId);
+				elImg.setAttribute(`${tipo}`, id);
 				
 				elBloco.appendChild(elImg);
 
 				this.appendChild(elBloco);
 				this.appendChild(document.createElement('br'));
+				
+				elImg.renderizar(estado);
 			});
+
 		} else {
 			console.log('Não há imagens para mostrar');
 		}
