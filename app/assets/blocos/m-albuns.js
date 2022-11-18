@@ -66,7 +66,6 @@ class MAlbuns extends MalocaElement {
 
                 nome = document.createElement('p');
                 nome.textContent = album.nome;
-                nome.style.width = "100%";
                 
 				botao.appendChild(capa);
                 botao.appendChild(nome);
