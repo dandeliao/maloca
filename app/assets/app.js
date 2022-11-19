@@ -103,14 +103,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                     break;
 
                 default:
-                    // muda esquema de cores
-                    // fazer função auxiliar que ao ser chamada incremente um ponteiro em um array de estilos
-                    estado.modoAtivo = 'ver';
-                    if (estado.estilo === 'padrao') {
-                        estado.estilo = 'noturno';
+                    // muda estilo
+
+                    let arrayEstilos = estadoPadrao.temas;
+                    let indexEstilo = arrayEstilos.findIndex(estilo => estilo === estado.estilo);
+                    
+                    if (indexEstilo < arrayEstilos.length - 1) {
+                        indexEstilo++;
+                        estado.estilo = arrayEstilos[indexEstilo];
                     } else {
                         estado.estilo = 'padrao';
                     }
+
             }
         }
 

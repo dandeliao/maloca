@@ -93,18 +93,6 @@ export async function renderNavBar(estado) {
 	let elTitulo = navBar.querySelector('#view-title');
 	elTitulo.innerText = titulo;
 
-	// renderiza o estilo. A fazer: criar css completo para cada estilo
-	switch (estado.estilo) {
-		case 'padrao':
-			navBar.style.backgroundColor = '#ffb6c1';
-			navBar.style.color = '#1B1B1B';
-			break;
-		case 'noturno':
-			navBar.style.backgroundColor = '#674e48';
-			navBar.style.color = '#EFEFEF';
-			break;
-	}
-
 	// renderiza os botões (ícones)
 	let btns = navBar.querySelectorAll('img-button');
 	btns.forEach(b => {
@@ -230,6 +218,16 @@ export async function renderBlocos (estado) {
 	listaBlocos3.forEach(bloco => {
 		bloco.renderizar(estado, urlApi);
 	}); */
+}
+
+export async function renderEstilo (estado) {
+	
+	let cssEstilo = document.getElementById('estilo-app');
+	//let arrayEstilos = ['padrao', 'ema', 'quero-quero', 'bem-te-vi', 'arara'];
+	let arrayEstilos = estadoPadrao.temas;
+	let indexEstilo = arrayEstilos.findIndex(estilo => estilo === estado.estilo);
+	cssEstilo.href = `/assets/styles/estilo-${indexEstilo}-${estado.estilo}.css`;
+	
 }
 
 export async function renderView (estado) {

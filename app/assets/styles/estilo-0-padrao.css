@@ -1,8 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Convergence&display=swap');
 
-html {
-    color: #1B1B1B;
-    font-family: 'Convergence', sans-serif;
+:root {
+    --cor-principal:    #eeb6be;
+    --cor-destaque:     #886098;
+    --cor-gris:         #baabab;
+    --cor-gris-2:       #756868;
+    --cor-fundo:        #eeeceb;
+    --cor-fundo-2:      #FEFEFE;
+    --cor-fonte-view:   #1B1B1B;
+    --cor-fonte-barra:  #1B1B1B;
+    --familia-fonte:    'Convergence', sans-serif;
+    font-family: var(--familia-fonte);
+    --estilo-borda:     none;
+    --espessura-borda:  0;
+    --raio-borda:       0.4rem;
+    --sombreado: 2px 3px 4px rgba(26, 26, 26, 0.2);
 }
 
 h1              { font-size: 2.3rem;   margin: .28rem 0 }
@@ -17,6 +29,7 @@ h5, h6          { font-weight: bolder }
 a {
     text-decoration:underline;
     cursor: pointer;
+    color: var(--cor-fonte);
 }
 
 a:hover {
@@ -28,8 +41,8 @@ a:hover {
     position: fixed;
     height: 2rem;
 	width: 100%;
-    background-color:#ffb6c1;
-    color: #1B1B1B;
+    background-color: var(--cor-principal);
+    color: var(--cor-fonte);
     display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -57,10 +70,10 @@ img-button {
     padding: 0;
     display: none;
     height: 2rem;
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     width: 100%;
-    background-color: #ffb6c1;
-    color: #1B1B1B;
+    background-color: var(--cor-principal);
+    color: var(--cor-fonte);
     z-index: 100;
 }
 
@@ -87,8 +100,8 @@ maloca-viewer {
     top: 4rem;
     height: 2rem;
 	width: 100%;
-    background-color: #a7f3d0;
-    color: #1B1B1B;
+    background-color: var(--cor-principal);
+    color: var(--cor-fonte);
     display: flex;
 	flex-direction: row;
 	justify-content: center;
