@@ -1,3 +1,4 @@
+import { estadoPadrao } from "../utils/state.js";
 import MalocaElement from "./MalocaElement.js";
 
 class MAvatar extends MalocaElement {
@@ -13,6 +14,7 @@ class MAvatar extends MalocaElement {
 
 				img {
 					width: 100%;
+					border-radius: 4px;
 				}
 				
 				.redondo {
@@ -32,11 +34,25 @@ class MAvatar extends MalocaElement {
 		
 		console.log('renderizando m-avatar...');
 
+		let tipoOrigem = estado.view.tipo;
+		let idOrigem = estado.view.id;
+
+		let comunidade = this.getAttribute('comunidade');
+		let pessoa = this.getAttribute('pessoa');
+		if (comunidade) {
+			tipoOrigem = 'comunidade';
+			idOrigem = comunidade;
+		} else if (pessoa) {
+			tipoOrigem = 'pessoa';
+			idOrigem = pessoa;
+		}
+
 		let imgAvatar = this.shadowRoot.querySelector('img');
-		let	url = `${estado.urlServidor}/${estado.view.tipo}s/${estado.view.id}/objetos/avatar`;
+		let	url = `${estadoPadrao.urlServidor}/${tipoOrigem}s/${idOrigem}/objetos/avatar`;
 
 		imgAvatar.setAttribute('src', url);
-		imgAvatar.setAttribute('alt', `avatar de ${estado.view.id}`);
+		imgAvatar.setAttribute('alt', `avatar de ${idOrigem}`);
+		imgAvatar.setAttribute('title', `avatar de ${idOrigem}`);
 		
 		if (this.redondo === true) {
 			imgAvatar.classList.add('redondo');
@@ -46,7 +62,7 @@ class MAvatar extends MalocaElement {
 
     }
 
-	/* get redondo() {
+	get redondo() {
 		let imgAvatar = this.shadowRoot.querySelector('img');
 		if (imgAvatar.classList.contains('redondo')) {
 			return true;
@@ -56,14 +72,13 @@ class MAvatar extends MalocaElement {
 	}
 
 	set redondo(valor) {
-		this.redondo = valor;
 		let imgAvatar = this.shadowRoot.querySelector('img');
 		if (valor === true) {
 			imgAvatar.classList.add('redondo');
 		} else {
 			imgAvatar.classList.remove('redondo');
 		}
-	} */
+	}
 }
 
 window.customElements.define('m-avatar', MAvatar);
