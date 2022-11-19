@@ -12,9 +12,8 @@ button {
     text-align: inherit;
     background: transparent;
 
-    /* inherit font & color from ancestor */
-    color: inherit;
-    font: inherit;
+    color: var(--cor-fonte-barra);
+    font-family: var(--familia-fonte);
 
 	display: inline-block;
 	height: 100%;
@@ -30,17 +29,18 @@ img {
 }
 
 button:active {
-	background-color: #886098;
+	background-color: var(--cor-destaque);
 }
 
 button.pressed {
-	background-color: #886098;
+	background-color: var(--cor-destaque);
 }
 
 button:disabled {
 	cursor:default;
 	background-color: transparent;
-	filter: brightness(.9) invert(.5) sepia(.5) hue-rotate(100deg) saturate(0%);
+	color: var(--cor-gris);
+	/* filter: brightness(.9) invert(.5) sepia(.5) hue-rotate(100deg) saturate(0%); */
 }
 
 </style>

@@ -21,6 +21,8 @@ class MAlbum extends MalocaElement {
 			this.removeChild(this.lastChild);
 		}
 
+		this.style.display = 'inline-block';
+
         let tipo = estado.view.tipo;
         let id = estado.view.id;
         let nomeAlbum = this.getAttribute('nome');

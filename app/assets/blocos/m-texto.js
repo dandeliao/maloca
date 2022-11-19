@@ -21,6 +21,8 @@ class MTexto extends MalocaElement {
 			this.removeChild(this.lastChild);
 		}
 
+		this.style.display = 'inline-block';
+
 		let tipoOrigem = estado.view.tipo;
 		let idOrigem = estado.view.id;
 
@@ -44,6 +46,7 @@ class MTexto extends MalocaElement {
 			elP.innerText = p;
 			elTexto.appendChild(elP);
 		});
+		elTexto.style.textAlign = 'left';
 
 		let res = await serverFetch(`/${tipoOrigem}s/${idOrigem}/objetos/texto?id=${textoId}&info=true`, 'GET');
 		let textoInfo = await res.json();
@@ -52,6 +55,8 @@ class MTexto extends MalocaElement {
 
 		let elTitulo = document.createElement('h2');
 		elTitulo.innerText = textoInfo.titulo;
+		elTitulo.style.textAlign = 'center';
+		elTitulo.style.marginBottom = '2rem';
 
 		this.appendChild(elTitulo);
 		this.appendChild(elTexto);

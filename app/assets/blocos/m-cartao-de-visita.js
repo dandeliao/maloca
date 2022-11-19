@@ -14,11 +14,16 @@ class MCartaoDeVisita extends MalocaElement {
 				display: block;
 				position: relative;
                 margin: 0 auto;
-                background: var(--background, #FEFEFE);
-                width: var(--width, 100%);
-                border-radius: var(--border-radius, 0.4rem);
-                border-style: var(--border-style, none);
-                box-shadow: var(--box-shadow, 2px 3px 4px rgba(0, 0, 0, 0.2));
+				width: 100%;
+                
+				background-color: var(--cor-fundo-2);
+				color: var(--cor-fonte);
+				font-family: var(--familia-fonte);
+                box-shadow: var(--sombreado);
+                border-style: var(--estilo-borda);
+                border-width: var(--espessura-borda);
+                border-radius: var(--raio-borda);
+                border-color: var(--cor-principal);
             }
             </style>
 
@@ -59,7 +64,7 @@ class MCartaoDeVisita extends MalocaElement {
 		divFundo.style.display = 'block';
 		divFundo.style.position = 'relative';
 		divFundo.style.width = '100%';
-		divFundo.style.borderBottom = '1px solid #AAAAAA';
+		//divFundo.style.borderBottom = '1px solid #AAAAAA';
 
 		divTexto.style.position = 'relative';
 		divTexto.style.boxSizing = 'border-box';

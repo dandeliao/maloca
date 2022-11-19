@@ -12,12 +12,16 @@ class MBloco extends MalocaElement {
             .bloco {
                 box-sizing: border-box;
                 margin: 0 auto;
-                background: var(--background, #FEFEFE);
-                width: var(--width, 100%);
-                border-radius: var(--border-radius, 0.4rem);
-                border-style: var(--border-style, none);
-                box-shadow: var(--box-shadow, 2px 3px 4px rgba(0, 0, 0, 0.2));
+                width: 100%;
                 padding: 0.8rem;
+                background: var(--cor-fundo-2);
+                color: var(--cor-fonte);
+                box-shadow: var(--sombreado);
+                font-family: var(--familia-fonte);
+                border-style: var(--estilo-borda);
+                border-width: var(--espessura-borda);
+                border-radius: var(--raio-borda);
+                border-color: var(--cor-principal);
             }
             </style>
 

@@ -8,28 +8,27 @@ templateTab.innerHTML = `
     margin: 0;
     width: auto;
     overflow: hidden;
-    color: inherit;
-    font: inherit;
+    color: var(--cor-fonte-view);
+    font-family: var(--familia-fonte);
 
-	background-color: #C0C0C0;
+	background-color: var(--cor-gris);
 	display: inline-block;
 	height: 100%;
 	min-width: 2em;
-	max-width: 12em;
 	padding: 0.2em 0.5em;
 	white-space: nowrap;
 	border-style: solid;
 	border-bottom-style: none;
 	border-left-style: none;
 	border-width: 0.1em;
-	border-color: #999999;
+	border-color: var(--cor-gris-2);
 	border-top-left-radius: 0.4em;
 	border-top-right-radius: 0.4em;
 	transition: 0.07s;
 }
 
 #aba.selected {
-	background-color: #F6F5F4;
+	background-color: var(--cor-fundo);
 	border-style: none;
 }
 
@@ -41,7 +40,6 @@ button {
 	cursor: pointer;
 	text-align: center;
 	height: 100%;
-	max-width: 8em;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	padding: 0 0.1em;
@@ -49,7 +47,7 @@ button {
 }
 
 button#delete {
-	color: darkred;
+	color: var(--cor-destaque);
 	font-weight: bold;
 	display: none;
 }
