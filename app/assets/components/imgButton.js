@@ -40,7 +40,7 @@ button:disabled {
 	cursor:default;
 	background-color: transparent;
 	color: var(--cor-gris);
-	/* filter: brightness(.9) invert(.5) sepia(.5) hue-rotate(100deg) saturate(0%); */
+	filter: brightness(.9) invert(.5) sepia(.5) hue-rotate(100deg) saturate(0%);
 }
 
 </style>

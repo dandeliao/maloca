@@ -22,7 +22,7 @@ charcoal grey   =   #4B4A45
     --cor-fundo-2:      var(--cor-gris-2);
     --familia-fonte:    'Convergence', sans-serif;
     font-family: var(--familia-fonte);
-    --estilo-borda:     dotted;
+    --estilo-borda:     dashed;
     --espessura-borda:  1px;
     --raio-borda:       0.4rem;
     --sombreado: 0;

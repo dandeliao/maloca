@@ -202,22 +202,6 @@ export async function renderBlocos (estado) {
 			elementoBloco.renderizar(estado);
 		});
 	}
-
-	/* let listaBlocos = viewer.shadowRoot.querySelectorAll('m-comunidades');
-	let listaBlocos2 = viewer.shadowRoot.querySelectorAll('m-pessoas');
-	let listaBlocos3 = viewer.shadowRoot.querySelectorAll('m-criar-comunidade');
-	console.log('listaBlocos:', listaBlocos);
-	console.log('listaBlocos2:', listaBlocos2);
-	console.log('listaBlocos3:', listaBlocos3);
-	listaBlocos.forEach(bloco => {
-		bloco.renderizar(estado, urlApi);
-	});
-	listaBlocos2.forEach(bloco => {
-		bloco.renderizar(estado, urlApi);
-	});
-	listaBlocos3.forEach(bloco => {
-		bloco.renderizar(estado, urlApi);
-	}); */
 }
 
 export async function renderEstilo (estado) {
@@ -407,6 +391,7 @@ export async function renderView (estado) {
 
 		// renderiza view
 		document.querySelector("#viewer").html = await html.text();
+		window.scrollTo(0,0); // restaura posição do scroll da página para o início
 		
 		if ((estado.view.tipo === 'comunidade') || (estado.view.tipo === 'pessoa')) {
 			renderBlocos(estado);

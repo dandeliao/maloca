@@ -21,7 +21,7 @@ class MBloco extends MalocaElement {
                 border-style: var(--estilo-borda);
                 border-width: var(--espessura-borda);
                 border-radius: var(--raio-borda);
-                border-color: var(--cor-principal);
+                border-color: var(--cor-destaque);
             }
             </style>
 

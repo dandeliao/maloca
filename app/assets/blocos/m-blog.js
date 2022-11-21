@@ -84,7 +84,7 @@ class MBlog extends MalocaElement {
 				for (const d of dataRegex) {
 					dataMatch.push(d);
 				}
-				elData.innerText = 'postado em ' + dataMatch[2][1] + '-' + dataMatch[1][1] + '-' + dataMatch[0][1];
+				elData.innerText = 'postado em ' + dataMatch[2][1] + '/' + dataMatch[1][1] + '/' + dataMatch[0][1];
 				elDadosPostagem.appendChild(elData);
 				elDadosPostagem.appendChild(elBotaoComentarios);
 
@@ -105,7 +105,7 @@ class MBlog extends MalocaElement {
 				elDadosPostagem.style.flexDirection = 'column';
 				elDadosPostagem.style.justifyContent = 'space-between';
 				elDadosPostagem.style.gap = '1rem';
-				elInfo.style.borderTop = '2px dashed var(--cor-destaque)';
+				elInfo.style.borderTop = '1px dashed var(--cor-destaque)';
 				elInfo.style.paddingTop = '0.75rem';
 				elTexto.style.marginBottom = '1.5rem';
 				elTexto.style.width = '100%';

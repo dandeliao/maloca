@@ -46,7 +46,7 @@ class MTexto extends MalocaElement {
 			elP.innerText = p;
 			elTexto.appendChild(elP);
 		});
-		elTexto.style.textAlign = 'left';
+		elTexto.style.textAlign = 'justify';
 
 		let res = await serverFetch(`/${tipoOrigem}s/${idOrigem}/objetos/texto?id=${textoId}&info=true`, 'GET');
 		let textoInfo = await res.json();
