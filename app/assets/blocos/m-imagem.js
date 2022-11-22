@@ -21,6 +21,8 @@ class MImagem extends MalocaElement {
 			this.removeChild(this.lastChild);
 		}
 
+		this.style.display = 'inline-block';
+
 		let tipoOrigem = estado.view.tipo;
 		let idOrigem = estado.view.id;
 
@@ -33,8 +35,7 @@ class MImagem extends MalocaElement {
 			tipoOrigem = 'pessoa';
 			idOrigem = pessoa;
 		}
-
-        let imagemId = this.getAttribute('numero');
+		let imagemId = this.getAttribute('numero');
 
 		let elImg = document.createElement('img');
 
