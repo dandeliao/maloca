@@ -21,8 +21,6 @@ class MAlbum extends MalocaElement {
 			this.removeChild(this.lastChild);
 		}
 
-		this.style.display = 'inline-block';
-
         let tipo = estado.view.tipo;
         let id = estado.view.id;
         let nomeAlbum = this.getAttribute('nome');
@@ -39,10 +37,12 @@ class MAlbum extends MalocaElement {
 			this.appendChild(elTituloDoAlbum);
 			
 			imagens.forEach(async img => {
+
 				console.log('imagem:', img);
 				let elBloco = document.createElement('m-bloco');
+
+				// cria elemento com a imagem
 				let elImg = document.createElement('m-imagem');
-				
 				let imagemId;
 				if (tipo === 'pessoa') {
 					imagemId = img.imagem_pessoal_id;
@@ -51,7 +51,7 @@ class MAlbum extends MalocaElement {
 				}				
 
 				elImg.setAttribute('numero', imagemId);
-				elImg.setAttribute(`${tipo}`, id);
+				elImg.setAttribute(`${tipo}`, id); // pessoa=id-da-pessoa ou comunidade=id-da-comunidade
 				
 				// cria elemento que receberá informações (pessoa que postou, data de postagem, comentários)
 				let elInfo = document.createElement('div');
@@ -74,11 +74,9 @@ class MAlbum extends MalocaElement {
 				elPessoa.appendChild(elAvatar);
 				elPessoa.appendChild(elDivNomeArroba);
 
-				// cria elementos com data da postagem e botão para ver os comentários
+				// cria elementos com data da postagem e botão para ver os comentários (botão apenas em álbuns de comunidade)
 				let elDadosPostagem = document.createElement('div');
 				let elData = document.createElement('div');
-				let elBotaoComentarios = document.createElement('button');
-				elBotaoComentarios.innerText = 'ver comentários';
 				// regex para converter formato de data (timestampz do psql) em DD/MM/AAAA
 				let dataRegex = img.data_criacao.matchAll(/(\d*)(?:-|T)/g);
 				let dataMatch = [];
@@ -87,7 +85,12 @@ class MAlbum extends MalocaElement {
 				}
 				elData.innerText = 'postado em ' + dataMatch[2][1] + '/' + dataMatch[1][1] + '/' + dataMatch[0][1];
 				elDadosPostagem.appendChild(elData);
-				elDadosPostagem.appendChild(elBotaoComentarios);
+				let elBotaoComentarios;
+				if (tipo === 'comunidade') { // posts em perfis pessoais não têm comentários, só posts em comunidades
+					elBotaoComentarios = document.createElement('button');
+					elBotaoComentarios.innerText = 'ver comentários';
+					elDadosPostagem.appendChild(elBotaoComentarios);
+				}
 
 				elInfo.appendChild(elPessoa);
 				elInfo.appendChild(elDadosPostagem);
@@ -106,10 +109,12 @@ class MAlbum extends MalocaElement {
 				elDadosPostagem.style.flexDirection = 'column';
 				elDadosPostagem.style.justifyContent = 'space-between';
 				elDadosPostagem.style.gap = '1rem';
-				//elInfo.style.borderTop = '2px dashed var(--cor-destaque)';
+				elInfo.style.borderTop = '1px dashed var(--cor-destaque)';
+				elInfo.style.margin = '0 0.5rem';
 				elInfo.style.paddingTop = '0.75rem';
 				elImg.style.marginBottom = '1.5rem';
 				elImg.style.width = '100%';
+				elImg.style.padding = '0 0.5rem';
 
 				elBloco.appendChild(elImg);
 				elBloco.appendChild(elInfo);
@@ -120,8 +125,72 @@ class MAlbum extends MalocaElement {
 				elAvatar.renderizar(estado);
 				elImg.renderizar(estado);
 
-			});
+				if (tipo === 'comunidade') { // posts em perfis pessoais não têm comentários, só posts em comunidades
 
+					// adiciona informações como atributos no botão
+					elBotaoComentarios.setAttribute('imagemId', imagemId);
+					elBotaoComentarios.setAttribute(`${tipo}`, id); // pessoa=id-da-pessoa ou comunidade=id-da-comunidade
+					
+					// quando clicado, exibe comentários
+					elBotaoComentarios.addEventListener('click', async e => {
+						
+						// alterna entre botão pressionado/solto
+						e.target.classList.toggle('pressionado');
+
+						// encontra o bloco m-imagem parente do botão
+						const imagens = this.querySelectorAll('m-imagem');
+						const blocoImagem = Array.from(imagens).find(i => i.getAttribute('numero') == imagemId);
+						console.log('blocoImagem:', blocoImagem);
+
+						if (e.target.classList.contains('pressionado')) {
+
+							// estiliza botão pressionado
+							e.target.innerText = 'ocultar comentários';
+							e.target.style.backgroundColor = 'var(--cor-destaque)';
+							e.target.style.color = 'var(--cor-fundo)';
+							e.target.style.borderTop = '0.1rem solid #1B1B1B';
+							e.target.style.borderLeft = '0.1rem solid #1B1B1B';
+							e.target.style.borderBottom = '0.1rem solid #a3a3a3';
+							e.target.style.borderRight = '0.1rem solid #a3a3a3';
+
+							// cria bloco que exibe comentários
+							let elComentarios = document.createElement('m-comentarios');
+							elComentarios.setAttribute('imagem', imagemId);
+							elComentarios.setAttribute('comunidade', id);
+							elComentarios.classList.add('secao-comentarios');
+							console.log('parent do blocoImagem:', blocoImagem.parentElement);
+							console.log('elComentarios', elComentarios);
+							blocoImagem.parentElement.appendChild(elComentarios);
+							elComentarios.renderizar(estado);
+
+							// cria bloco com formulário para adicionar novo comentário
+							let elAdicionar = document.createElement('m-adicionar-comentario');
+							elAdicionar.setAttribute('imagem', imagemId);
+							elAdicionar.setAttribute('comunidade', id);
+							elAdicionar.classList.add('secao-comentarios');
+							blocoImagem.parentElement.appendChild(elAdicionar);
+							elAdicionar.renderizar(estado);
+
+
+						} else {
+
+							// estiliza botão não-pressionado
+							e.target.innerText = 'ver comentários';
+							e.target.style.backgroundColor = 'var(--cor-principal)';
+							e.target.style.color = 'var(--cor-fonte-barra)';
+							e.target.style.borderTop = '0.1rem solid #a3a3a3';
+							e.target.style.borderLeft = '0.1rem solid #a3a3a3';
+							e.target.style.borderBottom = '0.1rem solid #1B1B1B';
+							e.target.style.borderRight = '0.1rem solid #1B1B1B';
+							
+							blocoImagem.parentElement.querySelectorAll('.secao-comentarios').forEach(el => {
+								el.parentNode.removeChild(el)
+							})
+
+						}
+					});
+				}
+			});
 		} else {
 			console.log('Não há imagens para mostrar');
 		}
