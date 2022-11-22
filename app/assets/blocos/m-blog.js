@@ -73,11 +73,9 @@ class MBlog extends MalocaElement {
 				elPessoa.appendChild(elAvatar);
 				elPessoa.appendChild(elDivNomeArroba);
 
-				// cria elementos com data da postagem e botão para ver os comentários
+				// cria elementos com data da postagem e botão para ver os comentários (botão apenas em blogs de comunidade)
 				let elDadosPostagem = document.createElement('div');
 				let elData = document.createElement('div');
-				let elBotaoComentarios = document.createElement('button');
-				elBotaoComentarios.innerText = 'ver comentários';
 				// regex para converter formato de data (timestampz do psql) em DD/MM/AAAA
 				let dataRegex = txt.data_criacao.matchAll(/(\d*)(?:-|T)/g);
 				let dataMatch = [];
@@ -86,7 +84,12 @@ class MBlog extends MalocaElement {
 				}
 				elData.innerText = 'postado em ' + dataMatch[2][1] + '/' + dataMatch[1][1] + '/' + dataMatch[0][1];
 				elDadosPostagem.appendChild(elData);
-				elDadosPostagem.appendChild(elBotaoComentarios);
+				let elBotaoComentarios;
+				if (tipo === 'comunidade') { // posts em perfis pessoais não têm comentários, só posts em comunidades
+					elBotaoComentarios = document.createElement('button');
+					elBotaoComentarios.innerText = 'ver comentários';
+					elDadosPostagem.appendChild(elBotaoComentarios);
+				}
 
 				elInfo.appendChild(elPessoa);
 				elInfo.appendChild(elDadosPostagem);
@@ -121,168 +124,68 @@ class MBlog extends MalocaElement {
 				elAvatar.renderizar(estado);
 				elTexto.renderizar(estado);
 
-				// adiciona informações como atributos no botão, para facilitar o uso no eventListener
-				elBotaoComentarios.setAttribute('textoId', textoId);
-				elBotaoComentarios.setAttribute(`${tipo}`, id); // pessoa=id-da-pessoa ou comunidade=id-da-comunidade
-				
-				// quando clicado, exibe comentários
-				elBotaoComentarios.addEventListener('click', async e => {
+				if (tipo === 'comunidade') { // posts em perfis pessoais não têm comentários, só posts em comunidades
+
+					// adiciona informações como atributos no botão
+					elBotaoComentarios.setAttribute('textoId', textoId);
+					elBotaoComentarios.setAttribute(`${tipo}`, id); // pessoa=id-da-pessoa ou comunidade=id-da-comunidade
 					
-					// alterna entre botão pressionado/solto
-					e.target.classList.toggle('pressionado');
-
-					// encontra o bloco m-texto parente do botão
-					const textos = this.querySelectorAll('m-texto');
-					const blocoTexto = Array.from(textos).find(t => t.getAttribute('numero') == textoId);
-
-					if (e.target.classList.contains('pressionado')) {
-
-						// estiliza botão pressionado
-						e.target.innerText = 'ocultar comentários';
-						e.target.style.backgroundColor = 'var(--cor-destaque)';
-						e.target.style.color = 'var(--cor-fundo)';
-						e.target.style.borderTop = '0.1rem solid #1B1B1B';
-						e.target.style.borderLeft = '0.1rem solid #1B1B1B';
-						e.target.style.borderBottom = '0.1rem solid #a3a3a3';
-						e.target.style.borderRight = '0.1rem solid #a3a3a3';
-
-						// pede comentários para o servidor
-						const comunidadeId = e.target.getAttribute('comunidade');
-						const textoId = e.target.getAttribute('textoId');
-						const res = await serverFetch(`/comunidades/${comunidadeId}/objetos/texto?id=${textoId}&comentarios=true`, 'GET');
-						const comentarios = await res.json();
-
-						// cria elementos com os comentários e suas informações
-						for (let i = 0; i < comentarios.length; i++) {
-
-							let comentario = comentarios[i];
-							console.log('texto:', comentario);
-
-							// cria div para agrupar o texto do comentário e as informações de postagem
-							let elContainer = document.createElement('div');
-							elContainer.classList.add('comentario');
-
-							// cria elemento com o texto do comentário
-							let elTexto = document.createElement('div');
-							elTexto.innerText = comentario.texto;
-
-							// cria elemento que receberá informações (pessoa que postou e data de postagem)
-							let elInfo = document.createElement('div');
-							
-							// cria elementos com informações da pessoa que postou
-							let elPessoa = document.createElement('div');
-							let elAvatar = document.createElement('m-avatar');
-							let elDivNomeArroba = document.createElement('div');
-							let elNome = document.createElement('div');
-							let elArroba = document.createElement('a');
-							let res = await serverFetch(`/pessoas/${comentario.pessoa_id}`, 'GET');
-							let pessoa = await res.json();
-							elAvatar.setAttribute('pessoa', pessoa.nome);
-							elNome.innerText = pessoa.nome;
-							elArroba.innerText = '@' + pessoa.pessoa_id;
-							elArroba.setAttribute('href', `/pessoa/${pessoa.pessoa_id}`);
-							elArroba.setAttribute('data-link', '');
-							elDivNomeArroba.appendChild(elNome);
-							elDivNomeArroba.appendChild(elArroba);
-							elPessoa.appendChild(elAvatar);
-							elPessoa.appendChild(elDivNomeArroba);
-
-							// cria elemento com data do comentário
-							let elData = document.createElement('div');
-							let dataRegex = comentario.data_criacao.matchAll(/(\d*)(?:-|T)/g); // regex para converter formato de data (timestampz do psql) em DD/MM/AAAA
-							let dataMatch = [];
-							for (const d of dataRegex) {
-								dataMatch.push(d);
-							}
-							elData.innerText = 'postado em ' + dataMatch[2][1] + '/' + dataMatch[1][1] + '/' + dataMatch[0][1];
-
-							elInfo.appendChild(elPessoa);
-							elInfo.appendChild(elData);
-
-							// estiliza elementos
-							elInfo.style.display = 'flex';
-							elInfo.style.justifyContent = 'space-between';
-							elInfo.style.alignItems = 'flex-end';
-							elInfo.style.marginTop = '1rem';
-							elInfo.style.color = 'inherit';
-							elPessoa.style.display = 'flex';
-							elPessoa.style.alignItems = 'center';
-							elPessoa.style.gap = '1rem';
-							elPessoa.style.color = 'inherit';
-							elAvatar.redondo = false;
-							elAvatar.style.maxWidth = '48px';
-							elDivNomeArroba.style.textAlign = 'left';
-							elDivNomeArroba.style.color = 'inherit';
-							elNome.style.color = 'inherit';
-							elNome.style.fontSize = '0.75rem';
-							elArroba.style.color = 'inherit';
-							elArroba.style.fontSize = '0.75rem';
-							elData.style.color = 'inherit';
-							elData.style.fontSize = '0.75rem';
-							elTexto.style.width = '100%';
-							elTexto.style.textAlign = 'justify';
-							elTexto.style.color = 'inherit';
-							elContainer.style.marginTop = '1rem';
-							elContainer.style.padding = '0.75rem 1rem';
-							//elContainer.style.backgroundColor = 'var(--cor-principal)';
-							//elContainer.style.color = 'var(--cor-fonte-barra)';
-							elContainer.style.border = '1px solid var(--cor-destaque)';
-							elContainer.style.borderRadius = '0.4rem';
-
-							elContainer.appendChild(elTexto);
-							elContainer.appendChild(elInfo);
-
-							blocoTexto.parentElement.appendChild(elContainer);
-
-							// renderiza blocos
-							elAvatar.renderizar(estado);
-						}
-
-						// cria form para adicionar novo comentário
-						let formAdicionar = document.createElement('form');
-						formAdicionar.innerHTML = `
-							<label for="comentario" hidden>novo comentário</label>
-							<textarea id="novo-comentario" placeholder="novo comentário" name="comentario" required style="width: 100%; min-height: 3rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);"></textarea>
-							<br>
-							<br>
-							<button type="submit">comentar</button>
-							`;
-						formAdicionar.style.margin = '1rem 0';
-						formAdicionar.classList.add('comentario');
-						blocoTexto.parentElement.appendChild(formAdicionar);
-
-						formAdicionar.addEventListener('submit', async e => {
-							e.preventDefault();
-			
-							const dados = {
-								texto: 	formAdicionar.elements['comentario'].value
-							}
-			
-							serverFetch(`/comunidades/${comunidadeId}/objetos/comentarios?texto=${textoId}`, 'POST', dados)
-								.then(res => res.json())
-								.then(data => {            
-										console.log('data comentário novo:', data);
-									this.renderizar(estado);
-							  });
-						});
-
-					} else {
-
-						// estiliza botão não-pressionado
-						e.target.innerText = 'ver comentários';
-						e.target.style.backgroundColor = 'var(--cor-principal)';
-						e.target.style.color = 'var(--cor-fonte-barra)';
-						e.target.style.borderTop = '0.1rem solid #a3a3a3';
-						e.target.style.borderLeft = '0.1rem solid #a3a3a3';
-						e.target.style.borderBottom = '0.1rem solid #1B1B1B';
-						e.target.style.borderRight = '0.1rem solid #1B1B1B';
+					// quando clicado, exibe comentários
+					elBotaoComentarios.addEventListener('click', async e => {
 						
-						blocoTexto.parentElement.querySelectorAll('.comentario').forEach(el => {
-							el.parentNode.removeChild(el)
-						})
+						// alterna entre botão pressionado/solto
+						e.target.classList.toggle('pressionado');
 
-					}
-				});
+						// encontra o bloco m-texto parente do botão
+						const textos = this.querySelectorAll('m-texto');
+						const blocoTexto = Array.from(textos).find(t => t.getAttribute('numero') == textoId);
+
+						if (e.target.classList.contains('pressionado')) {
+
+							// estiliza botão pressionado
+							e.target.innerText = 'ocultar comentários';
+							e.target.style.backgroundColor = 'var(--cor-destaque)';
+							e.target.style.color = 'var(--cor-fundo)';
+							e.target.style.borderTop = '0.1rem solid #1B1B1B';
+							e.target.style.borderLeft = '0.1rem solid #1B1B1B';
+							e.target.style.borderBottom = '0.1rem solid #a3a3a3';
+							e.target.style.borderRight = '0.1rem solid #a3a3a3';
+
+							// cria bloco que exibe comentários
+							let elComentarios = document.createElement('m-comentarios');
+							elComentarios.setAttribute('texto', textoId);
+							elComentarios.setAttribute('comunidade', id);
+							elComentarios.classList.add('secao-comentarios');
+							blocoTexto.parentElement.appendChild(elComentarios);
+							elComentarios.renderizar(estado);
+
+							// cria bloco com formulário para adicionar novo comentário
+							let elAdicionar = document.createElement('m-adicionar-comentario');
+							elAdicionar.setAttribute('texto', textoId);
+							elAdicionar.setAttribute('comunidade', id);
+							elAdicionar.classList.add('secao-comentarios');
+							blocoTexto.parentElement.appendChild(elAdicionar);
+							elAdicionar.renderizar(estado);
+
+
+						} else {
+
+							// estiliza botão não-pressionado
+							e.target.innerText = 'ver comentários';
+							e.target.style.backgroundColor = 'var(--cor-principal)';
+							e.target.style.color = 'var(--cor-fonte-barra)';
+							e.target.style.borderTop = '0.1rem solid #a3a3a3';
+							e.target.style.borderLeft = '0.1rem solid #a3a3a3';
+							e.target.style.borderBottom = '0.1rem solid #1B1B1B';
+							e.target.style.borderRight = '0.1rem solid #1B1B1B';
+							
+							blocoTexto.parentElement.querySelectorAll('.secao-comentarios').forEach(el => {
+								el.parentNode.removeChild(el)
+							})
+
+						}
+					});
+				}
 			});
 		} else {
 			console.log('Não há textos para mostrar');
