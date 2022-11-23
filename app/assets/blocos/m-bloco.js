@@ -12,7 +12,7 @@ class MBloco extends MalocaElement {
                 box-sizing: border-box;
                 margin: 0 auto;
                 width: 100%;
-                padding: 0.8rem;
+                padding: 1.5rem;
                 background: var(--cor-fundo-2);
                 color: var(--cor-fonte);
                 box-shadow: var(--sombreado);

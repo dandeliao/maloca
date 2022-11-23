@@ -107,7 +107,7 @@ class MAlbum extends MalocaElement {
 				elDadosPostagem.style.justifyContent = 'space-between';
 				elDadosPostagem.style.gap = '1rem';
 				elInfo.style.borderTop = '1px dashed var(--cor-destaque)';
-				elInfo.style.margin = '0 0.5rem';
+				elInfo.style.margin = '0 0.5rem 1.5rem';
 				elInfo.style.paddingTop = '0.75rem';
 				elImg.style.marginBottom = '1.5rem';
 				elImg.style.width = '100%';

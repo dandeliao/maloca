@@ -32,13 +32,14 @@ class MCriarComunidade extends MalocaElement {
 			this.removeChild(this.lastChild);
 		}
 
-        let botaoCriar = document.createElement('btn');
+        let botaoCriar = document.createElement('button');
 		botaoCriar.style.display = "inline-block";
 		botaoCriar.style.position = "relative";
 		botaoCriar.style.maxWidth = "15rem";
 		botaoCriar.style.width = "100%";
 		botaoCriar.style.height = "100%";
-		botaoCriar.innerText = "➕ criar comunidade";
+		botaoCriar.style.fontSize = "1rem";
+		botaoCriar.innerText = "criar comunidade";
 		this.appendChild(botaoCriar);
 		botaoCriar.addEventListener('click', e => {
 
@@ -54,13 +55,13 @@ class MCriarComunidade extends MalocaElement {
 			
 			let modalCriar = document.createElement('m-bloco');
 			modalCriar.style.display = "block";
-			modalCriar.style.position = "absolute";
-			modalCriar.style.left = "50%";
-			modalCriar.style.top = "50%";
+			modalCriar.style.position = "fixed";
+			modalCriar.style.left = "50vw";
+			modalCriar.style.top = "50vh";
 			modalCriar.style.transform = "translate(-50%, -50%)";
 			modalCriar.style.margin = "0 auto";
-			modalCriar.style.minWidth = "7rem";
-			modalCriar.style.maxWidth = "15rem";
+			modalCriar.style.minWidth = "24rem";
+			modalCriar.style.maxWidth = "64rem";
 			modalCriar.style.zIndex = "3";
 			
 
@@ -69,15 +70,15 @@ class MCriarComunidade extends MalocaElement {
 			<h3>Digite os dados da comunidade:</h3>
 			<br>
 			<label for="arroba" hidden>arroba</label>
-			<input type="text" id="arroba-comunidade-nova" placeholder="@" name="arroba" required>
+			<input type="text" id="arroba-comunidade-nova" placeholder="@" name="arroba" required style="width: 100%; font-size: 1rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);">
 			<br>
 			<br>
 			<label for="nome" hidden>nome</label>
-			<input type="text" id="nome-comunidade-nova" placeholder="Nome da Comunidade" name="nome" required>
+			<input type="text" id="nome-comunidade-nova" placeholder="Nome da Comunidade" name="nome" required style="width: 100%; font-size: 1rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);">
 			<br>
 			<br>
 			<label for="descricao" hidden>descricao</label>
-			<input type="text" id="descricao-comunidade-nova" placeholder="Descricao da Comunidade" name="descricao" required>
+			<textarea id="descricao-comunidade-nova" placeholder="Descrição da Comunidade" name="descricao" required style="width: 100%; min-height: 6rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);"></textarea>
 			<br>
 			<br>
 			<br>

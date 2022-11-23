@@ -3,11 +3,11 @@
 :root {
     --cor-principal:    #474037;
     --cor-destaque:     #847560;
-    --cor-gris:         #4d4c49;
+    --cor-gris:         #52514f;
     --cor-gris-2:       #313132;
     --cor-fundo:        #282726;
     --cor-fundo-2:      #333338;
-    --cor-fonte-view:   #d3ccc3;
+    --cor-fonte-view:   #d7d1c9;
     --cor-fonte-barra:  #bbb3ab;
     --familia-fonte:    'Convergence', sans-serif;
     font-family: var(--familia-fonte);
