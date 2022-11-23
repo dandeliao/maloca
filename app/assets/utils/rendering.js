@@ -64,8 +64,7 @@ export async function renderNavBar(estado) {
 	switch (estado.view.tipo) {
 		case 'comunidade':
 			let res = await serverFetch(`/pessoas/${estado.auth.id}/objetos/comunidade?id=${estado.view.id}`);
-			let habilidades = (await res.json())[0];
-			console.log('habilidades:', habilidades);
+			let habilidades = await res.json();
 			estado.modos = ['ver', 'menu', 'inicio', 'clonar', 'info'];
 			if (habilidades && habilidades.editar) {
 				estado.modos.push('editar');
