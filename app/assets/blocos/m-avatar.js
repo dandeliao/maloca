@@ -32,8 +32,6 @@ class MAvatar extends MalocaElement {
 
 	renderizar(estado) {
 		
-		console.log('renderizando m-avatar...');
-
 		let tipoOrigem = estado.view.tipo;
 		let idOrigem = estado.view.id;
 

@@ -60,7 +60,6 @@ class MAdicionarTexto extends MalocaElement {
 			modalAdicionar.style.transform = "translate(-50%, -50%)";
 			modalAdicionar.style.margin = "0 auto";
 			modalAdicionar.style.minWidth = "90%";
-			//modalAdicionar.style.maxWidth = "15rem";
 			modalAdicionar.style.zIndex = "3";
 			
 
@@ -110,7 +109,6 @@ class MAdicionarTexto extends MalocaElement {
 				serverFetch(`/${estado.view.tipo}s/${estado.view.id}/objetos/textos`, 'POST', dados)
         			.then(res => res.json())
         			.then(data => {            
-           				 console.log('data m-adicionar-texto:', data);
 						renderBlocos(estado);
       			});
 			});

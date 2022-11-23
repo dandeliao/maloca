@@ -107,7 +107,6 @@ class MCriarComunidade extends MalocaElement {
 				serverFetch('/comunidades', 'POST', dadosNovaComuna)
         			.then(res => res.json())
         			.then(data => {            
-           				 console.log('data m-criar-comunidade:', data);
 						 renderBlocos(estado);
       			});
 			});

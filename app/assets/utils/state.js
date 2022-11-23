@@ -124,7 +124,6 @@ export async function setState(estado, noPush) {
 				// se foi mudança de aba ou ativação do modo editar, ativa edição html do viewer
 				let viewer = document.querySelector('#viewer');
 				let html = await serverFetch(`/${estado.view.tipo}s/${estado.view.id}/${estado.view.paginaAtiva}`, 'GET'); // solicita html ao servidor
-				console.log('html.body:', html.body);
 				viewer.text = await html.text(); // mostra html para edição
 				viewer.editable = true; // habilita edição
 				viewer.focusOnIt();
@@ -137,7 +136,6 @@ export async function setState(estado, noPush) {
 		await renderMenu(estado);
 	} else if ((estadoVelho !== null) && (estadoVelho.modoAtivo === 'menu')) {
 		// caso tenha saído do modo menu, remove o menu da DOM
-		console.log('saiu do modo Menu');
 		document.querySelector('maloca-menu').remove();
 	}
 

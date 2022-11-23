@@ -2,7 +2,6 @@ import MalocaElement from "./MalocaElement.js"; // ver como essa importação se
 
 class MBloco extends MalocaElement {
     constructor() {
-        console.log('construindo m-bloco');
         let html = `
         <div class="bloco">
 	        

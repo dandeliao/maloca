@@ -55,10 +55,9 @@ class ImgButton extends HTMLElement {
 		svg.setAttribute('viewBox', '0 0 100 100');
 		svg.style.fill = 'var(--cor-fonte-barra)';
 		let arquivo = this.getAttribute('imagem');
-		fetch(arquivo)
+		fetch(arquivo) // fetch local
   			.then(response => response.text())
   			.then(markupSVG => {
-				console.log('markupSVGGGGGGGGG:', markupSVG);
 				svg.innerHTML = markupSVG;
 			});
 	}
@@ -97,7 +96,6 @@ class ImgButton extends HTMLElement {
 		let btn = this.shadowRoot.querySelector('button');
 		let svg = this.shadowRoot.querySelector('svg');
 		if (pressiona) {
-			console.log('pressiona');
 			btn.classList.add('pressed');
 			svg.style.fill = 'var(--cor-fundo)'; // não funciona, por quê?
 		} else {

@@ -45,7 +45,7 @@ class MComunidades extends MalocaElement {
             let linkzinho;
             let avatar;
             arrayComunas.forEach(comuna => {
-                console.log('comuna:', comuna);
+
                 card = document.createElement('div');
                 card.style.display = "flex";
                 card.style.flexDirection = "column";

@@ -59,7 +59,6 @@ class MAdicionarComentario extends MalocaElement {
 			serverFetch(`/comunidades/${comunidadeId}/objetos/comentarios?${midiaTipo}=${midiaId}`, 'POST', dados)
 				.then(res => res.json())
 				.then(data => {            
-						console.log('data comentário novo:', data);
 					renderBlocos(estado);
 			});
 		});

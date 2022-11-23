@@ -51,8 +51,6 @@ class MTexto extends MalocaElement {
 		let res = await serverFetch(`/${tipoOrigem}s/${idOrigem}/objetos/texto?id=${textoId}&info=true`, 'GET');
 		let textoInfo = await res.json();
 
-		console.log('textoInfo:', textoInfo);
-
 		let elTitulo = document.createElement('h2');
 		elTitulo.innerText = textoInfo.titulo;
 		elTitulo.style.textAlign = 'center';

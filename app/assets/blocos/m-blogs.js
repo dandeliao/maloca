@@ -44,7 +44,7 @@ class MBlogs extends MalocaElement {
             let botao;
             let nome;
             arrayBlogs.forEach(blog => {
-                console.log('blog:', blog);
+
                 botao = document.createElement('button');
 				botao.style.maxWidth = "10rem";
 
@@ -65,7 +65,6 @@ class MBlogs extends MalocaElement {
                     let tipoLocal = e.currentTarget.getAttribute('tipo');
                     let idLocal = e.currentTarget.getAttribute('localId');
 
-                    console.log('blog clicado:', nomeBlog);
                     let res = await serverFetch(`/${tipoLocal}s/${idLocal}/objetos/textos`, 'GET');
                     let textos = await res.json();
                     let arrayTextos = [];
@@ -105,7 +104,6 @@ class MBlogs extends MalocaElement {
                     arrayTextos.forEach(async txt => {
 						let elTitulo = document.createElement('h3');
                         let elTexto = document.createElement('div');
-                        console.log('texto:', txt);
                         let txtId;
                         if (tipoLocal === 'pessoa') {
                             txtId = txt.texto_pessoal_id;
@@ -116,17 +114,11 @@ class MBlogs extends MalocaElement {
 						let textinho = await serverFetch(`/${tipoLocal}s/${idLocal}/objetos/texto?id=${txtId}`, 'GET');
                         elTexto.innerHTML = await textinho.text();
 						elTexto.style.textAlign = "left";
-                        /* elImg.style.maxWidth = '33rem';
-                        elImg.style.margin = "0.5rem";
-                        elImg.setAttribute('alt', img.descricao);
-                        elImg.setAttribute('title', img.descricao); */
-                        console.log('elTexto', elTexto);
+   
                         modalTextos.appendChild(elTitulo);
 						modalTextos.appendChild(elTexto);
                     });
                     
-                    //modalTextos.appendChild(formAdicionar);
-                    console.log('this', this);
                     this.appendChild(modalTextos);
                     this.appendChild(overlay);
 

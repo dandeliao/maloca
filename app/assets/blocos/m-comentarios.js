@@ -37,13 +37,11 @@ class MComentarios extends MalocaElement {
 
 		const res = await serverFetch(`/comunidades/${comunidadeId}/objetos/${midiaTipo}?id=${midiaId}&comentarios=true`, 'GET');
 		const comentarios = await res.json();
-		console.log('comentarios', comentarios);
 
 		// cria elementos com os comentários e suas informações
 		for (let i = 0; i < comentarios.length; i++) {
 
 			let comentario = comentarios[i];
-			console.log('texto:', comentario);
 
 			// cria container para agrupar o texto do comentário e as informações de postagem
 			let elContainer = document.createElement('div');
@@ -113,8 +111,6 @@ class MComentarios extends MalocaElement {
 			elContainer.style.padding = '0.75rem 1rem';
 			elContainer.style.backgroundColor = 'var(--cor-fundo)';
 			elContainer.style.color = 'var(--cor-fonte-view)';
-			//elContainer.style.border = '1px solid var(--cor-destaque)';
-			//elContainer.style.borderRadius = '0.4rem';
 
 			elContainer.appendChild(elTexto);
 			elContainer.appendChild(elInfo);

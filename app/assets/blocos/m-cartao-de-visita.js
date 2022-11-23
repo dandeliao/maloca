@@ -35,7 +35,9 @@ class MCartaoDeVisita extends MalocaElement {
 
 	renderizar(estado) {
 		
-		console.log('renderizando m-cartao-de-visita...');
+		while (this.lastChild) {
+			this.removeChild(this.lastChild);
+		}
 
 		let divCartao = this.shadowRoot.querySelector('.bloco');
 		let divFundo = document.createElement('div');
@@ -64,7 +66,6 @@ class MCartaoDeVisita extends MalocaElement {
 		divFundo.style.display = 'block';
 		divFundo.style.position = 'relative';
 		divFundo.style.width = '100%';
-		//divFundo.style.borderBottom = '1px solid #AAAAAA';
 
 		divTexto.style.position = 'relative';
 		divTexto.style.boxSizing = 'border-box';

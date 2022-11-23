@@ -1,7 +1,6 @@
 import { estadoPadrao } from "./state.js";
 
 export async function serverFetch (caminho, metodo, dados, contentType) {
-	console.log('dados:', dados);
 
 	const urlApi = estadoPadrao.urlServidor;
 
@@ -13,7 +12,6 @@ export async function serverFetch (caminho, metodo, dados, contentType) {
 
 	if (dados) {
 		if (dados instanceof FormData) {
-			//requestObject.headers = { 'Content-Type': 'multipart/form-data' };
 			requestObject.body = dados;
 		} else {
 			requestObject.headers = { 'Content-Type': 'application/json' };
@@ -24,37 +22,25 @@ export async function serverFetch (caminho, metodo, dados, contentType) {
 	if (contentType) {
 		requestObject.headers = { 'Content-Type': contentType };
 	}
-	console.log('requestObject:', requestObject);
 
 	return await fetch(`${urlApi}${caminho}`, requestObject);
-					/* .then(res => {
-						if (res.ok) {
-							return res;
-						} else if(res.status === 404) {
-							return Promise.reject(new Error('404'));
-						} else if (res.status === 401) {
-							return Promise.reject(new Error('401'));
-						} else {
-							return Promise.reject(new Error('Erro: ' + res.status));
-						}
-					}); */
+
 }
 
 export async function putPagina(estado, texto) {
-	console.log('PAGINA ATIVA:', estado.view.paginaAtiva);
+
 	let paginaAtual = estado.view.paginas.find(pag => pag.id == estado.view.paginaAtiva);
 	let dadosAtualizadosPagina = {
 		titulo:             paginaAtual.titulo,
 		publica:            paginaAtual.publica,
 		html:               texto
 	}
-	console.log('estado.view.id:', estado.view.id);
+
 	if (estado.view.tipo === 'pessoa') {
 		return await serverFetch(`/pessoas/${estado.auth.id}/${paginaAtual.id}`, 'PUT', dadosAtualizadosPagina);
 	} else if (estado.view.tipo === 'comunidade') {
 		return await serverFetch(`/comunidades/${estado.view.id}/${paginaAtual.id}`, 'PUT', dadosAtualizadosPagina);
 	} else {
-		console.log('erro ao atualizar página');
 		return;
 	}
 	

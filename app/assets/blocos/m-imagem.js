@@ -41,17 +41,12 @@ class MImagem extends MalocaElement {
 
 		elImg.src = `http://localhost:4000/${tipoOrigem}s/${idOrigem}/objetos/imagem?id=${imagemId}`;
 		elImg.style.maxWidth = '100%';
-		//elImg.style.margin = "0.5rem";
 
 		let res = await serverFetch(`/${tipoOrigem}s/${idOrigem}/objetos/imagem?id=${imagemId}&info=true`, 'GET');
 		let imagemInfo = await res.json();
 
-		console.log('imagemInfo:', imagemInfo);
-
 		elImg.setAttribute('alt', imagemInfo.descricao);
 		elImg.setAttribute('title', imagemInfo.descricao);
-
-		console.log('elImg (dentro de m-imagem):', elImg);
 
 		this.appendChild(elImg);
 

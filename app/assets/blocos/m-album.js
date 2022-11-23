@@ -28,8 +28,6 @@ class MAlbum extends MalocaElement {
 		let res = await serverFetch(`/${tipo}s/${id}/objetos/imagens?album=${nomeAlbum}`, 'GET');
 		let imagens = await res.json();
 
-		console.log('!!!!!!!!!! imagens:', imagens);
-
 		if (imagens.length > 0) {
 
 			let elTituloDoAlbum = document.createElement('h2');
@@ -38,7 +36,6 @@ class MAlbum extends MalocaElement {
 			
 			imagens.forEach(async img => {
 
-				console.log('imagem:', img);
 				let elBloco = document.createElement('m-bloco');
 
 				// cria elemento com a imagem
@@ -140,7 +137,6 @@ class MAlbum extends MalocaElement {
 						// encontra o bloco m-imagem parente do botão
 						const imagens = this.querySelectorAll('m-imagem');
 						const blocoImagem = Array.from(imagens).find(i => i.getAttribute('numero') == imagemId);
-						console.log('blocoImagem:', blocoImagem);
 
 						if (e.target.classList.contains('pressionado')) {
 
@@ -158,8 +154,6 @@ class MAlbum extends MalocaElement {
 							elComentarios.setAttribute('imagem', imagemId);
 							elComentarios.setAttribute('comunidade', id);
 							elComentarios.classList.add('secao-comentarios');
-							console.log('parent do blocoImagem:', blocoImagem.parentElement);
-							console.log('elComentarios', elComentarios);
 							blocoImagem.parentElement.appendChild(elComentarios);
 							elComentarios.renderizar(estado);
 

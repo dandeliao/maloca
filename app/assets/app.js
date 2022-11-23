@@ -64,47 +64,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             switch (e.target.id) {
                 case 'menu':
-
                     estado.modoAtivo = 'menu';
-
-                    console.log('abrir menu');
-
                     break;
-                
                 case 'inicio':
                     // abre view da página inicial da maloca
                     estado.modoAtivo = 'ver';
                     estado.href = '/';
                     break;
-                
                 case 'editar':
-                    
                     estado.modoAtivo = 'editar';
-                    
-                    console.log('modo editar');
-
                     break;
-
                 case 'clonar':
-
                     estado.modoAtivo = 'clonar';
-
-                    // abre clonar (modal?)
-                    console.log('abrir clonar');
-                    // se o modo já estiver ativo, desativa
                     break;
-
                 case 'info':
-
                     estado.modoAtivo = 'info';
-
-                    // abre info (modal?)
-                    console.log('abrir info');
                     break;
-
                 default:
-                    // muda estilo
-
+                    // muda tema
                     let arrayEstilos = estadoPadrao.temas;
                     let indexEstilo = arrayEstilos.findIndex(estilo => estilo === estado.estilo);
                     
@@ -114,7 +91,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     } else {
                         estado.estilo = 'padrao';
                     }
-
             }
         }
 
@@ -144,7 +120,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 let res = await serverFetch(`/pessoas/${estado.auth.id}/paginas`, 'POST', dadosNovaPagina);
                 if (res.status === 201) { // status 201 = página criada com sucesso
                     let r = await res.json();
-                    //abaClicada = parseInt(r.pagina_pessoal_id);
                     abaClicada = r.pagina_pessoal_id;
                     estado.view.paginas.push({
                         id: r.pagina_pessoal_id,
@@ -160,7 +135,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 let res = await serverFetch(`/comunidades/${estado.view.id}/paginas`, 'POST', dadosNovaPagina);
                 if (res.status === 201) { // status 201 = página criada com sucesso
                     let r = await res.json();
-                    //abaClicada = parseInt(r.pagina_pessoal_id);
                     abaClicada = r.pagina_comunitaria_id;
                     estado.view.paginas.push({
                         id: r.pagina_comunitaria_id,
@@ -172,18 +146,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     alert('Aconteceu um erro ao criar a página. Por favor, tente novamente');
                 }
             }
-            
-           
-
-            /* if (dadosResposta) { // caso tenha tido sucesso ao criar nova página
-                abaClicada = dadosResposta.pagina_pessoal_id;
-            } */
-
         } else { 
             
             if (e.target.pageId) { // clique em uma aba (exceto aba "+")
                 if (insideTarget.getAttribute('id') === 'delete') { // clique no botão "deletar página"
-                    // aviso perguntando se a pessoa tem certeza
+                    // falta aviso perguntando se a pessoa tem certeza
                     // caso confirme
                     //  -> caso sucesso
                     //      -> fazer fetch delete e atualizar estado, mudando abaClicada para a primeira da lista
@@ -213,7 +180,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     // caso cancele, prosseguir sem deletar
                 
                 } else if (insideTarget.getAttribute('id') === 'editTitle') { // clique no botão "editar título da página"
-                    console.log('editar título');
                     
                     // cria elemento editável sobreposto ao título da aba
                     let tituloEditavel = document.createElement('div');

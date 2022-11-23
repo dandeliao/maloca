@@ -54,7 +54,7 @@ class MAlbuns extends MalocaElement {
             let capa;
             let nome;
             arrayAlbuns.forEach(album => {
-                console.log('album:', album);
+
                 botao = document.createElement('button');
 				botao.style.maxWidth = "10rem";
 
@@ -81,7 +81,6 @@ class MAlbuns extends MalocaElement {
                     let tipoLocal = e.currentTarget.getAttribute('tipo');
                     let idLocal = e.currentTarget.getAttribute('localId');
 
-                    console.log('álbum clicado:', nomeAlbum);
                     let res = await serverFetch(`/${tipoLocal}s/${idLocal}/objetos/imagens`, 'GET');
                     let imagens = await res.json();
                     let arrayImagens = [];
@@ -120,7 +119,6 @@ class MAlbuns extends MalocaElement {
                     
                     arrayImagens.forEach(img => {
                         let elImg = document.createElement('img');
-                        console.log('imagem:', img);
                         let imgId;
                         if (tipoLocal === 'pessoa') {
                             imgId = img.imagem_pessoal_id;
@@ -132,12 +130,9 @@ class MAlbuns extends MalocaElement {
                         elImg.style.margin = "0.5rem";
                         elImg.setAttribute('alt', img.descricao);
                         elImg.setAttribute('title', img.descricao);
-                        console.log('elImg', elImg);
                         modalImagens.appendChild(elImg);
                     });
                     
-                    //modalImagens.appendChild(formAdicionar);
-                    console.log('this', this);
                     this.appendChild(modalImagens);
                     this.appendChild(overlay);
 

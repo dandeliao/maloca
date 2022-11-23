@@ -24,9 +24,6 @@ class MDescricao extends MalocaElement {
 		serverFetch(url, 'GET')
         .then(res => res.json())
         .then(dados => {
-            
-            console.log('dados m-descricao:', dados);
-
             if (dados.descricao) {
 				spanDescricao.innerText = dados.descricao;
 			}

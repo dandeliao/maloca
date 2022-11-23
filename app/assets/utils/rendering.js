@@ -177,11 +177,9 @@ export async function renderBlocos (estado) {
 
 	let objetoBlocos = await serverFetch(`/${estado.view.tipo}s/${estado.view.id}/${estado.view.paginaAtiva}/blocos`, 'GET');
 	let blocos = (await objetoBlocos.json()).rows;
-	console.log('blocos (em renderBlocos):', blocos);
 
 	let arrayBlocos = [];
 	blocos.forEach(bloco => {
-		console.log('bloco:', bloco);
 		if (!arrayBlocos.includes(bloco.bloco_id)) {
 			arrayBlocos.push(bloco.bloco_id);
 		}
@@ -189,7 +187,6 @@ export async function renderBlocos (estado) {
 
 	let arrayElementosBlocos = [];
 	arrayBlocos.forEach(blocoId => {
-		console.log('blocoId:', blocoId)
 		let listaBlocosSemRepeticao = viewer.shadowRoot.querySelectorAll(blocoId);
 		listaBlocosSemRepeticao.forEach(bloquinho => {
 			arrayElementosBlocos.push(bloquinho);
@@ -198,7 +195,6 @@ export async function renderBlocos (estado) {
 
 	if (arrayElementosBlocos.length > 0) {
 		arrayElementosBlocos.forEach(elementoBloco => {
-			console.log('elementoBloco:', elementoBloco);
 			elementoBloco.renderizar(estado);
 		});
 	}
@@ -207,7 +203,6 @@ export async function renderBlocos (estado) {
 export async function renderEstilo (estado) {
 	
 	let cssEstilo = document.getElementById('estilo-app');
-	//let arrayEstilos = ['padrao', 'ema', 'quero-quero', 'bem-te-vi', 'arara'];
 	let arrayEstilos = estadoPadrao.temas;
 	let indexEstilo = arrayEstilos.findIndex(estilo => estilo === estado.estilo);
 	cssEstilo.href = `/assets/styles/estilo-${indexEstilo}-${estado.estilo}.css`;

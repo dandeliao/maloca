@@ -110,11 +110,9 @@ class MAdicionarImagem extends MalocaElement {
 				formData.append('album', album);
 				formData.append('arquivo', arquivo);
 
-				console.log('formData:', formData);
 				serverFetch(`/${estado.view.tipo}s/${estado.view.id}/objetos/imagens`, 'POST', formData)
         			.then(res => res.json())
         			.then(data => {            
-           				 console.log('data m-adicionar-imagem:', data);
 						renderBlocos(estado);
       			});
 			});

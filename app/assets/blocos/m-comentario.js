@@ -89,8 +89,6 @@ class MComentario extends MalocaElement {
 		elTexto.style.color = 'inherit';
 		elContainer.style.marginTop = '1rem';
 		elContainer.style.padding = '0.75rem 1rem';
-		//elContainer.style.backgroundColor = 'var(--cor-principal)';
-		//elContainer.style.color = 'var(--cor-fonte-barra)';
 		elContainer.style.border = '1px solid var(--cor-destaque)';
 		elContainer.style.borderRadius = '0.4rem';
 

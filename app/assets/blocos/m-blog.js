@@ -28,7 +28,6 @@ class MBlog extends MalocaElement {
 		let res = await serverFetch(`/${tipo}s/${id}/objetos/textos?blog=${nomeBlog}`, 'GET');
 		let textos = await res.json();
 
-		console.log('!!!!!!!!!! textos:', textos);
 
 		if (textos.length > 0) {
 
@@ -38,7 +37,6 @@ class MBlog extends MalocaElement {
 			
 			textos.forEach(async txt => {
 				
-				console.log('texto:', txt);
 				let elBloco = document.createElement('m-bloco');
 
 				// cria elemento com o texto da postagem
