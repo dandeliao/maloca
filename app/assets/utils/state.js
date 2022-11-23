@@ -9,7 +9,7 @@ export const estadoPadrao = {
 	href:			'/boas-vindas',
 	modos:			['ver'],
 	modoAtivo:		'ver',
-	estilo:			(JSON.parse(localStorage.getItem('estado'))).estilo ? (JSON.parse(localStorage.getItem('estado'))).estilo : 'padrao', // inicia com o estilo armazenado localmente. Se não encontrar, começa com o estilo padrão
+	estilo:			(JSON.parse(localStorage.getItem('estado'))) ? (JSON.parse(localStorage.getItem('estado'))).estilo : 'padrao', // inicia com o estilo armazenado localmente. Se não encontrar, começa com o estilo padrão
 	temas: 			['padrao', 'ema'],
 	auth:	{
 		logade:			false,
