@@ -39,7 +39,7 @@ class MCartaoDeVisita extends MalocaElement {
 			this.removeChild(this.lastChild);
 		}
 
-		let divCartao = this.shadowRoot.querySelector('.bloco');
+		let divCartao = document.createElement('div');
 		let divFundo = document.createElement('div');
 		divFundo.setAttribute('id', 'fundo');
 		let divTexto = document.createElement('div');
@@ -93,6 +93,8 @@ class MCartaoDeVisita extends MalocaElement {
 		mAvatar.style.top = '7.2rem';
 		mAvatar.style.transform = 'translate(15%, -60%)';
 		mAvatar.style.zIndex = '2';
+
+		this.appendChild(divCartao);
 
 		mAvatar.renderizar(estado);
 		mNome.renderizar(estado);
