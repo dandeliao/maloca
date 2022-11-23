@@ -22,8 +22,8 @@ templateTab.innerHTML = `
 	border-left-style: none;
 	border-width: 0.1em;
 	border-color: var(--cor-gris-2);
-	border-top-left-radius: 0.4em;
-	border-top-right-radius: 0.4em;
+	border-top-left-radius: 0.7em;
+	border-top-right-radius: 0.7em;
 	transition: 0.07s;
 }
 

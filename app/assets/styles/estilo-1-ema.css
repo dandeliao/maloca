@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Convergence&display=swap');
 
 :root {
-    --cor-principal:    #7a6349;
-    --cor-destaque:     #C5AE8C;
-    --cor-gris:         #4b4a45;
-    --cor-gris-2:       #3A3A3C;
-    --cor-fundo:        #282722;
-    --cor-fundo-2:      var(--cor-gris-2);
-    --cor-fonte-view:   #F3F0EB;
-    --cor-fonte-barra:  #0c0c0c;
+    --cor-principal:    #474037;
+    --cor-destaque:     #847560;
+    --cor-gris:         #4d4c49;
+    --cor-gris-2:       #313132;
+    --cor-fundo:        #282726;
+    --cor-fundo-2:      #333338;
+    --cor-fonte-view:   #d3ccc3;
+    --cor-fonte-barra:  #bbb3ab;
     --familia-fonte:    'Convergence', sans-serif;
     font-family: var(--familia-fonte);
     --estilo-borda:     none;

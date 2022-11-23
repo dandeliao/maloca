@@ -39,7 +39,7 @@ li {
 
 li:hover {
 	background-color: var(--cor-destaque);
-	color: var(--cor-fundo);
+	color: var(--cor-fundo-2);
 }
 
 a {

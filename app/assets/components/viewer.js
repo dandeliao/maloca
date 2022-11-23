@@ -34,8 +34,8 @@ button {
     border-radius: 0.2rem;
     cursor: pointer;
     transition: 0.05s;
-	background-color: var(--cor-principal);
-	color: var(--cor-fonte-barra);
+	background-color: var(--cor-destaque);
+	color: var(--cor-fundo);
 }
 
 button:active {
@@ -43,8 +43,8 @@ button:active {
     border-left: 0.1rem solid #1B1B1B;
     border-bottom: 0.1rem solid #a3a3a3;
     border-right: 0.1rem solid #a3a3a3;
-	background-color: var(--cor-destaque);
-	color: var(--cor-fundo);
+	background-color: var(--cor-principal);
+	color: var(--cor-fonte-barra);
 }
 
 </style>

@@ -109,7 +109,7 @@ class MBlog extends MalocaElement {
 				elDadosPostagem.style.justifyContent = 'space-between';
 				elDadosPostagem.style.gap = '1rem';
 				elInfo.style.borderTop = '1px dashed var(--cor-destaque)';
-				elInfo.style.margin = '0 0.5rem';
+				elInfo.style.margin = '0 0.5rem 1.5rem';
 				elInfo.style.paddingTop = '0.75rem';
 				elTexto.style.marginBottom = '1.5rem';
 				elTexto.style.width = '100%';
@@ -144,8 +144,8 @@ class MBlog extends MalocaElement {
 
 							// estiliza botão pressionado
 							e.target.innerText = 'ocultar comentários';
-							e.target.style.backgroundColor = 'var(--cor-destaque)';
-							e.target.style.color = 'var(--cor-fundo)';
+							e.target.style.backgroundColor = 'var(--cor-principal)';
+							e.target.style.color = 'var(--cor-fonte-barra)';
 							e.target.style.borderTop = '0.1rem solid #1B1B1B';
 							e.target.style.borderLeft = '0.1rem solid #1B1B1B';
 							e.target.style.borderBottom = '0.1rem solid #a3a3a3';
@@ -172,8 +172,11 @@ class MBlog extends MalocaElement {
 
 							// estiliza botão não-pressionado
 							e.target.innerText = 'ver comentários';
-							e.target.style.backgroundColor = 'var(--cor-principal)';
-							e.target.style.color = 'var(--cor-fonte-barra)';
+							e.target.style.backgroundColor = 'var(--cor-destaque)';
+							e.target.style.color = 'var(--cor-fundo-2)';
+							if (estado.estilo === 'ema') {
+								e.target.style.color = 'var(--cor-fundo)';
+							}
 							e.target.style.borderTop = '0.1rem solid #a3a3a3';
 							e.target.style.borderLeft = '0.1rem solid #a3a3a3';
 							e.target.style.borderBottom = '0.1rem solid #1B1B1B';

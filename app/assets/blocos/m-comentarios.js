@@ -108,12 +108,13 @@ class MComentarios extends MalocaElement {
 			elTexto.style.width = '100%';
 			elTexto.style.textAlign = 'justify';
 			elTexto.style.color = 'inherit';
-			elContainer.style.marginTop = '1rem';
+			elContainer.style.borderTop = '1px solid var(--cor-gris)';
+			elContainer.style.margin = '0 0.5rem';
 			elContainer.style.padding = '0.75rem 1rem';
-			//elContainer.style.backgroundColor = 'var(--cor-principal)';
-			//elContainer.style.color = 'var(--cor-fonte-barra)';
-			elContainer.style.border = '1px solid var(--cor-destaque)';
-			elContainer.style.borderRadius = '0.4rem';
+			elContainer.style.backgroundColor = 'var(--cor-fundo)';
+			elContainer.style.color = 'var(--cor-fonte-view)';
+			//elContainer.style.border = '1px solid var(--cor-destaque)';
+			//elContainer.style.borderRadius = '0.4rem';
 
 			elContainer.appendChild(elTexto);
 			elContainer.appendChild(elInfo);

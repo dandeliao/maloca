@@ -40,7 +40,7 @@ class MAdicionarComentario extends MalocaElement {
 		let formAdicionar = document.createElement('form');
 		formAdicionar.innerHTML = `
 			<label for="comentario" hidden>novo comentário</label>
-			<textarea id="novo-comentario" placeholder="novo comentário" name="comentario" required style="width: 100%; min-height: 3rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);"></textarea>
+			<textarea id="novo-comentario" placeholder="novo comentário" name="comentario" required style="width: 97.7%; min-height: 6rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view); margin: 0 0.5rem;"></textarea>
 			<br>
 			<br>
 			<button type="submit">comentar</button>
