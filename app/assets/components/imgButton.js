@@ -16,16 +16,12 @@ button {
     font-family: var(--familia-fonte);
 
 	display: inline-block;
-	height: 100%;
+	height: 1.5rem;
+	width: 1.5rem;
 	border-radius: 100%;
 	padding: 0.12rem;
 	cursor: pointer;
 	transition: 0.07s;
-}
-
-img {
-	height: 100%;
-	width: auto;
 }
 
 button:active {
@@ -39,14 +35,12 @@ button.pressed {
 button:disabled {
 	cursor:default;
 	background-color: transparent;
-	color: var(--cor-gris);
-	filter: brightness(.9) invert(.5) sepia(.5) hue-rotate(100deg) saturate(0%);
 }
 
 </style>
 
 <button>
-	<img>
+	<svg></svg>
 </button>
 `
 
@@ -57,11 +51,16 @@ class ImgButton extends HTMLElement {
 		
 		this.shadowRoot.appendChild(templateImgButton.content.cloneNode(true));
 
-		let img = this.shadowRoot.querySelector('img');
-		img.src = this.getAttribute('imagem');
-		img.alt = this.getAttribute('descricao');
-		img.title = this.getAttribute('descricao');
-
+		let svg = this.shadowRoot.querySelector('svg');
+		svg.setAttribute('viewBox', '0 0 100 100');
+		svg.style.fill = 'var(--cor-fonte-barra)';
+		let arquivo = this.getAttribute('imagem');
+		fetch(arquivo)
+  			.then(response => response.text())
+  			.then(markupSVG => {
+				console.log('markupSVGGGGGGGGG:', markupSVG);
+				svg.innerHTML = markupSVG;
+			});
 	}
 
 	get enabled() {
@@ -85,14 +84,25 @@ class ImgButton extends HTMLElement {
 	set enabled(habilitado) {
 		let btn = this.shadowRoot.querySelector('button');
 		btn.disabled = !habilitado;
+
+		let svg = this.shadowRoot.querySelector('svg');
+		if (habilitado) {
+			svg.style.fill = 'var(--cor-fonte-barra)';
+		} else {
+			svg.style.fill = 'var(--cor-gris-2)';
+		}
 	}
 
 	set pressed(pressiona) {
 		let btn = this.shadowRoot.querySelector('button');
+		let svg = this.shadowRoot.querySelector('svg');
 		if (pressiona) {
+			console.log('pressiona');
 			btn.classList.add('pressed');
+			svg.style.fill = 'var(--cor-fundo)'; // não funciona, por quê?
 		} else {
 			btn.classList.remove('pressed');
+			svg.style.fill = 'var(--cor-fonte-barra)'; // não funciona, por quê?
 		}
 	}
 
