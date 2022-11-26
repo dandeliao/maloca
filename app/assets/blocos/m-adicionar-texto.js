@@ -32,7 +32,7 @@ class MAdicionarTexto extends MalocaElement {
 			this.removeChild(this.lastChild);
 		}
 
-        let botaoAdicionar = document.createElement('btn');
+        let botaoAdicionar = document.createElement('button');
 		botaoAdicionar.style.display = "inline-block";
 		botaoAdicionar.style.position = "relative";
 		botaoAdicionar.style.maxWidth = "15rem";
@@ -54,12 +54,13 @@ class MAdicionarTexto extends MalocaElement {
 			
 			let modalAdicionar = document.createElement('m-bloco');
 			modalAdicionar.style.display = "block";
-			modalAdicionar.style.position = "absolute";
-			modalAdicionar.style.left = "50%";
-			modalAdicionar.style.top = "50%";
+			modalAdicionar.style.position = "fixed";
+			modalAdicionar.style.left = "50vw";
+			modalAdicionar.style.top = "50vh";
 			modalAdicionar.style.transform = "translate(-50%, -50%)";
 			modalAdicionar.style.margin = "0 auto";
 			modalAdicionar.style.minWidth = "90%";
+			modalAdicionar.style.maxWidth = "100%"
 			modalAdicionar.style.zIndex = "3";
 			
 
@@ -69,15 +70,15 @@ class MAdicionarTexto extends MalocaElement {
 			<h3>Adicionar texto:</h3>
 			<br>
 			<label for="titulo" hidden>título</label>
-			<input type="text" id="titulo-texto" placeholder="Título do texto" name="titulo" style="width: 100%"/>
+			<input type="text" id="titulo-texto" placeholder="Título do texto" name="titulo" style="width: 100%; font-size: 1rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);"/>
 			<br>
 			<br>
 			<label for="texto" hidden>texto</label>
-			<textarea id="markdown-texto" placeholder="Escreva aqui o texto que quer publicar. Se você souber algo de html, pode usar pra estilizar o texto, adicionar imagens, etc." name="texto" required style="width: 100%; min-height: 30rem"></textarea>
+			<textarea id="markdown-texto" placeholder="Escreva aqui o texto que quer publicar." name="texto" required style="width: 100%; min-height: 16rem; font-size: 1rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);"></textarea>
 			<br>
 			<br>
 			<label for="blog" hidden>nome do blog</label>
-			<input type="text" id="blog-texto" placeholder="nome-do-blog" name="blog" required style="width: 100%">
+			<input type="text" id="blog-texto" placeholder="Nome do Blog" name="blog" required style="width: 100%; font-size: 1rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);">
 			<br>
 			<br>
 			<br>

@@ -32,7 +32,7 @@ class MAdicionarImagem extends MalocaElement {
 			this.removeChild(this.lastChild);
 		}
 
-        let botaoAdicionar = document.createElement('btn');
+        let botaoAdicionar = document.createElement('button');
 		botaoAdicionar.style.display = "inline-block";
 		botaoAdicionar.style.position = "relative";
 		botaoAdicionar.style.maxWidth = "15rem";
@@ -54,13 +54,13 @@ class MAdicionarImagem extends MalocaElement {
 			
 			let modalAdicionar = document.createElement('m-bloco');
 			modalAdicionar.style.display = "block";
-			modalAdicionar.style.position = "absolute";
-			modalAdicionar.style.left = "50%";
-			modalAdicionar.style.top = "50%";
+			modalAdicionar.style.position = "fixed";
+			modalAdicionar.style.left = "50vw";
+			modalAdicionar.style.top = "50vh";
 			modalAdicionar.style.transform = "translate(-50%, -50%)";
 			modalAdicionar.style.margin = "0 auto";
-			modalAdicionar.style.minWidth = "7rem";
-			modalAdicionar.style.maxWidth = "15rem";
+			modalAdicionar.style.minWidth = "24rem";
+			modalAdicionar.style.maxWidth = "64rem";
 			modalAdicionar.style.zIndex = "3";
 			
 
@@ -74,11 +74,11 @@ class MAdicionarImagem extends MalocaElement {
 			<br>
 			<br>
 			<label for="descricao" hidden>descrição</label>
-			<input type="text" id="descricao-imagem" placeholder="descreva a imagem para pessoas com deficiência visual. Exemplo: foto de uma árvore alta sem folhas em um parque com grama esverdeada em um dia ensolarado" name="descricao" required>
+			<textarea id="descricao-imagem" placeholder="descreva a imagem para pessoas com deficiência visual. Exemplo: foto de uma árvore alta sem folhas em um parque com grama esverdeada em um dia ensolarado" name="descricao" required style="width: 100%; min-height: 8rem; font-size: 1rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);"></textarea>
 			<br>
 			<br>
 			<label for="album" hidden>álbum</label>
-			<input type="text" id="album-imagem" placeholder="nome-do-album" name="album" required>
+			<input type="text" id="album-imagem" placeholder="Nome do Álbum" name="album" required style="width: 100%; font-size: 1rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);">
 			<br>
 			<br>
 			<br>

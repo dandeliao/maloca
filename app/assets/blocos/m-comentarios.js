@@ -87,14 +87,15 @@ class MComentarios extends MalocaElement {
 			elInfo.style.display = 'flex';
 			elInfo.style.justifyContent = 'space-between';
 			elInfo.style.alignItems = 'flex-end';
-			elInfo.style.marginTop = '1rem';
+			elInfo.style.marginTop = '0.6rem';
 			elInfo.style.color = 'inherit';
 			elPessoa.style.display = 'flex';
-			elPessoa.style.alignItems = 'center';
-			elPessoa.style.gap = '1rem';
+			elPessoa.style.alignItems = 'flex-end';
+			elPessoa.style.gap = '0.6rem';
 			elPessoa.style.color = 'inherit';
 			elAvatar.redondo = false;
-			elAvatar.style.maxWidth = '48px';
+			elAvatar.style.width = '48px';
+			elAvatar.style.height = '48px';
 			elDivNomeArroba.style.textAlign = 'left';
 			elDivNomeArroba.style.color = 'inherit';
 			elNome.style.color = 'inherit';
@@ -107,10 +108,11 @@ class MComentarios extends MalocaElement {
 			elTexto.style.textAlign = 'justify';
 			elTexto.style.color = 'inherit';
 			elContainer.style.borderTop = '1px solid var(--cor-gris)';
-			elContainer.style.margin = '0 0.5rem';
-			elContainer.style.padding = '0.75rem 1rem';
+			elContainer.style.padding = '1rem';
 			elContainer.style.backgroundColor = 'var(--cor-fundo)';
 			elContainer.style.color = 'var(--cor-fonte-view)';
+			let elTotal = this.shadowRoot.querySelector('.comentarios');
+			elTotal.style.marginTop = '2rem';
 
 			elContainer.appendChild(elTexto);
 			elContainer.appendChild(elInfo);
