@@ -67,9 +67,12 @@ class MAdicionarImagem extends MalocaElement {
 			let formAdicionar = document.createElement('form');
 			formAdicionar.setAttribute('enctype', 'multipart/form-data');
 			formAdicionar.innerHTML = `
-			<h3>Escolha a imagem:</h3>
+			<h3>Adicionar Imagem</h3>
 			<br>
-			<label for="arquivo" hidden>selecione um arquivo</label>
+			<div style="display: block; max-height: 12rem; width: 100%; text-align: center; margin-bottom: 1rem;">
+				<img id="preview-imagem" title="prévia da imagem" style="display: hidden; max-width: 12rem;" />
+			</div>
+			<label for="arquivo">Selecione uma imagem:</label>
 			<input id="arquivo-imagem" name="arquivo" type="file" />
 			<br>
 			<br>
@@ -96,6 +99,17 @@ class MAdicionarImagem extends MalocaElement {
 				}
 				modalAdicionar.remove();
 				overlay.remove();
+			});
+
+			let inputImagem = this.querySelector('#arquivo-imagem');
+			inputImagem.addEventListener('change', e => {
+				console.log('change e.target:', e.target);
+				if (e.target.files.length > 0) {
+					let preview = this.querySelector('#preview-imagem');
+					let imgSrc = URL.createObjectURL(e.target.files[0]);
+					preview.setAttribute('src', imgSrc);
+					preview.style.display = 'inline-block';
+				}
 			});
 
 			formAdicionar.addEventListener('submit', async e => {
