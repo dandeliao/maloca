@@ -26,23 +26,23 @@ a:hover {
 }
 
 button {
-    border-top: 0.1rem solid #a3a3a3;
-    border-left: 0.1rem solid #a3a3a3;
-    border-bottom: 0.1rem solid #1B1B1B;
-    border-right: 0.1rem solid #1B1B1B;
+    border-top: none;
+    border-left: none;
+    border-bottom: 0.1rem solid var(--cor-gris-2);
+    border-right: 0.1rem solid var(--cor-gris-2);
     padding: 0.5rem;
     border-radius: 0.2rem;
     cursor: pointer;
     transition: 0.05s;
 	background-color: var(--cor-destaque);
-	color: var(--cor-fundo);
+	color: var(--cor-fonte-barra);
 }
 
 button:active {
-    border-top: 0.1rem solid #1B1B1B;
-    border-left: 0.1rem solid #1B1B1B;
-    border-bottom: 0.1rem solid #a3a3a3;
-    border-right: 0.1rem solid #a3a3a3;
+    border-top: 0.1rem solid var(--cor-gris-2);
+    border-left: 0.1rem solid var(--cor-gris-2);
+    border-bottom: 0.1rem solid var(--cor-fundo-2);
+    border-right: 0.1rem solid var(--cor-fundo-2);
 	background-color: var(--cor-principal);
 	color: var(--cor-fonte-barra);
 }

@@ -67,7 +67,7 @@ class MAdicionarTexto extends MalocaElement {
 			let formAdicionar = document.createElement('form');
 			formAdicionar.setAttribute('enctype', 'multipart/form-data');
 			formAdicionar.innerHTML = `
-			<h3>Adicionar texto:</h3>
+			<h3>Adicionar texto</h3>
 			<br>
 			<label for="titulo" hidden>título</label>
 			<input type="text" id="titulo-texto" placeholder="Título do texto" name="titulo" style="width: 100%; font-size: 1rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);"/>

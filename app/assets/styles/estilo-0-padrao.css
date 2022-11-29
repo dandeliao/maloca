@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Convergence&display=swap');
 
 :root {
-    --cor-principal:    #f8c8cf;
-    --cor-destaque:     #7f5d8d;
-    --cor-gris:         #c5baba;
-    --cor-gris-2:       #918484;
-    --cor-fundo:        #efedec;
-    --cor-fundo-2:      #FEFEFE;
-    --cor-fonte-view:   #1B1B1B;
-    --cor-fonte-barra:  #1B1B1B;
+    --cor-principal:    #e0b6bc;
+    --cor-destaque:     #a990b0;
+    --cor-gris:         #d0c7c7;
+    --cor-gris-2:       #6e6e6e;
+    --cor-fundo:        #f0f0f0;
+    --cor-fundo-2:      #e5e5e5;
+    --cor-fonte-view:   #2e2e2e;
+    --cor-fonte-barra:  #272727;
     --familia-fonte:    'Convergence', sans-serif;
     font-family: var(--familia-fonte);
     --estilo-borda:     none;
@@ -29,7 +29,7 @@ h5, h6          { font-weight: bolder }
 a {
     text-decoration:underline;
     cursor: pointer;
-    color: var(--cor-fonte);
+    color: var(--cor-fonte-barra);
 }
 
 a:hover {
@@ -42,7 +42,7 @@ a:hover {
     height: 2rem;
 	width: 100%;
     background-color: var(--cor-principal);
-    color: var(--cor-fonte);
+    color: var(--cor-fonte-barra);
     display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -73,7 +73,7 @@ img-button {
     font-size: 0.85rem;
     width: 100%;
     background-color: var(--cor-principal);
-    color: var(--cor-fonte);
+    color: var(--cor-fonte-barra);
     z-index: 100;
 }
 
@@ -101,7 +101,7 @@ maloca-viewer {
     height: 2rem;
 	width: 100%;
     background-color: var(--cor-principal);
-    color: var(--cor-fonte);
+    color: var(--cor-fonte-barra);
     display: flex;
 	flex-direction: row;
 	justify-content: center;

@@ -1,20 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Convergence&display=swap');
 
 :root {
-    --cor-principal:    #474037;
-    --cor-destaque:     #847560;
-    --cor-gris:         #52514f;
-    --cor-gris-2:       #313132;
-    --cor-fundo:        #282726;
-    --cor-fundo-2:      #333338;
-    --cor-fonte-view:   #d7d1c9;
-    --cor-fonte-barra:  #bbb3ab;
+    --cor-principal:    #3a3336;
+    --cor-destaque:     #4b4b55;
+    --cor-gris:         #363636;
+    --cor-gris-2:       #202020;
+    --cor-fundo:        #222121;
+    --cor-fundo-2:      #2b2b2b;
+    --cor-fonte-view:   #b6b4b1;
+    --cor-fonte-barra:  #cac6c1;
     --familia-fonte:    'Convergence', sans-serif;
     font-family: var(--familia-fonte);
     --estilo-borda:     none;
     --espessura-borda:  0;
     --raio-borda:       0.4rem;
-    --sombreado: 2px 3px 4px rgba(58, 58, 60, 0.2);;
+    --sombreado: 2px 3px 4px rgba(26, 26, 26, 0.2);;
 }
 
 h1              { font-size: 2.3rem;   margin: .28rem 0 }
