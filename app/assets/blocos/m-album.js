@@ -30,9 +30,12 @@ class MAlbum extends MalocaElement {
 
 		if (imagens.length > 0) {
 
-			let elTituloDoAlbum = document.createElement('h2');
-			elTituloDoAlbum.textContent = nomeAlbum;
+			/* let elTituloDoAlbum = document.createElement('m-bloco');
+			let elH2 = document.createElement('h2');
+			elH2.textContent = nomeAlbum;
+			elTituloDoAlbum.appendChild(elH2);
 			this.appendChild(elTituloDoAlbum);
+			this.appendChild(document.createElement('br')); */
 			
 			imagens.forEach(async img => {
 
@@ -119,6 +122,7 @@ class MAlbum extends MalocaElement {
 				this.appendChild(document.createElement('br'));
 
 				// renderiza blocos
+				/* elTituloDoAlbum.renderizar(estado); */
 				elAvatar.renderizar(estado);
 				elImg.renderizar(estado);
 
@@ -142,12 +146,12 @@ class MAlbum extends MalocaElement {
 
 							// estiliza botão pressionado
 							e.target.innerText = 'ocultar comentários';
-							e.target.style.backgroundColor = 'var(--cor-destaque)';
-							e.target.style.color = 'var(--cor-fundo)';
+							e.target.style.backgroundColor = 'var(--cor-principal)';
+							e.target.style.color = 'var(--cor-fonte-barra)';
 							e.target.style.borderTop = '0.1rem solid #1B1B1B';
 							e.target.style.borderLeft = '0.1rem solid #1B1B1B';
-							e.target.style.borderBottom = '0.1rem solid #a3a3a3';
-							e.target.style.borderRight = '0.1rem solid #a3a3a3';
+							e.target.style.borderBottom = '1px solid var(--cor-fundo-2)';
+							e.target.style.borderRight = '1px solid var(--cor-fundo-2)';
 
 							// cria bloco que exibe comentários
 							let elComentarios = document.createElement('m-comentarios');
@@ -170,12 +174,12 @@ class MAlbum extends MalocaElement {
 
 							// estiliza botão não-pressionado
 							e.target.innerText = 'ver comentários';
-							e.target.style.backgroundColor = 'var(--cor-principal)';
-							e.target.style.color = 'var(--cor-fonte-barra)';
-							e.target.style.borderTop = '0.1rem solid #a3a3a3';
-							e.target.style.borderLeft = '0.1rem solid #a3a3a3';
-							e.target.style.borderBottom = '0.1rem solid #1B1B1B';
-							e.target.style.borderRight = '0.1rem solid #1B1B1B';
+							e.target.style.backgroundColor = 'var(--cor-destaque)';
+							e.target.style.color = 'var(--cor-fundo)';
+							e.target.style.borderTop = '0.1rem solid var(--cor-fundo-2)';
+							e.target.style.borderLeft = '0.1rem solid var(--cor-fundo-2)';
+							e.target.style.borderBottom = '1px solid #1B1B1B';
+							e.target.style.borderRight = '1px solid #1B1B1B';
 							
 							blocoImagem.parentElement.querySelectorAll('.secao-comentarios').forEach(el => {
 								el.parentNode.removeChild(el)

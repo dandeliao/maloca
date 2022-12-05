@@ -31,9 +31,9 @@ class MBlog extends MalocaElement {
 
 		if (textos.length > 0) {
 
-			let elTituloDoBlog = document.createElement('h2');
+			/* let elTituloDoBlog = document.createElement('h2');
 			elTituloDoBlog.textContent = nomeBlog;
-			this.appendChild(elTituloDoBlog);
+			this.appendChild(elTituloDoBlog); */
 			
 			textos.forEach(async txt => {
 				
@@ -145,8 +145,8 @@ class MBlog extends MalocaElement {
 							e.target.style.color = 'var(--cor-fonte-barra)';
 							e.target.style.borderTop = '0.1rem solid #1B1B1B';
 							e.target.style.borderLeft = '0.1rem solid #1B1B1B';
-							e.target.style.borderBottom = '0.1rem solid #a3a3a3';
-							e.target.style.borderRight = '0.1rem solid #a3a3a3';
+							e.target.style.borderBottom = '1px solid var(--cor-fundo-2)';
+							e.target.style.borderRight = '1px solid var(--cor-fundo-2)';
 
 							// cria bloco que exibe comentários
 							let elComentarios = document.createElement('m-comentarios');
@@ -170,14 +170,11 @@ class MBlog extends MalocaElement {
 							// estiliza botão não-pressionado
 							e.target.innerText = 'ver comentários';
 							e.target.style.backgroundColor = 'var(--cor-destaque)';
-							e.target.style.color = 'var(--cor-fundo-2)';
-							if (estado.estilo === 'ema') {
-								e.target.style.color = 'var(--cor-fundo)';
-							}
-							e.target.style.borderTop = '0.1rem solid #a3a3a3';
-							e.target.style.borderLeft = '0.1rem solid #a3a3a3';
-							e.target.style.borderBottom = '0.1rem solid #1B1B1B';
-							e.target.style.borderRight = '0.1rem solid #1B1B1B';
+							e.target.style.color = 'var(--cor-fonte-view)';
+							e.target.style.borderTop = '0.1rem solid var(--cor-fundo-2)';
+							e.target.style.borderLeft = '0.1rem solid var(--cor-fundo-2)';
+							e.target.style.borderBottom = '1px solid #1B1B1B';
+							e.target.style.borderRight = '1px solid #1B1B1B';
 							
 							blocoTexto.parentElement.querySelectorAll('.secao-comentarios').forEach(el => {
 								el.parentNode.removeChild(el)

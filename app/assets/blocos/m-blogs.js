@@ -46,13 +46,11 @@ class MBlogs extends MalocaElement {
             arrayBlogs.forEach(blog => {
 
                 botao = document.createElement('button');
-				botao.style.maxWidth = "10rem";
-
-                nome = document.createElement('p');
-                nome.textContent = blog.nome;
-                nome.style.width = "100%";
+                botao.innerText = blog.nome;
+                botao.style.display = "block";
+				botao.style.width = "100%";
+                botao.style.border = "none";
                 
-                botao.appendChild(nome);
                 divLista.appendChild(botao);
 
                 // define atributos para facilitar uso no event listener
@@ -65,7 +63,7 @@ class MBlogs extends MalocaElement {
                     let tipoLocal = e.currentTarget.getAttribute('tipo');
                     let idLocal = e.currentTarget.getAttribute('localId');
 
-                    let res = await serverFetch(`/${tipoLocal}s/${idLocal}/objetos/textos`, 'GET');
+                   /*  let res = await serverFetch(`/${tipoLocal}s/${idLocal}/objetos/textos`, 'GET');
                     let textos = await res.json();
                     let arrayTextos = [];
 
@@ -73,7 +71,7 @@ class MBlogs extends MalocaElement {
                         if (textos[i].blog === nomeBlog) {
                             arrayTextos.push(textos[i]);
                         }
-                    }
+                    } */
 
                     let overlay = document.createElement('div');
                     overlay.style.display = "block";
@@ -81,23 +79,27 @@ class MBlogs extends MalocaElement {
                     overlay.style.zIndex = "2";
                     overlay.style.width = "100%";
                     overlay.style.height = "100%";
-                    overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+                    overlay.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
                     overlay.style.left = "0px";
                     overlay.style.top = "0px";
                     
-                    let modalTextos = document.createElement('m-bloco');
+                    let modalTextos = document.createElement('div');
                     modalTextos.style.display = "block";
                     modalTextos.style.position = "absolute";
                     modalTextos.style.textAlign = "center";
                     modalTextos.style.left = "50%";
-                    modalTextos.style.top = "50%";
-                    modalTextos.style.transform = "translate(-50%, -50%)";
+                    modalTextos.style.top = "5%";
+                    modalTextos.style.transform = "translate(-50%, 0)";
                     modalTextos.style.margin = "0 auto";
                     modalTextos.style.width = "90%";
+                    modalTextos.style.maxWidth = "860px";
                     modalTextos.style.maxHeight = "90%";
                     modalTextos.style.zIndex = "3";
+                    modalTextos.style.backgroundColor = "rgba(255, 255, 255, 0)";
+                    modalTextos.style.overflowY = "scroll";
 
-                    let elTituloDoBlog = document.createElement('h2');
+
+                    /* let elTituloDoBlog = document.createElement('h2');
                     elTituloDoBlog.textContent = nomeBlog;
                     modalTextos.appendChild(elTituloDoBlog);
                     
@@ -117,10 +119,17 @@ class MBlogs extends MalocaElement {
    
                         modalTextos.appendChild(elTitulo);
 						modalTextos.appendChild(elTexto);
-                    });
+                    }); */
                     
+                    let blog = document.createElement('m-blog');
+                    blog.setAttribute(`${tipoLocal}`, idLocal);
+                    blog.setAttribute('nome', nomeBlog);
+                    modalTextos.appendChild(blog);
+
                     this.appendChild(modalTextos);
                     this.appendChild(overlay);
+
+                    blog.renderizar(estado);
 
                     overlay.addEventListener('click', e => {
                         e.preventDefault();
@@ -129,6 +138,7 @@ class MBlogs extends MalocaElement {
                         }
                         modalTextos.remove();
                         overlay.remove();
+                        window.scrollTo(0, 0);
                     });
                 });
 

@@ -7,7 +7,7 @@
     --cor-gris-2:       #202020;
     --cor-fundo:        #222121;
     --cor-fundo-2:      #2b2b2b;
-    --cor-fonte-view:   #b6b4b1;
+    --cor-fonte-view:   #c7c5c2;
     --cor-fonte-barra:  #cac6c1;
     --familia-fonte:    'Convergence', sans-serif;
     font-family: var(--familia-fonte);
@@ -73,7 +73,7 @@ img-button {
     width: 100%;
     background-color: var(--cor-principal);
     color: var(--cor-fonte-view);
-    z-index: 100;
+    z-index: 80;
 }
 
 #tab-bar.active {

@@ -78,10 +78,11 @@ class MAlbuns extends MalocaElement {
 
                 botao.addEventListener('click', async e => {
                     let nomeAlbum = e.currentTarget.getAttribute('album');
+                    console.log('nomeAlbum:', nomeAlbum);
                     let tipoLocal = e.currentTarget.getAttribute('tipo');
                     let idLocal = e.currentTarget.getAttribute('localId');
 
-                    let res = await serverFetch(`/${tipoLocal}s/${idLocal}/objetos/imagens`, 'GET');
+                    /* let res = await serverFetch(`/${tipoLocal}s/${idLocal}/objetos/imagens`, 'GET');
                     let imagens = await res.json();
                     let arrayImagens = [];
 
@@ -89,7 +90,7 @@ class MAlbuns extends MalocaElement {
                         if (imagens[i].album === nomeAlbum) {
                             arrayImagens.push(imagens[i]);
                         }
-                    }
+                    } */
 
                     let overlay = document.createElement('div');
                     overlay.style.display = "block";
@@ -97,27 +98,30 @@ class MAlbuns extends MalocaElement {
                     overlay.style.zIndex = "2";
                     overlay.style.width = "100%";
                     overlay.style.height = "100%";
-                    overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+                    overlay.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
                     overlay.style.left = "0px";
                     overlay.style.top = "0px";
                     
-                    let modalImagens = document.createElement('m-bloco');
+                    let modalImagens = document.createElement('div');
                     modalImagens.style.display = "block";
                     modalImagens.style.position = "absolute";
                     modalImagens.style.textAlign = "center";
                     modalImagens.style.left = "50%";
-                    modalImagens.style.top = "50%";
-                    modalImagens.style.transform = "translate(-50%, -50%)";
+                    modalImagens.style.top = "5%";
+                    modalImagens.style.transform = "translate(-50%, 0)";
                     modalImagens.style.margin = "0 auto";
                     modalImagens.style.width = "90%";
+                    modalImagens.style.maxWidth = "860px";
                     modalImagens.style.maxHeight = "90%";
                     modalImagens.style.zIndex = "3";
+                    modalImagens.style.backgroundColor = "rgba(255, 255, 255, 0)";
+                    modalImagens.style.overflowY = "scroll";
 
-                    let elTitulo = document.createElement('h2');
+                    /* let elTitulo = document.createElement('h2');
                     elTitulo.textContent = nomeAlbum;
-                    modalImagens.appendChild(elTitulo);
+                    modalImagens.appendChild(elTitulo); */
                     
-                    arrayImagens.forEach(img => {
+                   /*  arrayImagens.forEach(img => {
                         let elImg = document.createElement('img');
                         let imgId;
                         if (tipoLocal === 'pessoa') {
@@ -131,10 +135,17 @@ class MAlbuns extends MalocaElement {
                         elImg.setAttribute('alt', img.descricao);
                         elImg.setAttribute('title', img.descricao);
                         modalImagens.appendChild(elImg);
-                    });
+                    }); */
+
+                    let album = document.createElement('m-album');
+                    album.setAttribute(`${tipoLocal}`, idLocal);
+                    album.setAttribute('nome', nomeAlbum);
+                    modalImagens.appendChild(album);
                     
                     this.appendChild(modalImagens);
                     this.appendChild(overlay);
+
+                    album.renderizar(estado);
 
                     overlay.addEventListener('click', e => {
                         e.preventDefault();
@@ -143,6 +154,7 @@ class MAlbuns extends MalocaElement {
                         }
                         modalImagens.remove();
                         overlay.remove();
+                        window.scrollTo(0, 0);
                     });
                 });
 

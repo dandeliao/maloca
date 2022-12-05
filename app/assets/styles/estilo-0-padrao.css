@@ -74,7 +74,7 @@ img-button {
     width: 100%;
     background-color: var(--cor-principal);
     color: var(--cor-fonte-barra);
-    z-index: 100;
+    z-index: 80;
 }
 
 #tab-bar.active {
