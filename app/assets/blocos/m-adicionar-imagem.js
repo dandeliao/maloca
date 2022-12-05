@@ -32,6 +32,8 @@ class MAdicionarImagem extends MalocaElement {
 			this.removeChild(this.lastChild);
 		}
 
+		let nomeAlbum = this.getAttribute('album');
+
         let botaoAdicionar = document.createElement('button');
 		botaoAdicionar.style.display = "inline-block";
 		botaoAdicionar.style.position = "relative";
@@ -80,8 +82,8 @@ class MAdicionarImagem extends MalocaElement {
 			<textarea id="descricao-imagem" placeholder="descreva a imagem para pessoas com deficiência visual. Exemplo: foto de uma árvore alta sem folhas em um parque com grama esverdeada em um dia ensolarado" name="descricao" required style="width: 100%; min-height: 8rem; font-size: 1rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);"></textarea>
 			<br>
 			<br>
-			<label for="album" hidden>álbum</label>
-			<input type="text" id="album-imagem" placeholder="Nome do Álbum" name="album" required style="width: 100%; font-size: 1rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);">
+			<label for="titulo" hidden>álbum</label>
+			<input type="text" id="titulo-imagem" placeholder="Título" name="titulo" style="width: 100%; font-size: 1rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);">
 			<br>
 			<br>
 			<br>
@@ -117,11 +119,17 @@ class MAdicionarImagem extends MalocaElement {
 
 				const arquivo = formAdicionar.elements['arquivo-imagem'].files[0];
 				const descricao = formAdicionar.elements['descricao'].value;
-				const album = formAdicionar.elements['album'].value;
+				const titulo = formAdicionar.elements['titulo'].value;
+				const album = nomeAlbum;
 
 				let formData = new FormData();
 				formData.append('descricao', descricao);
-				formData.append('album', album);
+				formData.append('titulo', titulo);
+				if (estado.view.tipo === 'comunidade') {
+					formData.append('album_comunitario_id', album);
+				} else if (estado.view.tipo === 'pessoa') {
+					formData.append('album_pessoal_id', album);
+				}
 				formData.append('arquivo', arquivo);
 
 				serverFetch(`/${estado.view.tipo}s/${estado.view.id}/objetos/imagens`, 'POST', formData)

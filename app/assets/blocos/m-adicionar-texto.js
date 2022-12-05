@@ -32,6 +32,8 @@ class MAdicionarTexto extends MalocaElement {
 			this.removeChild(this.lastChild);
 		}
 
+		let nomeBlog = this.getAttribute('blog');
+
         let botaoAdicionar = document.createElement('button');
 		botaoAdicionar.style.display = "inline-block";
 		botaoAdicionar.style.position = "relative";
@@ -77,10 +79,6 @@ class MAdicionarTexto extends MalocaElement {
 			<textarea id="markdown-texto" placeholder="Escreva aqui o texto que quer publicar." name="texto" required style="width: 100%; min-height: 16rem; font-size: 1rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);"></textarea>
 			<br>
 			<br>
-			<label for="blog" hidden>nome do blog</label>
-			<input type="text" id="blog-texto" placeholder="Nome do Blog" name="blog" required style="width: 100%; font-size: 1rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);">
-			<br>
-			<br>
 			<br>
 			<button type="submit">salvar texto</button>
 			`
@@ -103,8 +101,13 @@ class MAdicionarTexto extends MalocaElement {
 
 				const dados = {
 					titulo: formAdicionar.elements['titulo'].value,
-					texto: 	formAdicionar.elements['texto'].value,
-					blog:	formAdicionar.elements['blog'].value
+					texto: 	formAdicionar.elements['texto'].value
+				}
+
+				if (estado.view.tipo === 'comunidade') {
+					dados.blog_comunitario_id = nomeBlog;
+				} else if (estado.view.tipo === 'pessoa') {
+					dados.blog_pessoal_id = nomeBlog;
 				}
 
 				serverFetch(`/${estado.view.tipo}s/${estado.view.id}/objetos/textos`, 'POST', dados)
