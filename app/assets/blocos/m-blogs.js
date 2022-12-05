@@ -23,30 +23,18 @@ class MBlogs extends MalocaElement {
 
         let tipo = estado.view.tipo;
         let id = estado.view.id;
-        let arrayBlogs = [];
 
-		let res = await serverFetch(`/${tipo}s/${id}/objetos/textos`, 'GET');
-		let textos = await res.json();
-
-		for (let i = 0; i < textos.length; i++) {
-			let iguais = arrayBlogs.filter(blog => blog.nome === textos[i].blog);
-			if (iguais.length === 0) { // se blog ainda não está na lista
-				let nome = textos[i].blog;
-				arrayBlogs.push({
-					'nome': nome,
-				})
-			}
-		}
+		let res = await serverFetch(`/${tipo}s/${id}/objetos/blogs`, 'GET');
+		let arrayBlogs = (await res.json()).rows;
 
         let divLista = document.createElement('div');
 
         if (arrayBlogs.length > 0) {
             let botao;
-            let nome;
             arrayBlogs.forEach(blog => {
 
                 botao = document.createElement('button');
-                botao.innerText = blog.nome;
+                botao.innerText = blog.blog_comunitario_id ? blog.blog_comunitario_id : blog.blog_pessoal_id;
                 botao.style.display = "block";
 				botao.style.width = "100%";
                 botao.style.border = "none";
@@ -54,7 +42,7 @@ class MBlogs extends MalocaElement {
                 divLista.appendChild(botao);
 
                 // define atributos para facilitar uso no event listener
-                botao.setAttribute('blog', blog.nome);
+                botao.setAttribute('blog', botao.innerText);
                 botao.setAttribute('tipo', estado.view.tipo);
                 botao.setAttribute('localId', estado.view.id);
 
@@ -62,16 +50,6 @@ class MBlogs extends MalocaElement {
                     let nomeBlog = e.currentTarget.getAttribute('blog');
                     let tipoLocal = e.currentTarget.getAttribute('tipo');
                     let idLocal = e.currentTarget.getAttribute('localId');
-
-                   /*  let res = await serverFetch(`/${tipoLocal}s/${idLocal}/objetos/textos`, 'GET');
-                    let textos = await res.json();
-                    let arrayTextos = [];
-
-                    for (let i = 0; i < textos.length; i++) {
-                        if (textos[i].blog === nomeBlog) {
-                            arrayTextos.push(textos[i]);
-                        }
-                    } */
 
                     let overlay = document.createElement('div');
                     overlay.style.display = "block";
@@ -97,29 +75,6 @@ class MBlogs extends MalocaElement {
                     modalTextos.style.zIndex = "3";
                     modalTextos.style.backgroundColor = "rgba(255, 255, 255, 0)";
                     modalTextos.style.overflowY = "scroll";
-
-
-                    /* let elTituloDoBlog = document.createElement('h2');
-                    elTituloDoBlog.textContent = nomeBlog;
-                    modalTextos.appendChild(elTituloDoBlog);
-                    
-                    arrayTextos.forEach(async txt => {
-						let elTitulo = document.createElement('h3');
-                        let elTexto = document.createElement('div');
-                        let txtId;
-                        if (tipoLocal === 'pessoa') {
-                            txtId = txt.texto_pessoal_id;
-                        } else if (tipoLocal === 'comunidade') {
-                            txtId = txt.texto_comunitario_id;
-                        }
-						elTitulo.textContent = txt.titulo;
-						let textinho = await serverFetch(`/${tipoLocal}s/${idLocal}/objetos/texto?id=${txtId}`, 'GET');
-                        elTexto.innerHTML = await textinho.text();
-						elTexto.style.textAlign = "left";
-   
-                        modalTextos.appendChild(elTitulo);
-						modalTextos.appendChild(elTexto);
-                    }); */
                     
                     let blog = document.createElement('m-blog');
                     blog.setAttribute(`${tipoLocal}`, idLocal);

@@ -29,13 +29,6 @@ class MAlbum extends MalocaElement {
 		let imagens = await res.json();
 
 		if (imagens.length > 0) {
-
-			/* let elTituloDoAlbum = document.createElement('m-bloco');
-			let elH2 = document.createElement('h2');
-			elH2.textContent = nomeAlbum;
-			elTituloDoAlbum.appendChild(elH2);
-			this.appendChild(elTituloDoAlbum);
-			this.appendChild(document.createElement('br')); */
 			
 			imagens.forEach(async img => {
 
@@ -53,9 +46,13 @@ class MAlbum extends MalocaElement {
 				elImg.setAttribute('numero', imagemId);
 				elImg.setAttribute(`${tipo}`, id); // pessoa=id-da-pessoa ou comunidade=id-da-comunidade
 				
-				// cria elemento que receberá informações (pessoa que postou, data de postagem, comentários)
+				// cria elemento que receberá informações (título, pessoa que postou, data de postagem, comentários)
 				let elInfo = document.createElement('div');
 								
+				// cria elemento com o texto do título
+				let elTexto = document.createElement('div');
+				elTexto.innerText = img.titulo;
+
 				// cria elementos com informações da pessoa que postou
 				let elPessoa = document.createElement('div');
 				let elAvatar = document.createElement('m-avatar');
@@ -100,7 +97,6 @@ class MAlbum extends MalocaElement {
 				elInfo.style.justifyContent = 'space-between';
 				elInfo.style.alignItems = 'flex-end';
 				elInfo.style.gap = '2rem';
-				elInfo.style.borderTop = '1px dashed var(--cor-destaque)';
 				elInfo.style.paddingTop = '0.75rem';
 				elPessoa.style.display = 'flex';
 				elPessoa.style.alignItems = 'flex-end';
@@ -115,14 +111,19 @@ class MAlbum extends MalocaElement {
 				elDadosPostagem.style.gap = '1rem';
 				elImg.style.marginBottom = '1.5rem';
 				elImg.style.width = '100%';
+				elTexto.style.width = '100%';
+				elTexto.style.textAlign = 'justify';
+				elTexto.style.color = 'inherit';
+				elTexto.style.paddingTop = '0.75rem';
+				elTexto.style.borderTop = '1px dashed var(--cor-destaque)';
 
 				elBloco.appendChild(elImg);
+				elBloco.appendChild(elTexto);
 				elBloco.appendChild(elInfo);
 				this.appendChild(elBloco);
 				this.appendChild(document.createElement('br'));
 
 				// renderiza blocos
-				/* elTituloDoAlbum.renderizar(estado); */
 				elAvatar.renderizar(estado);
 				elImg.renderizar(estado);
 
@@ -190,7 +191,15 @@ class MAlbum extends MalocaElement {
 				}
 			});
 		} else {
+
 			console.log('Não há imagens para mostrar');
+
+			let elBloco = document.createElement('m-bloco');
+			let aviso = document.createElement('p');
+			aviso.innerText = 'Não há imagens para mostrar';
+			elBloco.appendChild(aviso);
+			this.appendChild(elBloco);
+			this.appendChild(document.createElement('br'));
 		}
     }
 }

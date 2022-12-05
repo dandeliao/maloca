@@ -23,29 +23,24 @@ class MAlbuns extends MalocaElement {
 
         let tipo = estado.view.tipo;
         let id = estado.view.id;
+
+		let res = await serverFetch(`/${tipo}s/${id}/objetos/albuns`, 'GET');
+		let resAlbuns = (await res.json()).rows;
         let arrayAlbuns = [];
 
-		let res = await serverFetch(`/${tipo}s/${id}/objetos/imagens`, 'GET');
-		let imagens = await res.json();
-
-		for (let i = 0; i < imagens.length; i++) {
-			let iguais = arrayAlbuns.filter(alb => alb.nome === imagens[i].album);
-			if (iguais.length === 0) { // se álbum ainda não está na lista
-				let nome = imagens[i].album;
-				let capa;
-                let descricaoCapa = imagens[i].descricao;
-				if (estado.view.tipo === 'pessoa') {
-					capa = imagens[i].imagem_pessoal_id;
-				} else if (estado.view.tipo === 'comunidade') {
-					capa = imagens[i].imagem_comunitaria_id;
-				}
-				arrayAlbuns.push({
-					'nome': nome,
-					'capa_id': capa,
-                    'descricao_capa': descricaoCapa
-				})
-			}
-		}
+        for (let i=0; i < resAlbuns.length; i++) {
+            if (estado.view.tipo === 'comunidade') {
+                arrayAlbuns.push({
+                    nome: resAlbuns[i].album_comunitario_id,
+                    capa_id: resAlbuns[i].imagem_comunitaria_id
+                });
+            } else if (estado.view.tipo === 'pessoa') {
+                arrayAlbuns.push({
+                    nome: resAlbuns[i].album_pessoal_id,
+                    capa_id: resAlbuns[i].imagem_pessoal_id
+                });
+            }
+        }
 
         let divLista = document.createElement('div');
 
@@ -60,8 +55,8 @@ class MAlbuns extends MalocaElement {
 
                 capa = document.createElement('img');
                 capa.setAttribute('src', `http://localhost:4000/${estado.view.tipo}s/${estado.view.id}/objetos/imagem?id=${album.capa_id}`);
-                capa.setAttribute('alt', `capa do álbum ${album.nome}, ${album.descricao_capa}`);
-                capa.setAttribute('title', `capa do álbum ${album.nome}, ${album.descricao_capa}`);
+                capa.setAttribute('alt', `álbum ${album.nome}`);
+                capa.setAttribute('title', `álbum ${album.nome}`);
                 capa.style.width = "100%";
 
                 nome = document.createElement('p');
@@ -78,19 +73,8 @@ class MAlbuns extends MalocaElement {
 
                 botao.addEventListener('click', async e => {
                     let nomeAlbum = e.currentTarget.getAttribute('album');
-                    console.log('nomeAlbum:', nomeAlbum);
                     let tipoLocal = e.currentTarget.getAttribute('tipo');
                     let idLocal = e.currentTarget.getAttribute('localId');
-
-                    /* let res = await serverFetch(`/${tipoLocal}s/${idLocal}/objetos/imagens`, 'GET');
-                    let imagens = await res.json();
-                    let arrayImagens = [];
-
-                    for (let i = 0; i < imagens.length; i++) {
-                        if (imagens[i].album === nomeAlbum) {
-                            arrayImagens.push(imagens[i]);
-                        }
-                    } */
 
                     let overlay = document.createElement('div');
                     overlay.style.display = "block";
@@ -116,26 +100,6 @@ class MAlbuns extends MalocaElement {
                     modalImagens.style.zIndex = "3";
                     modalImagens.style.backgroundColor = "rgba(255, 255, 255, 0)";
                     modalImagens.style.overflowY = "scroll";
-
-                    /* let elTitulo = document.createElement('h2');
-                    elTitulo.textContent = nomeAlbum;
-                    modalImagens.appendChild(elTitulo); */
-                    
-                   /*  arrayImagens.forEach(img => {
-                        let elImg = document.createElement('img');
-                        let imgId;
-                        if (tipoLocal === 'pessoa') {
-                            imgId = img.imagem_pessoal_id;
-                        } else if (tipoLocal === 'comunidade') {
-                            imgId = img.imagem_comunitaria_id;
-                        }
-                        elImg.src = `http://localhost:4000/${tipoLocal}s/${idLocal}/objetos/imagem?id=${imgId}`;
-                        elImg.style.maxWidth = '33rem';
-                        elImg.style.margin = "0.5rem";
-                        elImg.setAttribute('alt', img.descricao);
-                        elImg.setAttribute('title', img.descricao);
-                        modalImagens.appendChild(elImg);
-                    }); */
 
                     let album = document.createElement('m-album');
                     album.setAttribute(`${tipoLocal}`, idLocal);
