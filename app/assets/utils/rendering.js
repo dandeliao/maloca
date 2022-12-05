@@ -2,7 +2,7 @@ import { serverFetch } from "./fetching.js";
 import { estadoPadrao } from "./state.js";
 
 // Converte um blob (ex: imagem) em uma string base64
-function convertBlobToBase64(blob) {
+export function convertBlobToBase64(blob) {
 	return new Promise((resolve, reject) => {
 	  const reader = new FileReader();
 	  reader.onerror = reject;
@@ -24,34 +24,9 @@ export function togglePressed (imgButton) {
 export async function renderMenu(estado) {
 
 	let menu = document.createElement('maloca-menu');
-	
-	if (estado.auth.id) {
-		let res = await serverFetch(`/pessoas/${estado.auth.id}`);
-		let perfil = await res.json();
-	
-		let fetchedImage = await serverFetch(`/pessoas/${estado.auth.id}/objetos/avatar`, 'GET');
-		let imageBase64 = await convertBlobToBase64(await fetchedImage.blob());
-		menu.addProfile(imageBase64, perfil.nome);
-		menu.addItem('Meu perfil', `/pessoa/${estado.auth.id}`);
-	} else {
-		menu.addProfile(`/assets/images/avatar.jpg`, 'pessoa não logada');
-	}
-	
-	
-	menu.addItem('Início', '/');
-	menu.addItem('Coleções', '/colecoes');
-	menu.addItem('Configuração', '/configuracao');
-	menu.addItem('Sair', '/logout');
-
-	menu.style.position = 'fixed';
-	menu.style.zIndex = 500;
-	menu.style.top = '2rem';
-	menu.style.left = '0px';
-	menu.style.width = '22rem';
-	menu.style.maxWidth = '300px';
-	menu.style.minWidth = '100px';
-
 	document.body.appendChild(menu);
+	
+	menu.renderizar(estado);
 
 }
 
