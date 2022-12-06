@@ -25,6 +25,13 @@ class MAlbum extends MalocaElement {
         let id = estado.view.id;
         let nomeAlbum = this.getAttribute('nome');
 
+		let blocoCabecalho = document.createElement('m-bloco');
+		let elNomeAlbum = document.createElement('h2');
+		elNomeAlbum.innerText = nomeAlbum;
+		blocoCabecalho.appendChild(elNomeAlbum);
+		this.appendChild(blocoCabecalho);
+		this.appendChild(document.createElement('br'));
+
 		let res = await serverFetch(`/${tipo}s/${id}/objetos/imagens?album=${nomeAlbum}`, 'GET');
 		let imagens = await res.json();
 
