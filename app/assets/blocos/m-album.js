@@ -25,6 +25,7 @@ class MAlbum extends MalocaElement {
         let id = estado.view.id;
         let nomeAlbum = this.getAttribute('nome');
 
+		// cria cabeçalho
 		let blocoCabecalho = document.createElement('m-bloco');
 		let elNomeAlbum = document.createElement('h2');
 		elNomeAlbum.innerText = nomeAlbum;
