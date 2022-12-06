@@ -25,15 +25,19 @@ class MBlog extends MalocaElement {
         let id = estado.view.id;
         let nomeBlog = this.getAttribute('nome');
 
+		// cria cabeçalho
+		let blocoCabecalho = document.createElement('m-bloco');
+		let elNomeBlog = document.createElement('h2');
+		elNomeBlog.innerText = nomeBlog;
+		blocoCabecalho.appendChild(elNomeBlog);
+		this.appendChild(blocoCabecalho);
+		this.appendChild(document.createElement('br'));
+
 		let res = await serverFetch(`/${tipo}s/${id}/objetos/textos?blog=${nomeBlog}`, 'GET');
 		let textos = await res.json();
 
 
 		if (textos.length > 0) {
-
-			/* let elTituloDoBlog = document.createElement('h2');
-			elTituloDoBlog.textContent = nomeBlog;
-			this.appendChild(elTituloDoBlog); */
 			
 			textos.forEach(async txt => {
 				
