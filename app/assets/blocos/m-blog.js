@@ -186,6 +186,13 @@ class MBlog extends MalocaElement {
 			});
 		} else {
 			console.log('Não há textos para mostrar');
+
+			let elBloco = document.createElement('m-bloco');
+			let aviso = document.createElement('p');
+			aviso.innerText = 'Não há textos para mostrar';
+			elBloco.appendChild(aviso);
+			this.appendChild(elBloco);
+			this.appendChild(document.createElement('br'));
 		}
     }
 }
