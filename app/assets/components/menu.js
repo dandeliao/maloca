@@ -123,7 +123,6 @@ class MalocaMenu extends HTMLElement {
 		
 		
 		this.addItem('Início', '/');
-		this.addItem('Coleções', '/colecoes');
 		this.addItem('Configuração', '/configuracao');
 		this.addItem('Sair', '/logout');
 	
