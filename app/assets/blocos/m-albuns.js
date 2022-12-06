@@ -32,12 +32,12 @@ class MAlbuns extends MalocaElement {
             if (estado.view.tipo === 'comunidade') {
                 arrayAlbuns.push({
                     nome: resAlbuns[i].album_comunitario_id,
-                    capa_id: resAlbuns[i].imagem_comunitaria_id
+                    capa_id: resAlbuns[i].capa_id,
                 });
             } else if (estado.view.tipo === 'pessoa') {
                 arrayAlbuns.push({
                     nome: resAlbuns[i].album_pessoal_id,
-                    capa_id: resAlbuns[i].imagem_pessoal_id
+                    capa_id: resAlbuns[i].capa_id,
                 });
             }
         }
@@ -48,15 +48,17 @@ class MAlbuns extends MalocaElement {
             let botao;
             let capa;
             let nome;
-            arrayAlbuns.forEach(album => {
+            arrayAlbuns.forEach(async album => {
 
                 botao = document.createElement('button');
 				botao.style.maxWidth = "10rem";
+                botao.style.padding = "0.4rem";
 
                 capa = document.createElement('img');
-                capa.setAttribute('src', `http://localhost:4000/${estado.view.tipo}s/${estado.view.id}/objetos/imagem?id=${album.capa_id}`);
+                capa.setAttribute('src', `http://localhost:4000/${tipo}s/${id}/objetos/album?id=${album.nome}&capa=true`);
                 capa.setAttribute('alt', `álbum ${album.nome}`);
                 capa.setAttribute('title', `álbum ${album.nome}`);
+                capa.style.backgroundColor = "var(--cor-fundo)";
                 capa.style.width = "100%";
 
                 nome = document.createElement('p');
