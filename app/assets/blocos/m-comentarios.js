@@ -23,6 +23,7 @@ class MComentarios extends MalocaElement {
 
         const textoId = this.getAttribute('texto');
 		const imagemId = this.getAttribute('imagem');
+		const topicoId = this.getAttribute('topico');
 		let midiaTipo;
 		let midiaId;
 		if (textoId) {
@@ -31,6 +32,9 @@ class MComentarios extends MalocaElement {
 		} else if (imagemId) {
 			midiaTipo = 'imagem';
 			midiaId = imagemId;
+		} else if (topicoId) {
+			midiaTipo = 'topico';
+			midiaId = topicoId;
 		}
 
 		const comunidadeId = this.getAttribute('comunidade') ? this.getAttribute('comunidade') : estado.view.id;
