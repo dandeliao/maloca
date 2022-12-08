@@ -40,8 +40,8 @@ class MCartaoDeVisita extends MalocaElement {
 		}
 
 		let divCartao = document.createElement('div');
-		let divFundo = document.createElement('div');
-		divFundo.setAttribute('id', 'fundo');
+		let mFundo = document.createElement('m-fundo');
+		mFundo.setAttribute('id', 'fundo');
 		let divTexto = document.createElement('div');
 		divTexto.setAttribute('id', 'texto');
 		let mAvatar = document.createElement('m-avatar');
@@ -50,7 +50,7 @@ class MCartaoDeVisita extends MalocaElement {
 		let mNome = document.createElement('m-nome');
 		let mDescricao = document.createElement('m-descricao');
 
-		divCartao.appendChild(divFundo);
+		divCartao.appendChild(mFundo);
 		divTexto.appendChild(divEspaco);
 		divTexto.appendChild(mNome);
 		divTexto.appendChild(mDescricao);
@@ -61,11 +61,10 @@ class MCartaoDeVisita extends MalocaElement {
 
 		divCartao.style.position = 'relative';
 
-		divFundo.style.height = '7.2rem'
-		divFundo.style.backgroundImage = `url('${estado.urlServidor}/${estado.view.tipo}s/${estado.view.id}/objetos/fundo')`;
-		divFundo.style.display = 'block';
-		divFundo.style.position = 'relative';
-		divFundo.style.width = '100%';
+		mFundo.style.height = '7.2rem'
+		mFundo.style.display = 'block';
+		mFundo.style.position = 'relative';
+		mFundo.style.width = '100%';
 
 		divTexto.style.position = 'relative';
 		divTexto.style.boxSizing = 'border-box';
@@ -96,6 +95,7 @@ class MCartaoDeVisita extends MalocaElement {
 
 		this.appendChild(divCartao);
 
+		mFundo.renderizar(estado);
 		mAvatar.renderizar(estado);
 		mNome.renderizar(estado);
 		mDescricao.renderizar(estado);
