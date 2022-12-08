@@ -40,8 +40,8 @@ export async function setState(estado, noPush) {
 	// renderiza estilo
 	renderEstilo(estado);
 
-	// renderiza view. Só é chamado nos seguintes casos: 1) ainda não há estado armazenado, ou 2) o caminho foi alterado, ou 3) uma aba distinta foi clicada, ou 4) acabou de sair do modo editar, ou 5) mudou o estilo
-	if ((!estadoVelho) || (estadoVelho.href !== estado.href) || (estadoVelho.view.paginaAtiva !== estado.view.paginaAtiva) || ((estadoVelho.modoAtivo === 'editar') && (estadoVelho.modoAtivo !== estado.modoAtivo)) || (estadoVelho.estilo !== estado.estilo)) {
+	// renderiza view. Só é chamado nos seguintes casos: 1) ainda não há estado armazenado, ou 2) o caminho foi alterado, ou 3) uma aba distinta foi clicada, ou 4) acabou de sair do modo editar
+	if ((!estadoVelho) || (estadoVelho.href !== estado.href) || (estadoVelho.view.paginaAtiva !== estado.view.paginaAtiva) || ((estadoVelho.modoAtivo === 'editar') && (estadoVelho.modoAtivo !== estado.modoAtivo))) {
 		// tenta renderizar a view. Dependendo da resposta, altera estado e tenta novamente.
 		let viewer = document.querySelector('#viewer');
 		let renderResult = '';
