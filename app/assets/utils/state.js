@@ -123,9 +123,10 @@ export async function setState(estado, noPush) {
 			if (((estadoVelho.view.paginaAtiva !== estado.view.paginaAtiva) && (estadoVelho.href === estado.href)) || (estadoVelho.modoAtivo !== 'editar')) {
 				// se foi mudança de aba ou ativação do modo editar, ativa edição html do viewer
 				let viewer = document.querySelector('#viewer');
+				viewer.editable = false; // limpa edição anterior
 				let html = await serverFetch(`/${estado.view.tipo}s/${estado.view.id}/${estado.view.paginaAtiva}`, 'GET'); // solicita html ao servidor
 				viewer.text = await html.text(); // mostra html para edição
-				viewer.editable = true; // habilita edição
+				viewer.editable = true; // habilita edição novamente
 				viewer.focusOnIt();
 			}
 		}
