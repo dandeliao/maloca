@@ -12,7 +12,30 @@ templateMalocaViewer.innerHTML = `
 main {
     background-color: var(--cor-fundo);
 	color: var(--cor-fonte-view);
-	min-height: 60rem;
+	min-height: 40rem;
+	width: 100%;
+}
+
+#flex-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	gap: 1rem;
+	flex-wrap: wrap;
+}
+
+#previa {
+	min-height: 40rem;
+	min-width: 260px;
+	width: 30%;
+	border: 1px solid var(--cor-fonte-view);
+}
+
+#controles {
+	min-height: 40rem;
+	min-width: 260px;
+	width: 30%;
+	border: 1px solid var(--cor-fonte-view);
 }
 
 a {
@@ -49,8 +72,9 @@ button:active {
 
 </style>
 
-<main>
-</main>
+<div id="flex-container">
+<main></main>
+</div>
 `
 
 class MalocaViewer extends HTMLElement {
@@ -81,12 +105,83 @@ class MalocaViewer extends HTMLElement {
 	}
 
 	set editable(valor) {
-		this.shadowRoot.querySelector('main').contentEditable = valor;
+		
+		// ativa/desativa edição do html
+		let elHtml = this.shadowRoot.querySelector('main');
+		elHtml.contentEditable = valor;
+		
+		// exibe/esconde colunas
+		if (valor === true) {
+			let container = this.shadowRoot.querySelector('#flex-container');
+			let elPrevia = document.createElement('div');
+			let elControles = document.createElement('div');
+			container.appendChild(elPrevia);
+			container.appendChild(elControles);
+
+			elPrevia.setAttribute('id', 'previa');
+			elControles.setAttribute('id', 'controles');
+
+			elHtml.style.minWidth = '260px';
+			elHtml.style.width = '30%';
+			elHtml.style.border = '1px solid var(--cor-fonte-view)';
+
+			this.renderizarPrevia();
+
+			// debounce (espera pessoa parar de digitar para atualizar prévia)
+			function debounce(func, timeout){
+				let timer;
+				return (...args) => {
+					clearTimeout(timer);
+					timer = setTimeout(() => { func.apply(this, args); }, timeout);
+				};
+			}
+			elHtml.addEventListener('keydown', debounce(() => {
+				this.renderizarPrevia(), 2000;
+			}, 2000));
+			
+		} else {
+			let container = this.shadowRoot.querySelector('#flex-container');
+			let elPrevia = this.shadowRoot.querySelector('#previa');
+			let elControles = this.shadowRoot.querySelector('#controles');
+			if (elPrevia) {
+				container.removeChild(elPrevia);
+			}
+			if (elControles) {
+				container.removeChild(elControles);
+			}
+			
+			elHtml.style.minWidth = '0';
+			elHtml.style.width = '100%';
+			elHtml.style.border = 'none';
+		}
 	}
 
 	focusOnIt() {
 		this.shadowRoot.querySelector('main').focus();
 	}
+
+	renderizarPrevia() {
+		let elHtml = this.shadowRoot.querySelector('main');
+		let elPrevia = this.shadowRoot.querySelector('#previa');
+		
+		let html = elHtml.innerHTML;
+		html = html.replace(/<br>/g, '\n');
+		html = html.replace(/&lt;/g, '<');
+		html = html.replace(/&gt;/g, '>');
+		
+		elPrevia.innerHTML = html;
+		
+		let blocoRegex = /<(m-(?:\w+-*)+)(?:\s+(?:\w+="(?:\s*[A-Za-zÀ-ü0-9]*(?:-[A-Za-zÀ-ü0-9]*)*\s*(?::*(?:\s*\w+)+;)?)*")*)*>/g; // regex captura formatos <m-nome-do-bloco> e <m-nome-do-bloco prop1="valor" style="margin: 0 auto; font-family: monospace">
+		let blocos = html.matchAll(blocoRegex);
+		let arrayBlocos = [];
+		for (const bloco of blocos) {
+			arrayBlocos.push({tag: bloco[0], bloco_id: bloco[1], index: bloco['index']});
+		}
+		arrayBlocos.forEach(bloco => {
+			let elBloco = elPrevia.querySelector(bloco.bloco_id);
+			elBloco.renderizar(JSON.parse(localStorage.getItem('estado')));
+		});
+	} 
 }
 
 window.customElements.define('maloca-viewer', MalocaViewer);
