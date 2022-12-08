@@ -26,7 +26,7 @@ class MParticipar extends MalocaElement {
 
     }
 
-    async renderizar(estado) {
+    async renderizar(estado, noEvent) {
 
 		while (this.lastChild) {
 			this.removeChild(this.lastChild);
@@ -51,24 +51,26 @@ class MParticipar extends MalocaElement {
 		
 		this.appendChild(botaoParticipar);
 
-		botaoParticipar.addEventListener('click', e => {
+		if (!noEvent) {
+			botaoParticipar.addEventListener('click', e => {
 
-			if (habilidades.participar === true) {
-				if (confirm(`Tem certeza que deseja deixar de participar da comunidade ${estado.view.id}?`)) {
-					serverFetch(`/pessoas/${estado.auth.id}/objetos/comunidade?id=${estado.view.id}`, 'DELETE')
-					.then(res => res.json())
-					.then(r => {
-						renderBlocos(estado);
-					});
+				if (habilidades.participar === true) {
+					if (confirm(`Tem certeza que deseja deixar de participar da comunidade ${estado.view.id}?`)) {
+						serverFetch(`/pessoas/${estado.auth.id}/objetos/comunidade?id=${estado.view.id}`, 'DELETE')
+						.then(res => res.json())
+						.then(r => {
+							renderBlocos(estado);
+						});
+					}
+				} else {
+					serverFetch(`/pessoas/${estado.auth.id}/objetos/comunidade?id=${estado.view.id}`, 'POST')
+						.then(res => res.json())
+						.then(r => {
+							renderBlocos(estado);
+						});
 				}
-			} else {
-				serverFetch(`/pessoas/${estado.auth.id}/objetos/comunidade?id=${estado.view.id}`, 'POST')
-					.then(res => res.json())
-					.then(r => {
-						renderBlocos(estado);
-					});
-			}
-		});
+			});
+		}
     }
 }
 

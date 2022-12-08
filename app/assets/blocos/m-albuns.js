@@ -15,7 +15,7 @@ class MAlbuns extends MalocaElement {
 
     }
 
-    async renderizar(estado) {
+    async renderizar(estado, noEvent) {
 
         while (this.lastChild) {
 			this.removeChild(this.lastChild);
@@ -73,57 +73,58 @@ class MAlbuns extends MalocaElement {
                 botao.setAttribute('tipo', estado.view.tipo);
                 botao.setAttribute('localId', estado.view.id);
 
-                botao.addEventListener('click', async e => {
-                    let nomeAlbum = e.currentTarget.getAttribute('album');
-                    let tipoLocal = e.currentTarget.getAttribute('tipo');
-                    let idLocal = e.currentTarget.getAttribute('localId');
-
-                    let overlay = document.createElement('div');
-                    overlay.style.display = "block";
-                    overlay.style.position = "fixed";
-                    overlay.style.zIndex = "2";
-                    overlay.style.width = "100%";
-                    overlay.style.height = "100%";
-                    overlay.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
-                    overlay.style.left = "0px";
-                    overlay.style.top = "0px";
-                    
-                    let modalImagens = document.createElement('div');
-                    modalImagens.style.display = "block";
-                    modalImagens.style.position = "absolute";
-                    modalImagens.style.textAlign = "center";
-                    modalImagens.style.left = "50%";
-                    modalImagens.style.top = "5%";
-                    modalImagens.style.transform = "translate(-50%, 0)";
-                    modalImagens.style.margin = "0 auto";
-                    modalImagens.style.width = "90%";
-                    modalImagens.style.maxWidth = "860px";
-                    modalImagens.style.maxHeight = "90%";
-                    modalImagens.style.zIndex = "3";
-                    modalImagens.style.backgroundColor = "rgba(255, 255, 255, 0)";
-                    modalImagens.style.overflowY = "scroll";
-
-                    let album = document.createElement('m-album');
-                    album.setAttribute(`${tipoLocal}`, idLocal);
-                    album.setAttribute('nome', nomeAlbum);
-                    modalImagens.appendChild(album);
-                    
-                    this.appendChild(modalImagens);
-                    this.appendChild(overlay);
-
-                    album.renderizar(estado);
-
-                    overlay.addEventListener('click', e => {
-                        e.preventDefault();
-                        while (modalImagens.lastChild) {
-                            modalImagens.removeChild(modalImagens.lastChild);
-                        }
-                        modalImagens.remove();
-                        overlay.remove();
-                        window.scrollTo(0, 0);
+                if (!noEvent) {
+                    botao.addEventListener('click', async e => {
+                        let nomeAlbum = e.currentTarget.getAttribute('album');
+                        let tipoLocal = e.currentTarget.getAttribute('tipo');
+                        let idLocal = e.currentTarget.getAttribute('localId');
+    
+                        let overlay = document.createElement('div');
+                        overlay.style.display = "block";
+                        overlay.style.position = "fixed";
+                        overlay.style.zIndex = "2";
+                        overlay.style.width = "100%";
+                        overlay.style.height = "100%";
+                        overlay.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+                        overlay.style.left = "0px";
+                        overlay.style.top = "0px";
+                        
+                        let modalImagens = document.createElement('div');
+                        modalImagens.style.display = "block";
+                        modalImagens.style.position = "absolute";
+                        modalImagens.style.textAlign = "center";
+                        modalImagens.style.left = "50%";
+                        modalImagens.style.top = "5%";
+                        modalImagens.style.transform = "translate(-50%, 0)";
+                        modalImagens.style.margin = "0 auto";
+                        modalImagens.style.width = "90%";
+                        modalImagens.style.maxWidth = "860px";
+                        modalImagens.style.maxHeight = "90%";
+                        modalImagens.style.zIndex = "3";
+                        modalImagens.style.backgroundColor = "rgba(255, 255, 255, 0)";
+                        modalImagens.style.overflowY = "scroll";
+    
+                        let album = document.createElement('m-album');
+                        album.setAttribute(`${tipoLocal}`, idLocal);
+                        album.setAttribute('nome', nomeAlbum);
+                        modalImagens.appendChild(album);
+                        
+                        this.appendChild(modalImagens);
+                        this.appendChild(overlay);
+    
+                        album.renderizar(estado);
+    
+                        overlay.addEventListener('click', e => {
+                            e.preventDefault();
+                            while (modalImagens.lastChild) {
+                                modalImagens.removeChild(modalImagens.lastChild);
+                            }
+                            modalImagens.remove();
+                            overlay.remove();
+                            window.scrollTo(0, 0);
+                        });
                     });
-                });
-
+                }
             });
 
             divLista.style.display = "flex";

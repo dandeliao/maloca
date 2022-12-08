@@ -19,8 +19,7 @@ main {
 #flex-container {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
-	gap: 1rem;
+	justify-content: space-around;
 	flex-wrap: wrap;
 }
 
@@ -178,8 +177,35 @@ class MalocaViewer extends HTMLElement {
 			arrayBlocos.push({tag: bloco[0], bloco_id: bloco[1], index: bloco['index']});
 		}
 		arrayBlocos.forEach(bloco => {
+			
 			let elBloco = elPrevia.querySelector(bloco.bloco_id);
-			elBloco.renderizar(JSON.parse(localStorage.getItem('estado')));
+			elBloco.renderizar(JSON.parse(localStorage.getItem('estado')), 'noEvent');
+			
+			elBloco.addEventListener('mouseover', e => {
+				e.target.style.opacity = '0.5';
+				e.target.style.cursor = 'pointer';
+			});
+
+			elBloco.addEventListener('mouseout', e => {
+				e.target.style.opacity = '1';
+				e.target.style.cursor = 'default';
+			});
+
+			elBloco.addEventListener('click', e => {
+
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+				e.preventDefault();
+
+				e.composedPath().forEach(elemento => {
+					if (elemento.tagName) {
+						if (elemento.tagName.slice(0, 2) === 'M-') {
+							console.log(elemento.tagName);
+						}
+					}
+				});
+
+			})
 		});
 	} 
 }

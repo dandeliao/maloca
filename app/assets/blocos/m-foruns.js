@@ -15,7 +15,7 @@ class MForuns extends MalocaElement {
 
     }
 
-    async renderizar(estado) {
+    async renderizar(estado, noEvent) {
 
         while (this.lastChild) {
 			this.removeChild(this.lastChild);
@@ -46,57 +46,58 @@ class MForuns extends MalocaElement {
                 botao.setAttribute('tipo', estado.view.tipo);
                 botao.setAttribute('localId', estado.view.id);
 
-                botao.addEventListener('click', async e => {
-                    let nomeForum = e.currentTarget.getAttribute('forum');
-                    let tipoLocal = e.currentTarget.getAttribute('tipo');
-                    let idLocal = e.currentTarget.getAttribute('localId');
-
-                    let overlay = document.createElement('div');
-                    overlay.style.display = "block";
-                    overlay.style.position = "fixed";
-                    overlay.style.zIndex = "2";
-                    overlay.style.width = "100%";
-                    overlay.style.height = "100%";
-                    overlay.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
-                    overlay.style.left = "0px";
-                    overlay.style.top = "0px";
-                    
-                    let modalTopicos = document.createElement('div');
-                    modalTopicos.style.display = "block";
-                    modalTopicos.style.position = "absolute";
-                    modalTopicos.style.textAlign = "center";
-                    modalTopicos.style.left = "50%";
-                    modalTopicos.style.top = "5%";
-                    modalTopicos.style.transform = "translate(-50%, 0)";
-                    modalTopicos.style.margin = "0 auto";
-                    modalTopicos.style.width = "90%";
-                    modalTopicos.style.maxWidth = "860px";
-                    modalTopicos.style.maxHeight = "90%";
-                    modalTopicos.style.zIndex = "3";
-                    modalTopicos.style.backgroundColor = "rgba(255, 255, 255, 0)";
-                    modalTopicos.style.overflowY = "scroll";
-                    
-                    let elForum = document.createElement('m-forum');
-                    elForum.setAttribute(`${tipoLocal}`, idLocal);
-                    elForum.setAttribute('nome', nomeForum);
-                    modalTopicos.appendChild(elForum);
-
-                    this.appendChild(modalTopicos);
-                    this.appendChild(overlay);
-
-                    elForum.renderizar(estado);
-
-                    overlay.addEventListener('click', e => {
-                        e.preventDefault();
-                        while (modalTopicos.lastChild) {
-                            modalTopicos.removeChild(modalTopicos.lastChild);
-                        }
-                        modalTopicos.remove();
-                        overlay.remove();
-                        window.scrollTo(0, 0);
+                if (!noEvent) {
+                    botao.addEventListener('click', async e => {
+                        let nomeForum = e.currentTarget.getAttribute('forum');
+                        let tipoLocal = e.currentTarget.getAttribute('tipo');
+                        let idLocal = e.currentTarget.getAttribute('localId');
+    
+                        let overlay = document.createElement('div');
+                        overlay.style.display = "block";
+                        overlay.style.position = "fixed";
+                        overlay.style.zIndex = "2";
+                        overlay.style.width = "100%";
+                        overlay.style.height = "100%";
+                        overlay.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+                        overlay.style.left = "0px";
+                        overlay.style.top = "0px";
+                        
+                        let modalTopicos = document.createElement('div');
+                        modalTopicos.style.display = "block";
+                        modalTopicos.style.position = "absolute";
+                        modalTopicos.style.textAlign = "center";
+                        modalTopicos.style.left = "50%";
+                        modalTopicos.style.top = "5%";
+                        modalTopicos.style.transform = "translate(-50%, 0)";
+                        modalTopicos.style.margin = "0 auto";
+                        modalTopicos.style.width = "90%";
+                        modalTopicos.style.maxWidth = "860px";
+                        modalTopicos.style.maxHeight = "90%";
+                        modalTopicos.style.zIndex = "3";
+                        modalTopicos.style.backgroundColor = "rgba(255, 255, 255, 0)";
+                        modalTopicos.style.overflowY = "scroll";
+                        
+                        let elForum = document.createElement('m-forum');
+                        elForum.setAttribute(`${tipoLocal}`, idLocal);
+                        elForum.setAttribute('nome', nomeForum);
+                        modalTopicos.appendChild(elForum);
+    
+                        this.appendChild(modalTopicos);
+                        this.appendChild(overlay);
+    
+                        elForum.renderizar(estado);
+    
+                        overlay.addEventListener('click', e => {
+                            e.preventDefault();
+                            while (modalTopicos.lastChild) {
+                                modalTopicos.removeChild(modalTopicos.lastChild);
+                            }
+                            modalTopicos.remove();
+                            overlay.remove();
+                            window.scrollTo(0, 0);
+                        });
                     });
-                });
-
+                }
             });
 
             divLista.style.display = "flex";

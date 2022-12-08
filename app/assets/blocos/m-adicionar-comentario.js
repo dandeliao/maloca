@@ -16,7 +16,7 @@ class MAdicionarComentario extends MalocaElement {
 
     }
 
-    async renderizar(estado) {
+    async renderizar(estado, noEvent) {
 
         while (this.lastChild) {
 			this.removeChild(this.lastChild);
@@ -53,19 +53,21 @@ class MAdicionarComentario extends MalocaElement {
 		formAdicionar.classList.add('comentario');
 		this.appendChild(formAdicionar);
 
-		formAdicionar.addEventListener('submit', async e => {
-			e.preventDefault();
-
-			const dados = {
-				texto: 	formAdicionar.elements['comentario'].value
-			}
-
-			serverFetch(`/comunidades/${comunidadeId}/objetos/comentarios?${midiaTipo}=${midiaId}`, 'POST', dados)
-				.then(res => res.json())
-				.then(data => {            
-					renderBlocos(estado);
+		if (!noEvent) {
+			formAdicionar.addEventListener('submit', async e => {
+				e.preventDefault();
+	
+				const dados = {
+					texto: 	formAdicionar.elements['comentario'].value
+				}
+	
+				serverFetch(`/comunidades/${comunidadeId}/objetos/comentarios?${midiaTipo}=${midiaId}`, 'POST', dados)
+					.then(res => res.json())
+					.then(data => {            
+						renderBlocos(estado);
+				});
 			});
-		});
+		}
     }
 }
 

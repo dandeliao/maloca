@@ -15,7 +15,7 @@ class MAlbum extends MalocaElement {
 
     }
 
-    async renderizar(estado) {
+    async renderizar(estado, noEvent) {
 
         while (this.lastChild) {
 			this.removeChild(this.lastChild);
@@ -142,60 +142,62 @@ class MAlbum extends MalocaElement {
 					elBotaoComentarios.setAttribute(`${tipo}`, id); // pessoa=id-da-pessoa ou comunidade=id-da-comunidade
 					
 					// quando clicado, exibe comentários
-					elBotaoComentarios.addEventListener('click', async e => {
+					if (!noEvent) {
+						elBotaoComentarios.addEventListener('click', async e => {
 						
-						// alterna entre botão pressionado/solto
-						e.target.classList.toggle('pressionado');
-
-						// encontra o bloco m-imagem parente do botão
-						const imagens = this.querySelectorAll('m-imagem');
-						const blocoImagem = Array.from(imagens).find(i => i.getAttribute('numero') == imagemId);
-
-						if (e.target.classList.contains('pressionado')) {
-
-							// estiliza botão pressionado
-							e.target.innerText = 'ocultar comentários';
-							e.target.style.backgroundColor = 'var(--cor-principal)';
-							e.target.style.color = 'var(--cor-fonte-barra)';
-							e.target.style.borderTop = '0.1rem solid #1B1B1B';
-							e.target.style.borderLeft = '0.1rem solid #1B1B1B';
-							e.target.style.borderBottom = '1px solid var(--cor-fundo-2)';
-							e.target.style.borderRight = '1px solid var(--cor-fundo-2)';
-
-							// cria bloco que exibe comentários
-							let elComentarios = document.createElement('m-comentarios');
-							elComentarios.setAttribute('imagem', imagemId);
-							elComentarios.setAttribute('comunidade', id);
-							elComentarios.classList.add('secao-comentarios');
-							blocoImagem.parentElement.appendChild(elComentarios);
-							elComentarios.renderizar(estado);
-
-							// cria bloco com formulário para adicionar novo comentário
-							let elAdicionar = document.createElement('m-adicionar-comentario');
-							elAdicionar.setAttribute('imagem', imagemId);
-							elAdicionar.setAttribute('comunidade', id);
-							elAdicionar.classList.add('secao-comentarios');
-							blocoImagem.parentElement.appendChild(elAdicionar);
-							elAdicionar.renderizar(estado);
-
-
-						} else {
-
-							// estiliza botão não-pressionado
-							e.target.innerText = 'ver comentários';
-							e.target.style.backgroundColor = 'var(--cor-destaque)';
-							e.target.style.color = 'var(--cor-fundo)';
-							e.target.style.borderTop = '0.1rem solid var(--cor-fundo-2)';
-							e.target.style.borderLeft = '0.1rem solid var(--cor-fundo-2)';
-							e.target.style.borderBottom = '1px solid #1B1B1B';
-							e.target.style.borderRight = '1px solid #1B1B1B';
-							
-							blocoImagem.parentElement.querySelectorAll('.secao-comentarios').forEach(el => {
-								el.parentNode.removeChild(el)
-							})
-
-						}
-					});
+							// alterna entre botão pressionado/solto
+							e.target.classList.toggle('pressionado');
+	
+							// encontra o bloco m-imagem parente do botão
+							const imagens = this.querySelectorAll('m-imagem');
+							const blocoImagem = Array.from(imagens).find(i => i.getAttribute('numero') == imagemId);
+	
+							if (e.target.classList.contains('pressionado')) {
+	
+								// estiliza botão pressionado
+								e.target.innerText = 'ocultar comentários';
+								e.target.style.backgroundColor = 'var(--cor-principal)';
+								e.target.style.color = 'var(--cor-fonte-barra)';
+								e.target.style.borderTop = '0.1rem solid #1B1B1B';
+								e.target.style.borderLeft = '0.1rem solid #1B1B1B';
+								e.target.style.borderBottom = '1px solid var(--cor-fundo-2)';
+								e.target.style.borderRight = '1px solid var(--cor-fundo-2)';
+	
+								// cria bloco que exibe comentários
+								let elComentarios = document.createElement('m-comentarios');
+								elComentarios.setAttribute('imagem', imagemId);
+								elComentarios.setAttribute('comunidade', id);
+								elComentarios.classList.add('secao-comentarios');
+								blocoImagem.parentElement.appendChild(elComentarios);
+								elComentarios.renderizar(estado);
+	
+								// cria bloco com formulário para adicionar novo comentário
+								let elAdicionar = document.createElement('m-adicionar-comentario');
+								elAdicionar.setAttribute('imagem', imagemId);
+								elAdicionar.setAttribute('comunidade', id);
+								elAdicionar.classList.add('secao-comentarios');
+								blocoImagem.parentElement.appendChild(elAdicionar);
+								elAdicionar.renderizar(estado);
+	
+	
+							} else {
+	
+								// estiliza botão não-pressionado
+								e.target.innerText = 'ver comentários';
+								e.target.style.backgroundColor = 'var(--cor-destaque)';
+								e.target.style.color = 'var(--cor-fundo)';
+								e.target.style.borderTop = '0.1rem solid var(--cor-fundo-2)';
+								e.target.style.borderLeft = '0.1rem solid var(--cor-fundo-2)';
+								e.target.style.borderBottom = '1px solid #1B1B1B';
+								e.target.style.borderRight = '1px solid #1B1B1B';
+								
+								blocoImagem.parentElement.querySelectorAll('.secao-comentarios').forEach(el => {
+									el.parentNode.removeChild(el)
+								})
+	
+							}
+						});
+					}
 				}
 			});
 		} else {
