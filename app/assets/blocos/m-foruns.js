@@ -65,7 +65,7 @@ class MForuns extends MalocaElement {
                         let modalTopicos = document.createElement('div');
                         modalTopicos.style.display = "block";
                         modalTopicos.style.position = "absolute";
-                        modalTopicos.style.textAlign = "center";
+                        modalTopicos.style.textAlign = "left";
                         modalTopicos.style.left = "50%";
                         modalTopicos.style.top = "5%";
                         modalTopicos.style.transform = "translate(-50%, 0)";

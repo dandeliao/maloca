@@ -76,6 +76,10 @@ class MAdicionarTopico extends MalocaElement {
 				<input type="text" id="titulo-topico" placeholder="Título do tópico" name="titulo" style="width: 100%; font-size: 1rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);"/>
 				<br>
 				<br>
+				<label for="texto" hidden>texto</label>
+				<textarea id="texto-topico" placeholder="Escreva aqui o texto principal do tópico." name="texto" required style="width: 100%; min-height: 16rem; font-size: 1rem; background-color: var(--cor-fundo); color: var(--cor-fonte-view);"></textarea>
+				<br>
+				<br>
 				<br>
 				<button type="submit">salvar tópico</button>
 				`
@@ -98,6 +102,7 @@ class MAdicionarTopico extends MalocaElement {
 	
 					const dados = {
 						titulo: 	formAdicionar.elements['titulo'].value,
+						texto: 		formAdicionar.elements['texto'].value,
 						forum_id:	nomeForum
 					}
 	
