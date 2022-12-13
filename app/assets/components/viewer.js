@@ -114,11 +114,10 @@ class MalocaViewer extends HTMLElement {
 			let container = this.shadowRoot.querySelector('#flex-container');
 			let elPrevia = document.createElement('div');
 			let elControles = document.createElement('div');
-			container.appendChild(elPrevia);
-			container.appendChild(elControles);
-
 			elPrevia.setAttribute('id', 'previa');
 			elControles.setAttribute('id', 'controles');
+			container.appendChild(elPrevia);
+			container.appendChild(elControles);
 
 			elHtml.style.minWidth = '260px';
 			elHtml.style.width = '30%';
